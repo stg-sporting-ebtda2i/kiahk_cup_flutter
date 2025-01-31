@@ -43,7 +43,7 @@ class ScoresPanel extends StatelessWidget {
           Column(
             children: [
               Text(
-                '33', // Replace with dynamic value
+                '33',
                 style: TextStyle(
                   fontSize: 37,
                   color: Colors.greenAccent,
@@ -62,13 +62,12 @@ class ScoresPanel extends StatelessWidget {
               ),
             ],
           ),
-          // Points (Rating)
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
             child: Column(
               children: [
                 Text(
-                  '5', // Replace with dynamic value
+                  '5',
                   style: TextStyle(
                     fontSize: 42,
                     color: Colors.greenAccent,
@@ -174,7 +173,6 @@ class Lineup extends StatelessWidget {
             height: 136,
             child: CardAllInOne(width: 95),
           )
-          // PlayerIcon(id: 'GK'),
         ],
       ),
     );
@@ -193,7 +191,7 @@ class PlayerIcon extends StatelessWidget {
       height: 136,
       decoration: BoxDecoration(
         image: const DecorationImage(
-          image: AssetImage('assets/icon0.png'), // Replace with player image
+          image: AssetImage('assets/icon0.png'),
           fit: BoxFit.cover,
         ),
       ),

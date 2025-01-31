@@ -15,11 +15,9 @@ class Home extends StatefulWidget {
 
 class _HomeState
     extends State<Home> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
-  static const List<Widget> _widgetOptions = <Widget>[
-    UserQuizzesList(),
+  int _selectedIndex = 2;
+  static List<Widget> _widgetOptions = <Widget>[
+    ShowQuizzesScreen(),
     MyCard(),
     LineupPage(),
     Leaderboard(),
