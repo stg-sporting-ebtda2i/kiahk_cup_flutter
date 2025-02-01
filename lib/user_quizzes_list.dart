@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/user_quiz.dart';
 import 'header.dart';
 import 'quiz.dart';
 
@@ -92,7 +93,14 @@ class QuizListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => QuizPage(),
+          ),
+        );
+      },
       child: Opacity(
         opacity: 0.75,
         child: Container(
