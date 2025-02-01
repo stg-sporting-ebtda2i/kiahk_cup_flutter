@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/header.dart';
 import 'player_card.dart';
 import 'styles.dart';
-import 'header.dart';
+import 'store.dart';
 
 class MyCard extends StatefulWidget {
   const MyCard({super.key});
@@ -54,7 +54,14 @@ class _MyCardState extends State<MyCard> {
                             SizedBox(
                               width: 120,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StorePage(),
+                                    ),
+                                  );
+                                },
                                 style: btnStyle(),
                                 child: Text(
                                   'Card',

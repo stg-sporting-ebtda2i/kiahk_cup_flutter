@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'player_card.dart';
+import 'store.dart';
 
 class LineupPage extends StatelessWidget {
   const LineupPage({super.key});
@@ -186,13 +187,23 @@ class PlayerIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 95,
-      height: 136,
-      decoration: BoxDecoration(
-        image: const DecorationImage(
-          image: AssetImage('assets/icon0.png'),
-          fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StorePage(),
+          ),
+        );
+      },
+      child: Container(
+        width: 95,
+        height: 136,
+        decoration: BoxDecoration(
+          image: const DecorationImage(
+            image: AssetImage('assets/icon0.png'),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
