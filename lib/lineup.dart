@@ -171,7 +171,7 @@ class Lineup extends StatelessWidget {
           SizedBox(
             width: 95,
             height: 136,
-            child: CardAllInOne(width: 95),
+            child: PlayerCard(width: 95),
           )
         ],
       ),

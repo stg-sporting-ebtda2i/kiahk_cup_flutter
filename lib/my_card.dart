@@ -35,7 +35,7 @@ class _MyCardState extends State<MyCard> {
                         SizedBox(
                           width: 330,
                           height: 472,
-                          child: CardAllInOne(width: 330),
+                          child: PlayerCard(width: 330),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CardAllInOne extends StatelessWidget {
+class PlayerCard extends StatelessWidget {
   final double width;
-  const CardAllInOne({super.key, required this.width});
+  const PlayerCard({super.key, required this.width});
 
   // Card Size: H=800px, W=559px.
 
@@ -33,7 +33,7 @@ class CardAllInOne extends StatelessWidget {
                 right: cardWidth * (20 / 100),
                 bottom: cardHeight * (30 / 100),
                 child: Image.asset(
-                  'assets/pic.png',
+                  'assets/auto.png',
                   fit: BoxFit.cover,
                 ),
               ),
