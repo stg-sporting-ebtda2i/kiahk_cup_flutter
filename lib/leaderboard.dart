@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/header.dart';
+import 'package:piehme_cup_flutter/lineup.dart';
 import 'player_card.dart';
 
 class Leaderboard extends StatefulWidget {
@@ -114,15 +115,22 @@ class LeaderboardListItem extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-              onPressed: () {},
-              child: Text(
-                'View lienup',
-                style: TextStyle(
-                  color: Colors.black,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LineupPage(userLineup: false),
                 ),
-              ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white70,
+            ),
+            child: Text(
+              'View lienup',
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
           ),
         ],

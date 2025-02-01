@@ -93,14 +93,7 @@ class QuizListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => QuizPage(),
-          ),
-        );
-      },
+      onTap: !isSolved ? () => _openQuiz(context) : null,
       child: Opacity(
         opacity: 0.75,
         child: Container(
@@ -155,4 +148,13 @@ class QuizListItem extends StatelessWidget {
       ),
     );
   }
+}
+
+void _openQuiz(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => QuizPage(),
+    ),
+  );
 }

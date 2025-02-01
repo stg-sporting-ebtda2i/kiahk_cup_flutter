@@ -16,10 +16,10 @@ class Home extends StatefulWidget {
 class _HomeState
     extends State<Home> {
   int _selectedIndex = 2;
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     ShowQuizzesScreen(),
     MyCard(),
-    LineupPage(),
+    LineupPage(userLineup: true),
     Leaderboard(),
     Settings()
   ];

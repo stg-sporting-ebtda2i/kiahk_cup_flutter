@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'player_card.dart';
 import 'store.dart';
 
-class LineupPage extends StatelessWidget {
-  const LineupPage({super.key});
+class LineupPage extends StatefulWidget {
+  final bool userLineup;
+  const LineupPage({
+    super.key,
+    required this.userLineup,
+  });
 
+  @override
+  State<LineupPage> createState() => _LineupPageState();
+}
+
+class _LineupPageState extends State<LineupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +29,7 @@ class LineupPage extends StatelessWidget {
             const ScoresPanel(),
             Expanded(
               child: Center(
-                child: Lineup(),
+                child: Lineup(userLineup: widget.userLineup),
               ),
             ),
           ],
@@ -30,9 +39,14 @@ class LineupPage extends StatelessWidget {
   }
 }
 
-class ScoresPanel extends StatelessWidget {
+class ScoresPanel extends StatefulWidget {
   const ScoresPanel({super.key});
 
+  @override
+  State<ScoresPanel> createState() => _ScoresPanelState();
+}
+
+class _ScoresPanelState extends State<ScoresPanel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -118,9 +132,15 @@ class ScoresPanel extends StatelessWidget {
   }
 }
 
-class Lineup extends StatelessWidget {
-  const Lineup({super.key});
+class Lineup extends StatefulWidget {
+  final bool userLineup;
+  const Lineup({super.key, required this.userLineup});
 
+  @override
+  State<Lineup> createState() => _LineupState();
+}
+
+class _LineupState extends State<Lineup> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -134,12 +154,12 @@ class Lineup extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PlayerIcon(id: 'LW'),
+                PlayerIcon(id: 'LW', userLineup: widget.userLineup),
                 Transform.translate(
                   offset: Offset(0, -40),
-                    child: PlayerIcon(id: 'ST'),
+                    child: PlayerIcon(id: 'ST', userLineup: widget.userLineup),
                 ),
-                PlayerIcon(id: 'RW'),
+                PlayerIcon(id: 'RW', userLineup: widget.userLineup),
               ],
             ),
           ),
@@ -149,12 +169,12 @@ class Lineup extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PlayerIcon(id: 'LCM'),
+                PlayerIcon(id: 'LCM', userLineup: widget.userLineup),
                 Transform.translate(
                   offset: Offset(0, -30),
-                  child: PlayerIcon(id: 'CAM'),
+                  child: PlayerIcon(id: 'CAM', userLineup: widget.userLineup),
                 ),
-                PlayerIcon(id: 'RCM'),
+                PlayerIcon(id: 'RCM', userLineup: widget.userLineup),
               ],
             ),
           ),
@@ -162,10 +182,10 @@ class Lineup extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              PlayerIcon(id: 'LB'),
-              PlayerIcon(id: 'LCB'),
-              PlayerIcon(id: 'RCB'),
-              PlayerIcon(id: 'RB'),
+              PlayerIcon(id: 'LB', userLineup: widget.userLineup),
+              PlayerIcon(id: 'LCB', userLineup: widget.userLineup),
+              PlayerIcon(id: 'RCB', userLineup: widget.userLineup),
+              PlayerIcon(id: 'RB', userLineup: widget.userLineup),
             ],
           ),
           // Goalkeeper (GK)
@@ -182,20 +202,14 @@ class Lineup extends StatelessWidget {
 
 class PlayerIcon extends StatelessWidget {
   final String id;
+  final bool userLineup;
 
-  const PlayerIcon({super.key, required this.id});
+  const PlayerIcon({super.key, required this.id, required this.userLineup});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => StorePage(),
-          ),
-        );
-      },
+      onTap: userLineup ? () => _openStore(context) : (){},
       child: Container(
         width: 95,
         height: 136,
@@ -208,4 +222,13 @@ class PlayerIcon extends StatelessWidget {
       ),
     );
   }
+}
+
+void _openStore(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => StorePage(),
+    ),
+  );
 }
