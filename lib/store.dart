@@ -10,10 +10,12 @@ import 'package:piehme_cup_flutter/header.dart';
 class StoreItem {
   final String imgLink;
   final int price;
+  final bool purchased;
 
   const StoreItem({
     required this.imgLink,
     required this.price,
+    required this.purchased,
   });
 }
 
@@ -21,13 +23,13 @@ class StorePage extends StatefulWidget {
   StorePage({super.key});
   
   List<StoreItem> items = <StoreItem>[
-    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924422134.png?alt=media&token=d811cfa3-8f4a-479b-8d60-273ffe335022", price: 200),
-    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924404307.png?alt=media&token=2d20c0e3-88bf-4271-bd98-297a5f63e3b0", price: 200),
-    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924384257.png?alt=media&token=1c256fda-34d0-465b-aa00-03098ede0ffb", price: 300),
-    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924360960.png?alt=media&token=e445bc59-dae1-4354-ad71-664f5792d021", price: 400),
-    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924312862.png?alt=media&token=434e16b6-49b7-465d-856e-edeca630e895", price: 500),
-    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924291844.png?alt=media&token=39f5a5f6-d51e-4c52-a2ca-da7b47b3975d", price: 600),
-    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924272138.png?alt=media&token=f2185d11-4835-40d8-a24c-267175f6d0a3", price: 700),
+    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924422134.png?alt=media&token=d811cfa3-8f4a-479b-8d60-273ffe335022", price: 200, purchased: true),
+    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924404307.png?alt=media&token=2d20c0e3-88bf-4271-bd98-297a5f63e3b0", price: 200, purchased: false),
+    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924384257.png?alt=media&token=1c256fda-34d0-465b-aa00-03098ede0ffb", price: 300, purchased: true),
+    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924360960.png?alt=media&token=e445bc59-dae1-4354-ad71-664f5792d021", price: 400, purchased: false),
+    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924312862.png?alt=media&token=434e16b6-49b7-465d-856e-edeca630e895", price: 500, purchased: true),
+    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924291844.png?alt=media&token=39f5a5f6-d51e-4c52-a2ca-da7b47b3975d", price: 600, purchased: false),
+    new StoreItem(imgLink: "https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730924272138.png?alt=media&token=f2185d11-4835-40d8-a24c-267175f6d0a3", price: 700, purchased: true),
   ];
 
   @override
@@ -112,21 +114,23 @@ class StoreListItem extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10,),
-        ElevatedButton(
-          onPressed: () {},
-          child: Text(
-            'Purchase',
-            style: TextStyle(
-              color: Colors.black,
+        SizedBox(
+          width: 115,
+          height: 37,
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              item.purchased?'Select':'Purchase',
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white70,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white70,
+            ),
           ),
         ),
       ],
     );
   }
 }
-
-

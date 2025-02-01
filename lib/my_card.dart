@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/header.dart';
+import 'package:piehme_cup_flutter/positions_store.dart';
 import 'player_card.dart';
 import 'styles.dart';
 import 'store.dart';
@@ -43,7 +44,14 @@ class _MyCardState extends State<MyCard> {
                             SizedBox(
                               width: 120,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PositionsStorePage(),
+                                    ),
+                                  );
+                                },
                                 style: btnStyle(),
                                 child: Text(
                                   'Position',
