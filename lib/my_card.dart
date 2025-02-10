@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/header.dart';
+import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/positions_store.dart';
 import 'package:piehme_cup_flutter/rating_store.dart';
 import 'player_card.dart';

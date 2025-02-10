@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/user_quiz.dart';
-import 'header.dart';
+import 'widgets/header.dart';
 import 'quiz.dart';
 
 class ShowQuizzesScreen extends StatefulWidget {

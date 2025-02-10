@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/header.dart';
+import 'package:piehme_cup_flutter/widgets/header.dart';
 
 class RatingStorePage extends StatefulWidget {
   const RatingStorePage({super.key});

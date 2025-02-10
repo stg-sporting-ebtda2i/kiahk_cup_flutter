@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class Header extends StatefulWidget {
@@ -9,13 +11,29 @@ class Header extends StatefulWidget {
 
 class _HeaderState extends State<Header> {
   String playerName = 'Patrick Remon';
-  int coins = 60000;
+  int coins = 60;
+  Timer? _timer;
 
-  // void _updateCoins(int newCoins) {
-  //   setState(() {
-  //     coins = newCoins; // Update coins
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _updateHeader();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _updateHeader();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _updateHeader() {
+    setState(() {
+      coins++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +44,7 @@ class _HeaderState extends State<Header> {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 17),
               child: Text(
                 playerName,
                 style: const TextStyle(
