@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../user_quizzes_list.dart';
 import '../my_card.dart';
 import '../widgets/lineup_full_widget.dart';
-import '../leaderboard.dart';
+import '../widgets/leaderboard.dart';
 import '../settings.dart';
 
 class Home extends StatefulWidget {
