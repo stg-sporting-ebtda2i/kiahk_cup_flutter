@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'styles.dart';
+import 'AuthService.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,13 +14,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: LoginPage(),
     );
   }
 }
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -89,13 +93,24 @@ class LoginPage extends StatelessWidget {
                   SizedBox(
                     width: 220,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Home(),
-                          ),
+                      onPressed: () async {
+                        // Call the login API
+                        await AuthService.login(
+                          _usernameController.text,
+                          _passwordController.text,
                         );
+                        // Retrieve and print the saved token
+                        final token = await AuthService.getToken();
+                        print('Retrieved token: $token');
+                        final role = await AuthService.getRole();
+                        if (role == 'WALAD') {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Home(),
+                            ),
+                          );
+                        }
                       },
                       style: btnStyle(),
                       child: Text(
