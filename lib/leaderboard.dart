@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/header.dart';
-import 'package:piehme_cup_flutter/lineup.dart';
+import 'package:piehme_cup_flutter/widgets/lineup_full_widget.dart';
 import 'player_card.dart';
 
 class Leaderboard extends StatefulWidget {

@@ -16,7 +16,7 @@ ButtonStyle btnStyle() {
 TextStyle btnTextStyle() {
   return TextStyle(
     color: Colors.black,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: FontWeight.w500,
   );
 }

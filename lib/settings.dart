@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/screens/login.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -19,10 +20,18 @@ class _SettingsState extends State<Settings> {
               width: double.infinity,
               height: double.infinity,
             ),
-            Center(
-              child: Text(
-                'Index 0: Home',
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                }, child: Text('logout')),
+              ],
             ),
           ],
         )
