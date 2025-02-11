@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/screens/change_picture.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/screens/rating_store.dart';
 import 'package:piehme_cup_flutter/screens/cards_store.dart';
@@ -31,6 +32,8 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => QuizPage(quizID: args?['quizID']),
         );
+      case AppRoutes.changePicture:
+        return MaterialPageRoute(builder: (_) => ChangePicturePage());
       default:
       // Handle unknown routes
         return MaterialPageRoute(

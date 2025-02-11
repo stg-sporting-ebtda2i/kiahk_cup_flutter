@@ -1,8 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class PlayerCard extends StatelessWidget {
   final double width;
-  const PlayerCard({super.key, required this.width});
+  const PlayerCard({
+    super.key,
+    required this.width,
+    this.image,
+    this.imageURL,
+    required this.name,
+    required this.position,
+    required this.rating,
+    required this.iconURL});
+
+  final File? image;
+  final String? imageURL;
+  final String name;
+  final String position;
+  final int rating;
+  final String iconURL;
 
   // Card Size: H=800px, W=559px.
 
@@ -20,8 +37,8 @@ class PlayerCard extends StatelessWidget {
           child: Stack(
             children: [
               // Card Icon (Background Image)
-              Image.asset(
-                'assets/icon0.png',
+              Image.network(
+                iconURL,
                 width: double.infinity,
                 height: double.infinity,
                 fit: BoxFit.cover,
@@ -32,8 +49,8 @@ class PlayerCard extends StatelessWidget {
                 left: cardWidth * (20 / 100),
                 right: cardWidth * (20 / 100),
                 bottom: cardHeight * (30 / 100),
-                child: Image.asset(
-                  'assets/auto.png',
+                child: image != null ? Image.file(image!, fit: BoxFit.cover,) : Image.network(
+                  imageURL!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -44,7 +61,7 @@ class PlayerCard extends StatelessWidget {
                 right: 0,
                 child: Center(
                   child: Text(
-                    'Patrick Remon',
+                    name,
                     style: TextStyle(
                       fontSize: cardWidth * (9 / 100),
                       fontWeight: FontWeight.bold,
@@ -57,7 +74,7 @@ class PlayerCard extends StatelessWidget {
                 top: cardHeight * (22 / 100),
                 left: cardWidth * (17 / 100),
                 child: Text(
-                  'ST',
+                  position,
                   style: TextStyle(
                     fontSize: cardWidth * (6 / 100),
                     fontWeight: FontWeight.w500,
@@ -69,7 +86,7 @@ class PlayerCard extends StatelessWidget {
                 top: cardHeight * (12 / 100),
                 left: cardWidth * (14 / 100),
                 child: Text(
-                  '97',
+                  '$rating',
                   style: TextStyle(
                     fontSize: cardWidth * (11 / 100),
                     fontWeight: FontWeight.bold,

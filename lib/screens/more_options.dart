@@ -62,7 +62,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                       SizedBox(height: 20,),
                       iconButton(
                         onClick: () {
-
+                          Navigator.pushNamed(context, AppRoutes.changePicture);
                         },
                         icon: Icons.person,
                         text: 'Change Picture',

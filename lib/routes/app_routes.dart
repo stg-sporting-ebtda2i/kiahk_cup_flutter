@@ -6,4 +6,5 @@ class AppRoutes {
   static const String ratingStore = '/rating_store';
   static const String lineup = '/lineup';
   static const String quiz = '/quiz';
+  static const String changePicture = '/change_picture';
 }
