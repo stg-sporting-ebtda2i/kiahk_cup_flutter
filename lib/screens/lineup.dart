@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/widgets/lineup_scores_panel.dart';
-import 'lineup.dart';
+import '../widgets/lineup_cards.dart';
 
 class LineupPage extends StatefulWidget {
   final bool userLineup;

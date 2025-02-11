@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/models/leaderboard_user.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/leaderboard_listitem.dart';
-import '../player_card.dart';
+import 'user_card.dart';
 
 class Leaderboard extends StatelessWidget {
   Leaderboard({super.key});

@@ -14,7 +14,7 @@ class PlayerCard extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: cardWidth,
           height: cardHeight,
           child: Stack(

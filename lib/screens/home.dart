@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import '../user_quizzes_list.dart';
-import '../my_card.dart';
-import '../widgets/lineup_full_widget.dart';
+import 'show_quizzes.dart';
+import 'my_card.dart';
+import 'lineup.dart';
 import '../widgets/leaderboard.dart';
-import '../settings.dart';
+import 'more_options.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<Home> createState() =>
-      _HomeState();
+  State<HomePage> createState() =>
+      _HomePageState();
 }
 
-class _HomeState
-    extends State<Home> {
+class _HomePageState
+    extends State<HomePage> {
   int _selectedIndex = 2;
   static final List<Widget> _widgetOptions = <Widget>[
-    ShowQuizzesScreen(),
-    MyCard(),
+    ShowQuizzesPage(),
+    MyCardPage(),
     LineupPage(userLineup: true),
     Leaderboard(),
-    Settings()
+    MoreOptionsPage()
   ];
 
   void _onItemTapped(int index) {
@@ -56,8 +56,8 @@ class _HomeState
             label: 'Leaderboard',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.more_horiz),
+            label: 'More',
           ),
         ],
         currentIndex: _selectedIndex,

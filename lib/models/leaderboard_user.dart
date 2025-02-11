@@ -1,4 +1,4 @@
-import 'package:piehme_cup_flutter/player_card.dart';
+import 'package:piehme_cup_flutter/widgets/user_card.dart';
 
 class LeaderboardUser {
   final int rank;

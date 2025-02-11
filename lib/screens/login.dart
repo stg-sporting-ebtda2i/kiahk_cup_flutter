@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
     // Validate inputs
     if (_usernameController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
       if (!mounted) return;
@@ -123,7 +123,8 @@ class _LoginPageState extends State<LoginPage> {
                     height: 55,
                     text: 'Login',
                     isLoading: _isLoading,
-                    onClick: login,
+                    onClick: () => login(context),
+                    fontSize: 20,
                   ),
                 ],
               ),

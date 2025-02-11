@@ -10,7 +10,7 @@ class PlayerIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: userLineup ? () {Navigator.pushNamed(context, AppRoutes.cards_store);}: null,
+      onTap: userLineup ? () {Navigator.pushNamed(context, AppRoutes.cardsStore);}: null,
       child: Container(
         width: 95,
         height: 136,

@@ -4,9 +4,9 @@ import 'package:piehme_cup_flutter/widgets/header.dart';
 class RatingStorePage extends StatefulWidget {
   const RatingStorePage({super.key});
 
-  final int ratingPrice = 70;
-  final int reqAmount = 0;
-  final int rating = 50;
+  // final int ratingPrice = 70;
+  // final int reqAmount = 0;
+  // final int rating = 50;
 
   @override
   State<RatingStorePage> createState() => _RatingStorePageState();
@@ -21,9 +21,13 @@ class _RatingStorePageState extends State<RatingStorePage> {
   @override
   void initState() {
     super.initState();
-    _ratingPrice = widget.ratingPrice;
-    _reqAmount = widget.reqAmount;
-    _rating = widget.rating;
+    getRatingData();
+  }
+
+  void getRatingData() {
+    _ratingPrice = 70;
+    _reqAmount = 0;
+    _rating = 50;
   }
 
   void _incRating() {

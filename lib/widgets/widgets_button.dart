@@ -7,6 +7,7 @@ class Button extends StatelessWidget {
     required this.height,
     required this.text,
     required this.onClick,
+    required this.fontSize,
     this.isLoading = false,
   });
 
@@ -15,6 +16,7 @@ class Button extends StatelessWidget {
   final String text;
   final VoidCallback onClick;
   final bool isLoading;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,9 @@ class Button extends StatelessWidget {
           color: Colors.white,
         ) : Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.black,
-            fontSize: 20,
+            fontSize: fontSize,
             fontWeight: FontWeight.w500,
           ),
         ),

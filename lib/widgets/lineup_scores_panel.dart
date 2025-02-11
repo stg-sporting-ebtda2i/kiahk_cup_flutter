@@ -41,9 +41,9 @@ class _ScoresPanelState extends State<ScoresPanel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 70, 0, 15),
+      padding: EdgeInsets.fromLTRB(40, 70, 40, 15),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Average
           Column(
