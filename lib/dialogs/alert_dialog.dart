@@ -1,4 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/widgets/widgets_dialog_button.dart';
+
+void showAlertDialog({
+  required BuildContext context,
+  required String text,
+  required String positiveBtnText,
+  required VoidCallback positiveBtnAction,
+  required String negativeBtnText,
+  required VoidCallback negativeBtnAction,
+}) {
+  showDialog(
+      context: context,
+      builder: (BuildContext c) {
+        return alertDialog(
+          context: context,
+          text: text,
+          positiveBtnText: positiveBtnText,
+          positiveBtnAction: positiveBtnAction,
+          negativeBtnText: negativeBtnText,
+          negativeBtnAction: negativeBtnAction
+        );
+      }
+  );
+}
 
 AlertDialog alertDialog({
   required BuildContext context,
@@ -28,29 +52,5 @@ AlertDialog alertDialog({
           ],
         ),
       ],
-  );
-}
-
-Widget dialogButton({
-  required String text,
-  required VoidCallback onClick,
-}) {
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.black,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-    ),
-    onPressed: onClick,
-    child: Text(
-      text,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 21,
-        color: Colors.white,
-      ),
-    ),
   );
 }

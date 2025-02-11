@@ -4,6 +4,7 @@ import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_icon_button.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
+import 'package:piehme_cup_flutter/dialogs/attendance_dialog.dart';
 
 class MoreOptionsPage extends StatefulWidget {
   const MoreOptionsPage({super.key});
@@ -50,11 +51,13 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       iconButton(
                         onClick: () {
-
+                          showAttendanceDialog(
+                              list: <String>['Madares Ahad', 'Odas el Atfal', 'Odas', 'Tasbeha','Salat Baker', 'Salat el Nom', 'Engeel'],
+                              context: context,
+                          );
                         },
                         icon: Icons.add_rounded,
                         text: 'Request Coins',
