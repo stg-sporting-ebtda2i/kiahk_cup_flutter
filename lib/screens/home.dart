@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'show_quizzes.dart';
+import 'show_quizzes_list.dart';
 import 'my_card.dart';
 import 'lineup.dart';
 import '../widgets/leaderboard.dart';
