@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/dialogs/loading_dialog.dart';
 
 class Header extends StatefulWidget {
   const Header({super.key});
@@ -31,6 +32,12 @@ class _HeaderState extends State<Header> {
 
   void _updateHeader() {
     setState(() {
+      if(coins==80) {
+        dismissLoadingDialog(context);
+      }
+      if(coins==62) {
+        showLoadingDialog(context);
+      }
       coins++;
     });
   }
