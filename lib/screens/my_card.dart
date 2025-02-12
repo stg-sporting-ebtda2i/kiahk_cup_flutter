@@ -34,6 +34,8 @@ class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final cardHeight = MediaQuery.of(context).size.height/2;
+
     return Scaffold(
         body: Stack(
           children: [
@@ -53,10 +55,10 @@ class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 330,
-                          height: 472,
+                          width: 559*cardHeight/800,
+                          height: cardHeight,
                           child: UserCard(
-                            width: 330,
+                            width: 559*cardHeight/800,
                             name: 'Patrick Remon',
                             rating: 99,
                             iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730923909819.png?alt=media&token=27e5f3e6-b52f-4f0b-9916-f522f5aa9901',

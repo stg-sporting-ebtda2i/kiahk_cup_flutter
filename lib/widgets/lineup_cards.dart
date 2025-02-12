@@ -13,6 +13,8 @@ class Lineup extends StatefulWidget {
 class _LineupState extends State<Lineup> {
   @override
   Widget build(BuildContext context) {
+    final cardHeight = MediaQuery.of(context).size.height/6.7;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -22,12 +24,12 @@ class _LineupState extends State<Lineup> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PlayerCard(id: 'LW', userLineup: widget.userLineup),
+              PlayerCard(id: 'LW', userLineup: widget.userLineup, height: cardHeight,),
               Transform.translate(
                 offset: Offset(0, -40),
-                child: PlayerCard(id: 'ST', userLineup: widget.userLineup),
+                child: PlayerCard(id: 'ST', userLineup: widget.userLineup, height: cardHeight,),
               ),
-              PlayerCard(id: 'RW', userLineup: widget.userLineup),
+              PlayerCard(id: 'RW', userLineup: widget.userLineup, height: cardHeight,),
             ],
           ),
         ),
@@ -37,12 +39,12 @@ class _LineupState extends State<Lineup> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PlayerCard(id: 'LCM', userLineup: widget.userLineup),
+              PlayerCard(id: 'LCM', userLineup: widget.userLineup, height: cardHeight,),
               Transform.translate(
                 offset: Offset(0, -30),
-                child: PlayerCard(id: 'CAM', userLineup: widget.userLineup),
+                child: PlayerCard(id: 'CAM', userLineup: widget.userLineup, height: cardHeight,),
               ),
-              PlayerCard(id: 'RCM', userLineup: widget.userLineup),
+              PlayerCard(id: 'RCM', userLineup: widget.userLineup, height: cardHeight,),
             ],
           ),
         ),
@@ -50,18 +52,18 @@ class _LineupState extends State<Lineup> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            PlayerCard(id: 'LB', userLineup: widget.userLineup),
-            PlayerCard(id: 'LCB', userLineup: widget.userLineup),
-            PlayerCard(id: 'RCB', userLineup: widget.userLineup),
-            PlayerCard(id: 'RB', userLineup: widget.userLineup),
+            PlayerCard(id: 'LB', userLineup: widget.userLineup, height: cardHeight,),
+            PlayerCard(id: 'LCB', userLineup: widget.userLineup, height: cardHeight,),
+            PlayerCard(id: 'RCB', userLineup: widget.userLineup, height: cardHeight,),
+            PlayerCard(id: 'RB', userLineup: widget.userLineup, height: cardHeight,),
           ],
         ),
         // Goalkeeper (GK)
         SizedBox(
-          width: 95,
-          height: 136,
+          width: 559*cardHeight/800,
+          height: cardHeight,
           child: UserCard(
-            width: 95,
+            width: 559*cardHeight/800,
             name: 'Patrick Remon',
             rating: 99,
             iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2Ficon0.png?alt=media&token=926b31d4-7b75-4f57-ba28-28a78066628d',

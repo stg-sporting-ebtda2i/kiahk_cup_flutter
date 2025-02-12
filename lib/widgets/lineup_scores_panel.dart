@@ -48,7 +48,7 @@ class _ScoresPanelState extends State<ScoresPanel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(40, 70, 40, 15),
+      padding: EdgeInsets.fromLTRB(40, 30, 40, 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

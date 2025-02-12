@@ -26,7 +26,9 @@ class _LineupPageState extends State<LineupPage> {
         ),
         child: Column(
           children: [
-            const ScoresPanel(),
+            SafeArea(
+              child: const ScoresPanel(),
+            ),
             Expanded(
               child: Center(
                 child: Lineup(userLineup: widget.userLineup),
