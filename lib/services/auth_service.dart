@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:piehme_cup_flutter/constants/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static const String _loginUrl = 'http://localhost:9000/login';
-  static const String _tokenKey = 'jwttoken';
-  static const String _roleKey = 'role';
 
   static Future<bool> login(String username, String password) async {
-    final url = Uri.parse(_loginUrl);
+    final url = Uri.parse(ApiConstants.authEndpoint);
 
     try {
       final response = await http.post(
@@ -24,28 +22,33 @@ class AuthService {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
 
         // Check if the response contains a token and role
-        if (responseData.containsKey('jwttoken') && responseData.containsKey('role')) {
+        if (responseData.containsKey('jwttoken')) {
           final String jwtToken = responseData['jwttoken'];
-          final String role = responseData['role'];
-
           await _saveToken(jwtToken);
-          await _saveRole(role);
           return true; // Login successful
         } else {
-          throw Exception('Invalid response: Missing token or role');
+          throw Exception('Login failed: Missing token');
         }
+      } else if (response.statusCode==400) {
+        throw Exception('Login failed: Incorrect username or password');
+      } else if (response.statusCode==404) {
+        throw Exception('Login failed: User not found');
       } else {
-        throw Exception('Login failed: ${response.statusCode} - ${response.body}');
+        throw Exception('Login failed: Error');
       }
     } catch (e) {
-      throw Exception('Error during login: $e');
+      if (e.toString().toLowerCase().contains('incorrect username or password')) {
+        throw Exception('Login failed: Incorrect username or password');
+      } else {
+        throw Exception('Error during login: Connection failed');
+      }
     }
   }
 
   static Future<void> _saveToken(String token) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_tokenKey, token);
+      await prefs.setString(ApiConstants.tokenKey, token);
     } catch (e) {
       throw Exception('Failed to save token: $e');
     }
@@ -54,35 +57,17 @@ class AuthService {
   static Future<String?> getToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_tokenKey);
+      return prefs.getString(ApiConstants.tokenKey);
     } catch (e) {
       throw Exception('Failed to retrieve token: $e');
-    }
-  }
-
-  static Future<void> _saveRole(String role) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_roleKey, role);
-    } catch (e) {
-      throw Exception('Failed to save role: $e');
-    }
-  }
-
-  static Future<String?> getRole() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_roleKey);
-    } catch (e) {
-      throw Exception('Failed to retrieve role: $e');
     }
   }
 
   static Future<void> logout() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_tokenKey);
-      await prefs.remove(_roleKey);
+      await prefs.remove(ApiConstants.tokenKey);
+      await prefs.remove(ApiConstants.roleKey);
     } catch (e) {
       throw Exception('Failed to logout: $e');
     }

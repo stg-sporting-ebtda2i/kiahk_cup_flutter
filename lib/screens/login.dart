@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_text_field.dart';
@@ -17,66 +18,40 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
   Future<void> login(BuildContext context) async {
-    // Validate inputs
     if (_usernameController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter both username and password'),
-        ),
-      );
+      toastError('Please enter both username and password');
       return;
     }
 
-    // Start loading
     if (!mounted) return;
     setState(() {
       _isLoading = true;
     });
 
-    // try {
-      // final bool isLoginSuccessful = await AuthService.login(
-      //   _usernameController.text.trim(),
-      //   _passwordController.text.trim(),
-      // );
-      //
-      // if (isLoginSuccessful) {
-      //   // Retrieve role and navigate if successful
-      //   final role = await AuthService.getRole();
-      //   if (role == 'WALAD') {
-      //     if (!mounted) return;
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
-    //     } else {
-    //       if (!mounted) return;
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //         const SnackBar(
-    //           content: Text('Invalid role'),
-    //         ),
-    //       );
-    //     }
-    //   } else {
-    //     if (!mounted) return;
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       const SnackBar(
-    //         content: Text('Login failed: Incorrect username or password'),
-    //       ),
-    //     );
-    //   }
-    // } catch (e) {
-    //   if (!mounted) return;
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: Text('Login failed: ${e.toString()}'),
-    //     ),
-    //   );
-    // } finally {
-    //   // Stop loading
-    //   if (mounted) {
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
-    //   }
-    // }
+    try {
+      final bool isLoginSuccessful = await AuthService.login(
+        _usernameController.text.trim(),
+        _passwordController.text.trim(),
+      );
+
+      if (isLoginSuccessful) {
+        if (!context.mounted) return;
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
+      } else {
+        if (!context.mounted) return;
+        toastError('Login failed: Incorrect username or password');
+      }
+    } catch (e) {
+      if (!mounted) return;
+      toastError(e.toString().replaceAll('Exception: ', ''));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
   @override
   Widget build(BuildContext context) {

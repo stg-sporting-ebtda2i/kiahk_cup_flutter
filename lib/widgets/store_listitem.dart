@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/models/store_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
 
 class StoreListItem extends StatelessWidget {
-
-  final StoreItem item;
+  final String imgLink;
+  final int price;
+  final bool owned;
+  final VoidCallback buy;
+  final VoidCallback sell;
+  final VoidCallback select;
 
   const StoreListItem({
     super.key,
-    required this.item
+    required this.imgLink,
+    required this.price,
+    required this.owned,
+    required this.buy,
+    required this.sell,
+    required this.select
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +29,7 @@ class StoreListItem extends StatelessWidget {
         SizedBox(width: 160,
           height: 229,
           child: CachedNetworkImage(
-            imageUrl: item.imgLink,
+            imageUrl: imgLink,
             width: 160,
             height: 229,
             fit: BoxFit.cover,
@@ -29,7 +38,7 @@ class StoreListItem extends StatelessWidget {
           ),
         ),
         Text(
-          '${item.price} €',
+          '$price €',
           style: TextStyle(
             color: Colors.white,
             fontSize: 22,
@@ -37,21 +46,35 @@ class StoreListItem extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10,),
-        SizedBox(
-          width: 115,
-          height: 37,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white70,
-            ),
-            child: Text(
-              item.purchased?'Select':'Purchase',
-              style: TextStyle(
-                color: Colors.black,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: 115,
+              height: 37,
+              child: ElevatedButton(
+                onPressed: owned ? select : buy,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white70,
+                ),
+                child: Text(
+                  owned ? 'Select' : 'Purchase',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
-          ),
+            if (owned)
+              IconButton(
+                onPressed: sell,
+                icon: Icon(
+                  Icons.delete_outline_rounded,
+                  color: Colors.red,
+                  size: 30,
+                ),
+              ),
+          ],
         ),
       ],
     );
