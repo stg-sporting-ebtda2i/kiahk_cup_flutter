@@ -8,7 +8,7 @@ class Leaderboard extends StatelessWidget {
   Leaderboard({super.key});
 
   final List<LeaderboardUser> leaderboard = <LeaderboardUser>[
-    LeaderboardUser(rank: 1, card: PlayerCard(
+    LeaderboardUser(rank: 1, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -17,7 +17,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 99),
-    LeaderboardUser(rank: 2, card: PlayerCard(
+    LeaderboardUser(rank: 2, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -26,7 +26,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 98),
-    LeaderboardUser(rank: 3, card: PlayerCard(
+    LeaderboardUser(rank: 3, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -35,7 +35,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 97),
-    LeaderboardUser(rank: 4, card: PlayerCard(
+    LeaderboardUser(rank: 4, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -44,7 +44,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 96),
-    LeaderboardUser(rank: 5, card: PlayerCard(
+    LeaderboardUser(rank: 5, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -53,7 +53,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 95),
-    LeaderboardUser(rank: 6, card: PlayerCard(
+    LeaderboardUser(rank: 6, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -62,7 +62,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 94),
-    LeaderboardUser(rank: 7, card: PlayerCard(
+    LeaderboardUser(rank: 7, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -71,7 +71,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 93),
-    LeaderboardUser(rank: 8, card: PlayerCard(
+    LeaderboardUser(rank: 8, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -80,7 +80,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 92),
-    LeaderboardUser(rank: 9, card: PlayerCard(
+    LeaderboardUser(rank: 9, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
@@ -89,7 +89,7 @@ class Leaderboard extends StatelessWidget {
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
       position: 'ST',
     ), rating: 91),
-    LeaderboardUser(rank: 10, card: PlayerCard(
+    LeaderboardUser(rank: 10, card: UserCard(
       width: 120,
       name: 'Patrick Remon',
       rating: 99,

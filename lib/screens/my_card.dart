@@ -55,7 +55,7 @@ class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
                         SizedBox(
                           width: 330,
                           height: 472,
-                          child: PlayerCard(
+                          child: UserCard(
                             width: 330,
                             name: 'Patrick Remon',
                             rating: 99,

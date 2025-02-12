@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/dialogs/loading_dialog.dart';
 
 class ScoresPanel extends StatefulWidget {
   const ScoresPanel({super.key});
@@ -31,6 +32,12 @@ class _ScoresPanelState extends State<ScoresPanel> {
   }
 
   void _updateScores() {
+    if(rating==15) {
+      dismissLoadingDialog(context);
+    }
+    if(rating==5) {
+      showLoadingDialog(context);
+    }
     setState(() {
       average++;
       rating++;

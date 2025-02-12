@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/widgets/user_card.dart';
-import 'package:piehme_cup_flutter/widgets/lineup_card.dart';
+import 'package:piehme_cup_flutter/widgets/player_card.dart';
 
 class Lineup extends StatefulWidget {
   final bool userLineup;
@@ -22,12 +22,12 @@ class _LineupState extends State<Lineup> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PlayerIcon(id: 'LW', userLineup: widget.userLineup),
+              PlayerCard(id: 'LW', userLineup: widget.userLineup),
               Transform.translate(
                 offset: Offset(0, -40),
-                child: PlayerIcon(id: 'ST', userLineup: widget.userLineup),
+                child: PlayerCard(id: 'ST', userLineup: widget.userLineup),
               ),
-              PlayerIcon(id: 'RW', userLineup: widget.userLineup),
+              PlayerCard(id: 'RW', userLineup: widget.userLineup),
             ],
           ),
         ),
@@ -37,12 +37,12 @@ class _LineupState extends State<Lineup> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PlayerIcon(id: 'LCM', userLineup: widget.userLineup),
+              PlayerCard(id: 'LCM', userLineup: widget.userLineup),
               Transform.translate(
                 offset: Offset(0, -30),
-                child: PlayerIcon(id: 'CAM', userLineup: widget.userLineup),
+                child: PlayerCard(id: 'CAM', userLineup: widget.userLineup),
               ),
-              PlayerIcon(id: 'RCM', userLineup: widget.userLineup),
+              PlayerCard(id: 'RCM', userLineup: widget.userLineup),
             ],
           ),
         ),
@@ -50,17 +50,17 @@ class _LineupState extends State<Lineup> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            PlayerIcon(id: 'LB', userLineup: widget.userLineup),
-            PlayerIcon(id: 'LCB', userLineup: widget.userLineup),
-            PlayerIcon(id: 'RCB', userLineup: widget.userLineup),
-            PlayerIcon(id: 'RB', userLineup: widget.userLineup),
+            PlayerCard(id: 'LB', userLineup: widget.userLineup),
+            PlayerCard(id: 'LCB', userLineup: widget.userLineup),
+            PlayerCard(id: 'RCB', userLineup: widget.userLineup),
+            PlayerCard(id: 'RB', userLineup: widget.userLineup),
           ],
         ),
         // Goalkeeper (GK)
         SizedBox(
           width: 95,
           height: 136,
-          child: PlayerCard(
+          child: UserCard(
             width: 95,
             name: 'Patrick Remon',
             rating: 99,

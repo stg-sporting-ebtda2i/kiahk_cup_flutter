@@ -2,7 +2,7 @@ import 'package:piehme_cup_flutter/widgets/user_card.dart';
 
 class LeaderboardUser {
   final int rank;
-  final PlayerCard card;
+  final UserCard card;
   final int rating;
 
   LeaderboardUser({

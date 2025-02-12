@@ -65,7 +65,7 @@ class _ChangePicturePageState extends State<ChangePicturePage> {
                         SizedBox(
                           width: 330,
                           height: 472,
-                          child: PlayerCard(
+                          child: UserCard(
                             width: 330,
                             name: 'Patrick Remon',
                             rating: 99,

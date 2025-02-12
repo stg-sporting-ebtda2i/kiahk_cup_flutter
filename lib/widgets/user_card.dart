@@ -1,10 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
 
-class PlayerCard extends StatelessWidget {
+class UserCard extends StatelessWidget {
   final double width;
-  const PlayerCard({
+  const UserCard({
     super.key,
     required this.width,
     this.image,
@@ -37,10 +38,12 @@ class PlayerCard extends StatelessWidget {
           child: Stack(
             children: [
               // Card Icon (Background Image)
-              Image.network(
-                iconURL,
+              CachedNetworkImage(
+                imageUrl: iconURL,
                 width: double.infinity,
                 height: double.infinity,
+                errorWidget: (context, url, error) => errorImage(),
+                placeholder: (context, url) => loadingImage(),
                 fit: BoxFit.cover,
               ),
               // Centered Image
@@ -49,9 +52,16 @@ class PlayerCard extends StatelessWidget {
                 left: cardWidth * (20 / 100),
                 right: cardWidth * (20 / 100),
                 bottom: cardHeight * (30 / 100),
-                child: image != null ? Image.file(image!, fit: BoxFit.cover,) : Image.network(
-                  imageURL!,
+                child: image != null ?
+                Image.file(
+                  image!,
                   fit: BoxFit.cover,
+                ) :
+                CachedNetworkImage(
+                  imageUrl: imageURL!,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => errorImage(),
+                  placeholder: (context, url) => loadingImage(),
                 ),
               ),
               // Name Text
