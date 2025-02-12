@@ -59,7 +59,7 @@ class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
                             width: 330,
                             name: 'Patrick Remon',
                             rating: 99,
-                            iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2Ficon0.png?alt=media&token=926b31d4-7b75-4f57-ba28-28a78066628d',
+                            iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730923909819.png?alt=media&token=27e5f3e6-b52f-4f0b-9916-f522f5aa9901',
                             image: null,
                             imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
                             position: 'ST',

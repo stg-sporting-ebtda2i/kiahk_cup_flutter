@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
 
 class UserCard extends StatelessWidget {
@@ -31,82 +32,108 @@ class UserCard extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: SizedBox(
-          width: cardWidth,
-          height: cardHeight,
-          child: Stack(
-            children: [
-              // Card Icon (Background Image)
-              CachedNetworkImage(
-                imageUrl: iconURL,
-                width: double.infinity,
-                height: double.infinity,
-                errorWidget: (context, url, error) => errorImage(),
-                placeholder: (context, url) => loadingImage(),
-                fit: BoxFit.cover,
-              ),
-              // Centered Image
-              Positioned(
-                top: cardHeight * (20 / 100),
-                left: cardWidth * (20 / 100),
-                right: cardWidth * (20 / 100),
-                bottom: cardHeight * (30 / 100),
-                child: image != null ?
-                Image.file(
-                  image!,
-                  fit: BoxFit.cover,
-                ) :
-                CachedNetworkImage(
-                  imageUrl: imageURL!,
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) => errorImage(),
-                  placeholder: (context, url) => loadingImage(),
-                ),
-              ),
-              // Name Text
-              Positioned(
-                top: cardHeight * (72 / 100),
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: cardWidth * (9 / 100),
-                      fontWeight: FontWeight.bold,
+      body: FutureBuilder<Color?>(
+        future: getTextColor(url: iconURL),
+        builder: (context, snapshot) {
+          Color color;
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            color = Colors.black;
+          } else if (snapshot.hasError) {
+            color = Colors.black;
+          } else if (!snapshot.hasData) {
+            color = Colors.black;
+          } else {
+            color = snapshot.data!;
+          }
+          return Center(
+            child: SizedBox(
+              width: cardWidth,
+              height: cardHeight,
+              child: Stack(
+                children: [
+                  // Card Icon (Background Image)
+                  CachedNetworkImage(
+                    imageUrl: iconURL,
+                    width: double.infinity,
+                    height: double.infinity,
+                    errorWidget: (context, url, error) => errorImage(),
+                    placeholder: (context, url) => loadingImage(),
+                    fit: BoxFit.cover,
+                  ),
+                  // Centered Image
+                  Positioned(
+                    top: cardHeight * (20 / 100),
+                    left: cardWidth * (20 / 100),
+                    right: cardWidth * (20 / 100),
+                    bottom: cardHeight * (30 / 100),
+                    child: image != null ?
+                    Image.file(
+                      image!,
+                      fit: BoxFit.cover,
+                    ) :
+                    CachedNetworkImage(
+                      imageUrl: imageURL!,
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => errorImage(),
+                      placeholder: (context, url) => loadingImage(),
                     ),
                   ),
-                ),
-              ),
-              // Position Text
-              Positioned(
-                top: cardHeight * (22 / 100),
-                left: cardWidth * (17 / 100),
-                child: Text(
-                  position,
-                  style: TextStyle(
-                    fontSize: cardWidth * (6 / 100),
-                    fontWeight: FontWeight.w500,
+                  // Name Text
+                  Positioned(
+                    top: cardHeight * (72 / 100),
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: cardWidth * (9 / 100),
+                          fontWeight: FontWeight.bold,
+                          color: color,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              // Card Rating Text
-              Positioned(
-                top: cardHeight * (12 / 100),
-                left: cardWidth * (14 / 100),
-                child: Text(
-                  '$rating',
-                  style: TextStyle(
-                    fontSize: cardWidth * (11 / 100),
-                    fontWeight: FontWeight.bold,
+                  // Position Text
+                  Positioned(
+                    top: cardHeight * (22 / 100),
+                    left: cardWidth * (17 / 100),
+                    child: Text(
+                      position,
+                      style: TextStyle(
+                        fontSize: cardWidth * (6 / 100),
+                        fontWeight: FontWeight.w500,
+                        color: color,
+                      ),
+                    ),
                   ),
-                ),
+                  // Card Rating Text
+                  Positioned(
+                    top: cardHeight * (12 / 100),
+                    left: cardWidth * (14 / 100),
+                    child: Text(
+                      '$rating',
+                      style: TextStyle(
+                        fontSize: cardWidth * (11 / 100),
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
+}
+
+Future<Color> getTextColor({required String url}) async {
+  final PaletteGenerator paletteGenerator =
+  await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url));
+  Color? dominantColor = paletteGenerator.dominantColor?.color;
+  final double? luminance = dominantColor?.computeLuminance();
+  return luminance! > 0.5 ? Colors.black : Colors.white;
 }
