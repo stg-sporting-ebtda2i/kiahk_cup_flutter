@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/screens/change_picture.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/screens/rating_store.dart';
-import 'package:piehme_cup_flutter/screens/cards_store.dart';
+import 'package:piehme_cup_flutter/screens/icons_store.dart';
 import 'package:piehme_cup_flutter/screens/lineup.dart';
 import 'package:piehme_cup_flutter/screens/solve_quiz.dart';
 import 'app_routes.dart';
