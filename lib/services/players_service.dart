@@ -55,16 +55,12 @@ class IconsService {
 
     final ownedIconIds = ownedIcons.map((icon) => icon.iconId).toSet();
 
-    final filteredIcons = <CardIcon>[];
     for (var icon in allIcons) {
       if (ownedIconIds.contains(icon.iconId)) {
         icon.owned = true;
       }
-      if (icon.available || icon.owned) {
-        filteredIcons.add(icon);
-      }
     }
-    return filteredIcons;
+    return allIcons;
   }
 
   static Future<void> buyIcon(int iconId) async {
