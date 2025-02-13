@@ -53,8 +53,16 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
+
+  Future<void> _checkIfLoggedIn() async {
+    if (await AuthService.hasToken() && mounted) {
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _checkIfLoggedIn();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,

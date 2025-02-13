@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
-import 'package:piehme_cup_flutter/services/icons_service.dart';
+import 'package:piehme_cup_flutter/models/player.dart';
+import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/services/players_service.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/store_listitem.dart';
-import 'package:piehme_cup_flutter/models/card_icon.dart';
 
-class IconsStorePage extends StatefulWidget {
-  const IconsStorePage({super.key});
+class PlayersStorePage extends StatefulWidget {
+  const PlayersStorePage({super.key, required this.position});
+
+  final String position;
 
   @override
-  State<IconsStorePage> createState() => _IconsStorePageState();
+  State<PlayersStorePage> createState() => _PlayersStorePageState();
 }
 
-class _IconsStorePageState extends State<IconsStorePage> {
+class _PlayersStorePageState extends State<PlayersStorePage> {
 
-  late List<CardIcon> _items = <CardIcon> [];
+  late List<Player> _players = <Player>[];
 
   @override
   void initState() {
@@ -27,14 +30,14 @@ class _IconsStorePageState extends State<IconsStorePage> {
   void _loadStore() async {
     EasyLoading.show(status: 'Loading...');
     try {
-      List<CardIcon> icons = await IconsService.getStoreIcons();
+      List<Player> players = await PlayersService.getPlayersByPosition(widget.position);
       setState(() {
-        _items = icons;
+        _players = players;
       });
     } catch (e) {
       toastError(e.toString().replaceAll('Exception: ', ''));
       if (mounted) {
-        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
       }
     } finally {
       EasyLoading.dismiss(animation: true);
@@ -44,7 +47,7 @@ class _IconsStorePageState extends State<IconsStorePage> {
   void _confirmAction(Future<void> action, String operation) {
     showAlertDialog(
         context: context,
-        text: 'Are you sure that you want to $operation this icon?',
+        text: 'Are you sure that you want to $operation this card?',
         positiveBtnText: 'Confirm',
         positiveBtnAction: () {
           _performAction(action);
@@ -63,7 +66,9 @@ class _IconsStorePageState extends State<IconsStorePage> {
       toastError(e.toString());
     } finally {
       EasyLoading.dismiss(animation: true);
-      _loadStore();
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
+      }
     }
   }
 
@@ -87,18 +92,18 @@ class _IconsStorePageState extends State<IconsStorePage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 15,
                     mainAxisSpacing: 15,
-                    childAspectRatio: 0.54,
+                    childAspectRatio: 0.57,
                   ),
                   padding: const EdgeInsets.all(15),
-                  itemCount: _items.length,
+                  itemCount: _players.length,
                   itemBuilder: (context, index) {
-                    final item = _items[index];
+                    final item = _players[index];
                     return StoreListItem(
                       imgLink: item.imgLink,
                       price: item.price,
-                      owned: item.owned,
-                      buy: () => _confirmAction(IconsService.buyIcon(item.iconId), 'purchase'),
-                      sell: () => _confirmAction(IconsService.sellIcon(item.iconId), 'sell'),
+                      owned: false,
+                      buy: () => _confirmAction(PlayersService.buyPlayer(item.playerId), 'purchase'),
+                      sell: () {},
                       select: () {},
                     );
                   },

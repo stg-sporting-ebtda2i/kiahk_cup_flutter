@@ -67,9 +67,13 @@ class AuthService {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(ApiConstants.tokenKey);
-      await prefs.remove(ApiConstants.roleKey);
     } catch (e) {
       throw Exception('Failed to logout: $e');
     }
+  }
+
+  static Future<bool> hasToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey(ApiConstants.tokenKey);
   }
 }

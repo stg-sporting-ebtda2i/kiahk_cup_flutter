@@ -6,7 +6,7 @@ void toastError(String error) {
     msg: error,
     toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black54,
+    backgroundColor: Colors.black87,
     textColor: Colors.white,
     fontSize: 15.0,
   );

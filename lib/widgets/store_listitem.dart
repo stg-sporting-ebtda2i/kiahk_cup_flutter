@@ -26,7 +26,8 @@ class StoreListItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(width: 160,
+        SizedBox(
+          width: 160,
           height: 229,
           child: CachedNetworkImage(
             imageUrl: imgLink,
@@ -49,8 +50,8 @@ class StoreListItem extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            if (owned) SizedBox(width: 30,),
             SizedBox(
-              width: 115,
               height: 37,
               child: ElevatedButton(
                 onPressed: owned ? select : buy,
@@ -66,12 +67,15 @@ class StoreListItem extends StatelessWidget {
               ),
             ),
             if (owned)
-              IconButton(
-                onPressed: sell,
-                icon: Icon(
-                  Icons.delete_outline_rounded,
-                  color: Colors.red,
-                  size: 30,
+              SizedBox(
+                width: 30,
+                child: IconButton(
+                  onPressed: sell,
+                  icon: Icon(
+                    Icons.delete_outline_rounded,
+                    color: Colors.red,
+                    size: 30,
+                  ),
                 ),
               ),
           ],

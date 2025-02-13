@@ -25,7 +25,6 @@ class PiehmeCup extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
       initialRoute: AppRoutes.login,
       onGenerateRoute: RouteGenerator.generateRoute,
       builder: EasyLoading.init(),

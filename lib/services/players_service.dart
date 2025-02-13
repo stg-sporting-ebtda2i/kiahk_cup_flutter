@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
-import 'package:piehme_cup_flutter/models/card_icon.dart';
+import 'package:piehme_cup_flutter/models/player.dart';
 
-class IconsService {
+class PlayersService {
 
-  static Future<List<CardIcon>> getAllIcons() async {
+  static Future<List<Player>> getPlayersByPosition(String position) async {
     try {
-      final url = Uri.parse('${ApiConstants.baseUrl}/icons');
+      final url = Uri.parse('${ApiConstants.baseUrl}/players/$position');
 
       final response = await http.get(
         url,
@@ -16,18 +16,23 @@ class IconsService {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = json.decode(response.body);
-        return jsonList.map((json) => CardIcon.fromJson(json)).toList();
+        return jsonList.map((json) => Player.fromJson(json)).toList();
       } else {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
-      throw 'Error: Connection failed';
+      if (e.toString().toLowerCase().contains('error 400')) {
+      throw 'No players found in this position';
+      } else {
+        throw 'Error: Connection failed';
+      }
     }
   }
 
-  static Future<List<CardIcon>> getOwnedIcons() async {
+  static Future<List<Player>> getLineup() async {
     try {
-      final url = Uri.parse('${ApiConstants.baseUrl}/ownedIcons/getOwnedIcons');
+      final url = Uri.parse('${ApiConstants.baseUrl}/ownedPlayers/getLineup');
+
       final response = await http.get(
         url,
         headers: await ApiConstants.header(),
@@ -35,11 +40,7 @@ class IconsService {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = json.decode(response.body);
-        List<CardIcon> cardIcons = jsonList.map((json) => CardIcon.fromJson(json)).toList();
-        for (CardIcon cardIcon in cardIcons) {
-          cardIcon.owned = true;
-        }
-        return cardIcons;
+        return jsonList.map((json) => Player.fromJson(json)).toList();
       } else {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
@@ -48,23 +49,8 @@ class IconsService {
     }
   }
 
-  static Future<List<CardIcon>> getStoreIcons() async {
-    final results = await Future.wait([getAllIcons(), getOwnedIcons()]);
-    final allIcons = results[0];
-    final ownedIcons = results[1];
-
-    final ownedIconIds = ownedIcons.map((icon) => icon.iconId).toSet();
-
-    for (var icon in allIcons) {
-      if (ownedIconIds.contains(icon.iconId)) {
-        icon.owned = true;
-      }
-    }
-    return allIcons;
-  }
-
-  static Future<void> buyIcon(int iconId) async {
-    final url = Uri.parse('${ApiConstants.baseUrl}/ownedIcons/buy/$iconId');
+  static Future<void> buyPlayer(int playerId) async {
+    final url = Uri.parse('${ApiConstants.baseUrl}/ownedPlayers/buy/$playerId');
 
     try {
       final response = await http.patch(
@@ -81,8 +67,8 @@ class IconsService {
     }
   }
 
-  static Future<void> sellIcon(int iconId) async {
-    final url = Uri.parse('${ApiConstants.baseUrl}/ownedIcons/sell/$iconId');
+  static Future<void> sellPlayer(int playerId) async {
+    final url = Uri.parse('${ApiConstants.baseUrl}/ownedPlayers/sell/$playerId');
 
     try {
       final response = await http.patch(

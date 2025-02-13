@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/screens/players_store.dart';
 import 'package:piehme_cup_flutter/screens/change_picture.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/screens/rating_store.dart';
@@ -17,7 +18,12 @@ class RouteGenerator {
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const HomePage());
       case AppRoutes.cardsStore:
-        return MaterialPageRoute(builder: (_) => StorePage());
+        return MaterialPageRoute(builder: (_) => IconsStorePage());
+      case AppRoutes.playersStore:
+        final args = settings.arguments as Map<String, dynamic>?;
+        return MaterialPageRoute(
+            builder: (_) => PlayersStorePage(position: args?['position'],),
+        );
       case AppRoutes.lineup:
         final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
