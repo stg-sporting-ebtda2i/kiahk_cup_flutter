@@ -1,5 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
+import 'package:provider/provider.dart';
 
 class Header extends StatefulWidget {
   const Header({super.key});
@@ -9,33 +10,15 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  String playerName = 'Patrick Remon';
-  int coins = 60;
-  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _updateHeader();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _updateHeader();
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void _updateHeader() {
-    setState(() {
-      coins++;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final headerProvider = Provider.of<HeaderProvider>(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 40),
       child: Row(
@@ -45,7 +28,7 @@ class _HeaderState extends State<Header> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 17),
               child: Text(
-                playerName,
+                headerProvider.name ?? 'Loading...',
                 style: const TextStyle(
                   fontSize: 27,
                   color: Colors.white,
@@ -76,7 +59,7 @@ class _HeaderState extends State<Header> {
                   SizedBox(width: 7),
                   Expanded(
                     child: Text(
-                      coins.toString(),
+                      headerProvider.coins.toString(),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,

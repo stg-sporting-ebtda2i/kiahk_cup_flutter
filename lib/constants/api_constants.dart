@@ -5,6 +5,7 @@ class ApiConstants {
 
   static const String baseUrl = 'http://192.168.1.5:9000';
   static const String tokenKey = 'jwttoken';
+  static const String nameKey = 'name';
 
   static const String authEndpoint = '$baseUrl/login';
 

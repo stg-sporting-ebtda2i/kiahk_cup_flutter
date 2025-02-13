@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/routes/route_generator.dart';
-import 'package:piehme_cup_flutter/screens/login.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const PiehmeCup());
+  runApp(
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => HeaderProvider()),
+        ],
+      child: const PiehmeCup(),
+    ),
+  );
   EasyLoading.instance
     ..loadingStyle =EasyLoadingStyle.custom
     ..indicatorType = EasyLoadingIndicatorType.squareCircle

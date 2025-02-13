@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
+import 'package:piehme_cup_flutter/utils/string_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -25,6 +26,7 @@ class AuthService {
         if (responseData.containsKey('jwttoken')) {
           final String jwtToken = responseData['jwttoken'];
           await _saveToken(jwtToken);
+          await _saveName(StringUtils.capitalizeWords(username.trim()));
           return true; // Login successful
         } else {
           throw Exception('Login failed: Missing token');
@@ -54,6 +56,15 @@ class AuthService {
     }
   }
 
+  static Future<void> _saveName(String name) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(ApiConstants.nameKey, name);
+    } catch (e) {
+      throw Exception('Failed to save name: $e');
+    }
+  }
+
   static Future<String?> getToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -63,10 +74,20 @@ class AuthService {
     }
   }
 
+  static Future<String?> getName() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(ApiConstants.nameKey);
+    } catch (e) {
+      throw Exception('Failed to retrieve name: $e');
+    }
+  }
+
   static Future<void> logout() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(ApiConstants.tokenKey);
+      await prefs.remove(ApiConstants.nameKey);
     } catch (e) {
       throw Exception('Failed to logout: $e');
     }
