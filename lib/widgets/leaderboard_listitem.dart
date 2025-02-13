@@ -17,7 +17,7 @@ class LeaderboardListItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          '${user.rank}',
+          user.rank.toString().padLeft(2, '0'),
           style: TextStyle(
             fontSize: 23,
             color: Colors.white,
