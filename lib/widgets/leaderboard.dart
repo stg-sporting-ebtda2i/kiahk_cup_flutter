@@ -12,10 +12,10 @@ class Leaderboard extends StatelessWidget {
       width: 120,
       name: 'Patrick Remon',
       rating: 99,
-      iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730923909819.png?alt=media&token=27e5f3e6-b52f-4f0b-9916-f522f5aa9901',
+      iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1734903608232.png?alt=media&token=56ed0806-8cac-4055-a368-cea1f06f4797',
       image: null,
       imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
-      position: 'ST',
+      position: 'LW',
     ), rating: 99),
     LeaderboardUser(rank: 2, card: UserCard(
       width: 120,

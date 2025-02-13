@@ -28,7 +28,7 @@ class EmptyPlayerCard extends StatelessWidget {
           image: AssetImage('assets/placeholder.png'),
           width: double.infinity,
           height: double.infinity,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
       ),
     );

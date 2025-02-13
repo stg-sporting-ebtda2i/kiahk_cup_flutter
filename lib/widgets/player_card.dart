@@ -28,7 +28,7 @@ class PlayerCard extends StatelessWidget {
           imageUrl: player.imgLink,
           width: double.infinity,
           height: double.infinity,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
           errorWidget: (context, url, error) => errorImage(),
           placeholder: (context, url) => loadingImage(),
         ),
