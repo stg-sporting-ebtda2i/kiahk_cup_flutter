@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
-import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
-import 'package:piehme_cup_flutter/models/player.dart';
-import 'package:piehme_cup_flutter/providers/header_provider.dart';
-import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
+import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
+import 'package:piehme_cup_flutter/utils/action_utils.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/store_listitem.dart';
 import 'package:provider/provider.dart';
@@ -21,64 +18,15 @@ class PlayersStorePage extends StatefulWidget {
 
 class _PlayersStorePageState extends State<PlayersStorePage> {
 
-  late List<Player> _players = <Player>[];
-
   @override
   void initState() {
     super.initState();
-    _loadStore();
-  }
-
-  void _loadStore() async {
-    EasyLoading.show(status: 'Loading...');
-    try {
-      List<Player> players = await PlayersService.getPlayersByPosition(widget.position);
-      setState(() {
-        _players = players;
-      });
-    } catch (e) {
-      toastError(e.toString().replaceAll('Exception: ', ''));
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-      }
-    } finally {
-      EasyLoading.dismiss(animation: true);
-    }
-  }
-
-  void _confirmAction(Future<void> action, String operation) {
-    showAlertDialog(
-        context: context,
-        text: 'Are you sure that you want to $operation this card?',
-        positiveBtnText: 'Confirm',
-        positiveBtnAction: () {
-          _performAction(action);
-          Navigator.pop(context);
-        },
-        negativeBtnText: 'Cancel',
-        negativeBtnAction: () {Navigator.pop(context);}
-    );
-  }
-
-  void _performAction(Future<void> action) async {
-    EasyLoading.show(status: 'Loading...');
-    try {
-      await action;
-      if (mounted) {
-        Provider.of<HeaderProvider>(context).refreshCoins();
-      }
-    } catch(e) {
-      toastError(e.toString());
-    } finally {
-      EasyLoading.dismiss(animation: true);
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-      }
-    }
+      context.read<PlayersStoreProvider>().loadStore(widget.position);
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<PlayersStoreProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -100,15 +48,21 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                     childAspectRatio: 0.57,
                   ),
                   padding: const EdgeInsets.all(15),
-                  itemCount: _players.length,
+                  itemCount: provider.items.length,
                   itemBuilder: (context, index) {
-                    final item = _players[index];
+                    final item = provider.items[index];
                     return StoreListItem(
                       imgLink: item.imgLink,
                       price: item.price,
                       owned: false,
                       selected: false,
-                      buy: () => _confirmAction(PlayersService.buyPlayer(item.playerId), 'purchase'),
+                      buy: () => ActionUtils(
+                        context: context,
+                        action: () => PlayersService.buyPlayer(item.playerId),
+                        callback: () {
+                          context.read<LineupProvider>().loadLineup();
+                          Navigator.pop(context);
+                        }).confirmAction(),
                       sell: () {},
                       select: () {},
                     );

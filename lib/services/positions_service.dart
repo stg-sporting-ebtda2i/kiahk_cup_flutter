@@ -48,7 +48,7 @@ class PositionsService {
     }
   }
 
-  static Future<Position?> getSelectedPosition() async {
+  static Future<Position> getSelectedPosition() async {
     try {
       final url = Uri.parse('${ApiConstants.baseUrl}/selectPosition');
       final response = await http.get(
@@ -61,7 +61,7 @@ class PositionsService {
         final Map<String, dynamic> jsonMap = json.decode(response.body);
         return Position.fromJson(jsonMap);
       } else {
-        throw 'Failed to load data: Error ${response.statusCode}';
+        return Position(id: 1, name: 'GK', price: '0');
       }
     } catch (e) {
         return Position(id: 1, name: 'GK', price: '0');
@@ -124,7 +124,7 @@ class PositionsService {
   }
 
   static Future<void> selectPosition(int positionId) async {
-    final url = Uri.parse('${ApiConstants.baseUrl}/selectIcon/$positionId');
+    final url = Uri.parse('${ApiConstants.baseUrl}/selectPosition/$positionId');
     try {
       final response = await http.patch(
         url,

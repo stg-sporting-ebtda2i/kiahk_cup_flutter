@@ -6,9 +6,8 @@ void showAlertDialog({
   required String text,
   required String positiveBtnText,
   required VoidCallback positiveBtnAction,
-  required String negativeBtnText,
-  required VoidCallback negativeBtnAction,
 }) {
+  print('Showing dialog');
   showDialog(
       context: context,
       builder: (BuildContext c) {
@@ -17,8 +16,6 @@ void showAlertDialog({
           text: text,
           positiveBtnText: positiveBtnText,
           positiveBtnAction: positiveBtnAction,
-          negativeBtnText: negativeBtnText,
-          negativeBtnAction: negativeBtnAction
         );
       }
   );
@@ -29,8 +26,6 @@ AlertDialog alertDialog({
   required String text,
   required String positiveBtnText,
   required VoidCallback positiveBtnAction,
-  required String negativeBtnText,
-  required VoidCallback negativeBtnAction,
 }) {
   return AlertDialog(
       title: Text(
@@ -47,8 +42,8 @@ AlertDialog alertDialog({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            dialogButton(text: negativeBtnText, onClick: negativeBtnAction),
-            dialogButton(text: positiveBtnText, onClick: positiveBtnAction),
+            dialogButton(text: 'Cancel', onClick: ()=> Navigator.pop(context)),
+            dialogButton(text: positiveBtnText, onClick: () {print('+ve clicked'); positiveBtnAction();}),
           ],
         ),
       ],

@@ -6,11 +6,11 @@ import 'package:piehme_cup_flutter/services/icons_service.dart';
 
 class IconsStoreProvider with ChangeNotifier {
 
-  late List<CardIcon> _items = <CardIcon>[];
+  List<CardIcon> _items = <CardIcon>[];
 
   List<CardIcon> get items => _items;
 
-  void refreshStore() async {
+  void loadStore() async {
     EasyLoading.show(status: 'Loading...');
     try {
       _items = await IconsService.getStoreIcons();

@@ -5,14 +5,12 @@ import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
 
 class PlayerCard extends StatelessWidget {
   final Player player;
-  final bool userLineup;
   final double height;
   final VoidCallback onClick;
 
   const PlayerCard({
     super.key,
     required this.player,
-    required this.userLineup,
     required this.height,
     required this.onClick,
   });
@@ -20,7 +18,7 @@ class PlayerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: userLineup ? onClick : null,
+      onTap: onClick,
       child: SizedBox(
         width: 559*height/800,
         height: height,

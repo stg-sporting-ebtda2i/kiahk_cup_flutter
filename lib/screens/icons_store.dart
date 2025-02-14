@@ -18,9 +18,7 @@ class _IconsStorePageState extends State<IconsStorePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<IconsStoreProvider>().refreshStore();
-    });
+    context.read<IconsStoreProvider>().loadStore();
   }
 
   @override
@@ -55,9 +53,24 @@ class _IconsStorePageState extends State<IconsStorePage> {
                       price: item.price,
                       owned: item.owned,
                       selected: item.selected,
-                      buy: () => ActionUtils.confirmAction(IconsService.buyIcon(item.iconId), context),
-                      sell: () => ActionUtils.confirmAction(IconsService.sellIcon(item.iconId), context),
-                      select: () => ActionUtils.confirmAction(IconsService.selectIcon(item.iconId), context),
+                      buy: () => ActionUtils(
+                        context: context,
+                        action: () => IconsService.buyIcon(item.iconId),
+                        callback: () {
+                          context.read<IconsStoreProvider>().loadStore();
+                        }).confirmAction(),
+                      sell: () => ActionUtils(
+                          context: context,
+                          action: () => IconsService.sellIcon(item.iconId),
+                          callback: () {
+                            provider.loadStore();
+                          }).confirmAction(),
+                      select: () => ActionUtils(
+                          context: context,
+                          action: () => IconsService.selectIcon(item.iconId),
+                          callback: () {
+                            context.read<IconsStoreProvider>().loadStore();
+                          }).confirmAction(),
                     );
                   },
                 ),

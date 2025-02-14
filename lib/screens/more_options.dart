@@ -21,9 +21,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
       builder: (context) => alertDialog(
         context: context,
         text: 'Are you sure that you want to logout',
-        negativeBtnText: 'Cancel',
         positiveBtnText: 'Logout',
-        negativeBtnAction: () => Navigator.pop(context),
         positiveBtnAction: () {
           AuthService.logout();
           Navigator.pop(context);

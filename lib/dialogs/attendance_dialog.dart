@@ -100,8 +100,6 @@ Future<void> pickDate({
         text: 'Are you sure that you want to request $selectedEvent on ${picked.day}/${picked.month}/${picked.year}?',
         positiveBtnText: 'Confirm',
         positiveBtnAction: () {},
-        negativeBtnText: 'Cancel',
-        negativeBtnAction: () => Navigator.pop(context),
       );
     }
   }
