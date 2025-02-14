@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
+import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/models/Position.dart';
+import 'package:piehme_cup_flutter/services/positions_service.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/position_store_listitem.dart';
 
@@ -12,7 +16,7 @@ class PositionsStorePage extends StatefulWidget {
 
 class _PositionsStorePageState extends State<PositionsStorePage> {
 
-  late List<Position> _items;
+  late List<Position> _items = <Position> [];
 
   @override
   void initState() {
@@ -20,18 +24,47 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
     _loadPositionStore();
   }
 
-  void _loadPositionStore() {
-    _items = <Position>[
-      Position(name: "GK", price: 0, purchased: true),
-      Position(name: "LB", price: 80, purchased: false),
-      Position(name: "RB", price: 80, purchased: true),
-      Position(name: "CB", price: 75, purchased: false),
-      Position(name: "CM", price: 90, purchased: true),
-      Position(name: "CAM", price: 95, purchased: false),
-      Position(name: "LW", price: 100, purchased: true),
-      Position(name: "RW", price: 100, purchased: false),
-      Position(name: "ST", price: 110, purchased: true),
-    ];
+  Future<void> _loadPositionStore() async {
+    EasyLoading.show(status: 'Loading...');
+    try {
+      List<Position> icons = await PositionsService.getStorePositions();
+      setState(() {
+        _items = icons;
+      });
+    } catch (e) {
+      toastError(e.toString().replaceAll('Exception: ', ''));
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    } finally {
+      EasyLoading.dismiss(animation: true);
+    }
+  }
+
+  void _confirmAction(Future<void> action, String operation) {
+    showAlertDialog(
+        context: context,
+        text: 'Are you sure that you want to $operation this position?',
+        positiveBtnText: 'Confirm',
+        positiveBtnAction: () {
+          _performAction(action);
+          Navigator.pop(context);
+        },
+        negativeBtnText: 'Cancel',
+        negativeBtnAction: () {Navigator.pop(context);}
+    );
+  }
+
+  void _performAction(Future<void> action) async {
+    EasyLoading.show(status: 'Loading...');
+    try {
+      await action;
+    } catch(e) {
+      toastError(e.toString());
+    } finally {
+      EasyLoading.dismiss(animation: true);
+      _loadPositionStore();
+    }
   }
 
   @override
@@ -60,7 +93,12 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
                   itemCount: _items.length,
                   itemBuilder: (context, index) {
                     final item = _items[index];
-                    return PositionListItem(item: item);
+                    return PositionListItem(
+                      item: item,
+                      buy: () => _confirmAction(PositionsService.buyPosition(item.id), 'purchase'),
+                      sell: () => _confirmAction(PositionsService.sellPosition(item.id), 'sell'),
+                      select: () => _confirmAction(PositionsService.selectPosition(item.id), 'select'),
+                    );
                   },
                 ),
               ),

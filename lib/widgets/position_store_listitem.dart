@@ -4,10 +4,16 @@ import 'package:piehme_cup_flutter/models/Position.dart';
 class PositionListItem extends StatelessWidget {
 
   final Position item;
+  final VoidCallback buy;
+  final VoidCallback sell;
+  final VoidCallback select;
 
   const PositionListItem({
     super.key,
-    required this.item
+    required this.item,
+    required this.buy,
+    required this.sell,
+    required this.select
   });
 
   @override
@@ -37,21 +43,38 @@ class PositionListItem extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5,),
-        SizedBox(
-          width: 115,
-          height: 37,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white70,
-            ),
-            child: Text(
-              item.purchased?'Select':'Purchase',
-              style: TextStyle(
-                color: Colors.black,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (item.owned) SizedBox(width: 30,),
+            SizedBox(
+              height: 37,
+              child: ElevatedButton(
+                onPressed: item.owned ? !item.selected ? select : () {} : buy,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white70,
+                ),
+                child: Text(
+                  item.owned ? item.selected ? 'Selected' : 'Select' : 'Purchase',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
-          ),
+            if (item.owned)
+              SizedBox(
+                width: 30,
+                child: IconButton(
+                  onPressed: sell,
+                  icon: Icon(
+                    Icons.delete_outline_rounded,
+                    color: Colors.red,
+                    size: 30,
+                  ),
+                ),
+              ),
+          ],
         ),
       ],
     );
