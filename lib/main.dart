@@ -10,6 +10,8 @@ import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/routes/route_generator.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   runApp(
     MultiProvider(
@@ -43,6 +45,7 @@ class PiehmeCup extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
       initialRoute: AppRoutes.splash,
       onGenerateRoute: RouteGenerator.generateRoute,
       builder: EasyLoading.init(),
