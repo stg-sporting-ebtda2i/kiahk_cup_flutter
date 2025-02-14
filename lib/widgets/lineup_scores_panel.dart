@@ -13,22 +13,22 @@ class _ScoresPanelState extends State<ScoresPanel> {
   int average = 0;
   int rating = 0;
   int highest = 0;
-  Timer? _timer;
+  // Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     _updateScores();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _updateScores();
-    });
+    // _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    //   _updateScores();
+    // });
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _timer?.cancel();
+  //   super.dispose();
+  // }
 
   void _updateScores() {
     setState(() {

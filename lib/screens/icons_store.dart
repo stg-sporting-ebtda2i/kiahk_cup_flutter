@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
-import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
+import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
 import 'package:piehme_cup_flutter/services/icons_service.dart';
+import 'package:piehme_cup_flutter/utils/action_utils.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/store_listitem.dart';
-import 'package:piehme_cup_flutter/models/card_icon.dart';
+import 'package:provider/provider.dart';
 
 class IconsStorePage extends StatefulWidget {
   const IconsStorePage({super.key});
@@ -16,59 +15,17 @@ class IconsStorePage extends StatefulWidget {
 
 class _IconsStorePageState extends State<IconsStorePage> {
 
-  late List<CardIcon> _items = <CardIcon> [];
-
   @override
   void initState() {
     super.initState();
-    _loadStore();
-  }
-
-  void _loadStore() async {
-    EasyLoading.show(status: 'Loading...');
-    try {
-      List<CardIcon> icons = await IconsService.getStoreIcons();
-      setState(() {
-        _items = icons;
-      });
-    } catch (e) {
-      toastError(e.toString().replaceAll('Exception: ', ''));
-      if (mounted) {
-        Navigator.pop(context);
-      }
-    } finally {
-      EasyLoading.dismiss(animation: true);
-    }
-  }
-
-  void _confirmAction(Future<void> action, String operation) {
-    showAlertDialog(
-        context: context,
-        text: 'Are you sure that you want to $operation this icon?',
-        positiveBtnText: 'Confirm',
-        positiveBtnAction: () {
-          _performAction(action);
-          Navigator.pop(context);
-        },
-        negativeBtnText: 'Cancel',
-        negativeBtnAction: () {Navigator.pop(context);}
-    );
-  }
-
-  void _performAction(Future<void> action) async {
-    EasyLoading.show(status: 'Loading...');
-    try {
-      await action;
-    } catch(e) {
-      toastError(e.toString());
-    } finally {
-      EasyLoading.dismiss(animation: true);
-      _loadStore();
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<IconsStoreProvider>().refreshStore();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<IconsStoreProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -90,17 +47,17 @@ class _IconsStorePageState extends State<IconsStorePage> {
                     childAspectRatio: 0.54,
                   ),
                   padding: const EdgeInsets.all(15),
-                  itemCount: _items.length,
+                  itemCount: provider.items.length,
                   itemBuilder: (context, index) {
-                    final item = _items[index];
+                    final item = provider.items[index];
                     return StoreListItem(
                       imgLink: item.imgLink,
                       price: item.price,
                       owned: item.owned,
                       selected: item.selected,
-                      buy: () => _confirmAction(IconsService.buyIcon(item.iconId), 'purchase'),
-                      sell: () => _confirmAction(IconsService.sellIcon(item.iconId), 'sell'),
-                      select: () => _confirmAction(IconsService.selectIcon(item.iconId), 'select'),
+                      buy: () => ActionUtils.confirmAction(IconsService.buyIcon(item.iconId), context),
+                      sell: () => ActionUtils.confirmAction(IconsService.sellIcon(item.iconId), context),
+                      select: () => ActionUtils.confirmAction(IconsService.selectIcon(item.iconId), context),
                     );
                   },
                 ),

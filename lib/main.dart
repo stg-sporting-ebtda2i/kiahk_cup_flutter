@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
+import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/routes/route_generator.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ void main() {
     MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => HeaderProvider()),
+          ChangeNotifierProvider(create: (_) => IconsStoreProvider()),
         ],
       child: const PiehmeCup(),
     ),

@@ -1,34 +1,37 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
+import 'package:piehme_cup_flutter/services/coins_service.dart';
 
 class HeaderProvider with ChangeNotifier {
   String? _name;
-  int _coins = 0;
+  String? _coins;
   Timer? _timer;
 
   String? get name => _name;
-  int get coins => _coins;
+  String? get coins => _coins;
 
   HeaderProvider() {
     _initialize();
   }
 
   void refreshCoins() async {
-    _coins++;
+    _coins = await CoinsService.getCoins();
     notifyListeners();
   }
 
   Future<void> _initialize() async {
     _name = await AuthService.getName();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _coins = await CoinsService.getCoins();
+    notifyListeners();
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       refreshCoins();
     });
   }
 
   @override
   void dispose() {
-    _timer?.cancel(); // Cancel the timer
+    _timer?.cancel();
     super.dispose();
   }
 }

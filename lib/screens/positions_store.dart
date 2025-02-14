@@ -3,9 +3,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/models/Position.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/services/positions_service.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/position_store_listitem.dart';
+import 'package:provider/provider.dart';
 
 class PositionsStorePage extends StatefulWidget {
   const PositionsStorePage({super.key});
@@ -59,6 +61,9 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
     EasyLoading.show(status: 'Loading...');
     try {
       await action;
+      if (mounted) {
+        Provider.of<HeaderProvider>(context).refreshCoins();
+      }
     } catch(e) {
       toastError(e.toString());
     } finally {

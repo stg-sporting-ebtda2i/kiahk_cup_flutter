@@ -3,10 +3,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/store_listitem.dart';
+import 'package:provider/provider.dart';
 
 class PlayersStorePage extends StatefulWidget {
   const PlayersStorePage({super.key, required this.position});
@@ -62,6 +64,9 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
     EasyLoading.show(status: 'Loading...');
     try {
       await action;
+      if (mounted) {
+        Provider.of<HeaderProvider>(context).refreshCoins();
+      }
     } catch(e) {
       toastError(e.toString());
     } finally {

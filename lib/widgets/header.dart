@@ -59,7 +59,7 @@ class _HeaderState extends State<Header> {
                   SizedBox(width: 7),
                   Expanded(
                     child: Text(
-                      headerProvider.coins.toString(),
+                      headerProvider.coins ?? '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,
