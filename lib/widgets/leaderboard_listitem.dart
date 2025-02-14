@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/models/leaderboard_user.dart';
+import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/widgets/user_card.dart';
 
 class LeaderboardListItem extends StatelessWidget {
 
-  final LeaderboardUser user;
+  final User user;
+  final int index;
 
   const LeaderboardListItem({
-    required super.key,
+    super.key,
     required this.user,
+    required this.index,
   });
 
   @override
@@ -17,7 +20,7 @@ class LeaderboardListItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          user.rank.toString().padLeft(2, '0'),
+          index.toString().padLeft(2, '0'),
           style: TextStyle(
             fontSize: 23,
             color: Colors.white,
@@ -27,10 +30,17 @@ class LeaderboardListItem extends StatelessWidget {
         SizedBox(
           width: 120,
           height: 175,
-          child: user.card,
+          child: UserCard(
+              width: 120,
+              name: user.name,
+              position: user.position,
+              rating: user.cardRating,
+              iconURL: user.iconImgLink,
+            imageURL: user.userImgLink,
+          ),
         ),
         Text(
-          '${user.rating}',
+          '${user.lineupRating}',
           style: TextStyle(
             fontSize: 23,
             color: Colors.white,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
+import 'package:piehme_cup_flutter/providers/leaderboard_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
@@ -22,6 +23,7 @@ void main() {
           ChangeNotifierProvider(create: (_) => PositionsStoreProvider()),
           ChangeNotifierProvider(create: (_) => LineupProvider()),
           ChangeNotifierProvider(create: (_) => RatingStoreProvider()),
+          ChangeNotifierProvider(create: (_) => LeaderboardProvider()),
         ],
       child: const PiehmeCup(),
     ),
