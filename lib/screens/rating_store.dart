@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/rating_store_provider.dart';
+import 'package:piehme_cup_flutter/services/card_rating_service.dart';
+import 'package:piehme_cup_flutter/utils/action_utils.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
+import 'package:provider/provider.dart';
 
 class RatingStorePage extends StatefulWidget {
   const RatingStorePage({super.key});
-
-  // final int ratingPrice = 70;
-  // final int reqAmount = 0;
-  // final int rating = 50;
 
   @override
   State<RatingStorePage> createState() => _RatingStorePageState();
@@ -14,42 +14,35 @@ class RatingStorePage extends StatefulWidget {
 
 class _RatingStorePageState extends State<RatingStorePage> {
 
-  late int _ratingPrice;
-  late int _reqAmount;
-  late int _rating;
+  int delta = 0;
+  late RatingStoreProvider provider;
 
   @override
   void initState() {
     super.initState();
-    getRatingData();
-  }
-
-  void getRatingData() {
-    _ratingPrice = 70;
-    _reqAmount = 0;
-    _rating = 50;
+    provider = context.read<RatingStoreProvider>();
+    provider.loadData();
   }
 
   void _incRating() {
-    if (_rating<99) {
+    if ((provider.currentRating+delta)<99) {
       setState(() {
-        _rating++;
-        _reqAmount+=_ratingPrice;
+        delta++;
       });
     }
   }
 
   void _decRating() {
-    if (_rating>50) {
+    if (delta>0) {
       setState(() {
-        _rating--;
-        _reqAmount-=_ratingPrice;
+        delta--;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<RatingStoreProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -69,7 +62,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '$_rating',
+                        '${provider.currentRating+delta}',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 65,
@@ -77,7 +70,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
                         ),
                       ),
                       Text(
-                        '$_reqAmount €',
+                        '${provider.ratingPrice*delta} €',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 22,
@@ -110,7 +103,14 @@ class _RatingStorePageState extends State<RatingStorePage> {
                         width: 205,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => ActionUtils(
+                              context: context,
+                              action: () => CardRatingService.upgradeRating(delta),
+                              callback: () {
+                                delta = 0;
+                                provider.loadData();
+                              }
+                          ).confirmAction(),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.greenAccent,
                             shape: RoundedRectangleBorder(

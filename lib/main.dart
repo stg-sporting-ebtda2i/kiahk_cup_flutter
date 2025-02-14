@@ -5,6 +5,7 @@ import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
+import 'package:piehme_cup_flutter/providers/rating_store_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/routes/route_generator.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ void main() {
           ChangeNotifierProvider(create: (_) => PlayersStoreProvider()),
           ChangeNotifierProvider(create: (_) => PositionsStoreProvider()),
           ChangeNotifierProvider(create: (_) => LineupProvider()),
+          ChangeNotifierProvider(create: (_) => RatingStoreProvider()),
         ],
       child: const PiehmeCup(),
     ),
