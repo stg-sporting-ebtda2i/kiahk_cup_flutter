@@ -97,9 +97,10 @@ class _IconsStorePageState extends State<IconsStorePage> {
                       imgLink: item.imgLink,
                       price: item.price,
                       owned: item.owned,
+                      selected: item.selected,
                       buy: () => _confirmAction(IconsService.buyIcon(item.iconId), 'purchase'),
                       sell: () => _confirmAction(IconsService.sellIcon(item.iconId), 'sell'),
-                      select: () {},
+                      select: () => _confirmAction(IconsService.selectIcon(item.iconId), 'select'),
                     );
                   },
                 ),

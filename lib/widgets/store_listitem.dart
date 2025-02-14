@@ -6,6 +6,7 @@ class StoreListItem extends StatelessWidget {
   final String imgLink;
   final int price;
   final bool owned;
+  final bool selected;
   final VoidCallback buy;
   final VoidCallback sell;
   final VoidCallback select;
@@ -15,6 +16,7 @@ class StoreListItem extends StatelessWidget {
     required this.imgLink,
     required this.price,
     required this.owned,
+    required this.selected,
     required this.buy,
     required this.sell,
     required this.select
@@ -54,12 +56,12 @@ class StoreListItem extends StatelessWidget {
             SizedBox(
               height: 37,
               child: ElevatedButton(
-                onPressed: owned ? select : buy,
+                onPressed: owned ? !selected ? select : () {} : buy,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white70,
                 ),
                 child: Text(
-                  owned ? 'Select' : 'Purchase',
+                  owned ? selected ? 'Selected' : 'Select' : 'Purchase',
                   style: TextStyle(
                     color: Colors.black,
                   ),

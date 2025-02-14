@@ -102,6 +102,7 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                       imgLink: item.imgLink,
                       price: item.price,
                       owned: false,
+                      selected: false,
                       buy: () => _confirmAction(PlayersService.buyPlayer(item.playerId), 'purchase'),
                       sell: () {},
                       select: () {},

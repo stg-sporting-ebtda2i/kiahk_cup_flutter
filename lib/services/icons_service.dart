@@ -49,14 +49,18 @@ class IconsService {
   }
 
   static Future<List<CardIcon>> getStoreIcons() async {
-    final results = await Future.wait([getAllIcons(), getOwnedIcons()]);
-    final allIcons = results[0];
-    final ownedIcons = results[1];
+    final results = await Future.wait([getAllIcons(), getOwnedIcons(), getSelectedIcon()]);
+    final List<CardIcon> allIcons = results[0] as List<CardIcon>;
+    final List<CardIcon> ownedIcons = results[1] as List<CardIcon>;
+    final CardIcon selectedIcon = results[2] as CardIcon;
 
-    final ownedIconIds = ownedIcons.map((icon) => icon.iconId).toSet();
+    final Set<int> ownedIconIds = ownedIcons.map((icon) => icon.iconId).toSet();
 
     final filteredIcons = <CardIcon>[];
     for (var icon in allIcons) {
+      if (icon.iconId == selectedIcon.iconId) {
+        icon.selected = true;
+      }
       if (ownedIconIds.contains(icon.iconId)) {
         icon.owned = true;
       }
@@ -87,7 +91,6 @@ class IconsService {
 
   static Future<void> sellIcon(int iconId) async {
     final url = Uri.parse('${ApiConstants.baseUrl}/ownedIcons/sell/$iconId');
-
     try {
       final response = await http.patch(
         url,
@@ -102,4 +105,42 @@ class IconsService {
       throw e.toString();
     }
   }
+
+  static Future<void> selectIcon(int iconId) async {
+    final url = Uri.parse('${ApiConstants.baseUrl}/selectIcon/$iconId');
+    try {
+      final response = await http.patch(
+        url,
+        headers: await ApiConstants.header(),
+      );
+      if (response.statusCode == 200) {
+        throw response.body;
+      } else {
+        throw response.body;
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  static Future<CardIcon> getSelectedIcon() async {
+    try {
+      final url = Uri.parse('${ApiConstants.baseUrl}/selectIcon');
+      final response = await http.get(
+        url,
+        headers: await ApiConstants.header(),
+      );
+
+      if (response.statusCode == 200) {
+
+        final Map<String, dynamic> jsonMap = json.decode(response.body);
+       return CardIcon.fromJson(jsonMap);
+      } else {
+        throw 'Failed to load data: Error ${response.statusCode}';
+      }
+    } catch (e) {
+      throw 'Error: Connection failed';
+    }
+  }
+
 }

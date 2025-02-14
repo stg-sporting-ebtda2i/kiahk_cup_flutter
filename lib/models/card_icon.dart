@@ -5,6 +5,7 @@ class CardIcon {
   final bool available;
   final String imgLink;
   bool owned;
+  bool selected;
 
   CardIcon({
     required this.iconId,
@@ -13,6 +14,7 @@ class CardIcon {
     required this.available,
     required this.imgLink,
     this.owned = false,
+    this.selected = false,
   });
 
   factory CardIcon.fromJson(Map<String, dynamic> json) {
