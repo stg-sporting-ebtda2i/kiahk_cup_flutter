@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
+import 'package:piehme_cup_flutter/main.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
+import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/services/auth_service.dart';
 
 class PlayersService {
 
@@ -41,11 +44,21 @@ class PlayersService {
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = json.decode(response.body);
         return jsonList.map((json) => Player.fromJson(json)).toList();
+      } else if (response.statusCode == 403) {
+        AuthService.logout();
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
+        throw 'User unauthorized';
       } else {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
-      throw 'Error: Connection failed';
+      if (e.toString().contains('403')) {
+        AuthService.logout();
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
+        throw 'User unauthorized';
+      }else {
+        throw 'Error: Connection failed';
+      }
     }
   }
 
