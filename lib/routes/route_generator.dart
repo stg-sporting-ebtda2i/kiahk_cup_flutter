@@ -6,6 +6,7 @@ import 'package:piehme_cup_flutter/screens/rating_store.dart';
 import 'package:piehme_cup_flutter/screens/icons_store.dart';
 import 'package:piehme_cup_flutter/screens/lineup.dart';
 import 'package:piehme_cup_flutter/screens/solve_quiz.dart';
+import 'package:piehme_cup_flutter/screens/splash_screen.dart';
 import 'app_routes.dart';
 import 'package:piehme_cup_flutter/screens/login.dart';
 import 'package:piehme_cup_flutter/screens/home.dart';
@@ -40,6 +41,8 @@ class RouteGenerator {
         );
       case AppRoutes.changePicture:
         return MaterialPageRoute(builder: (_) => ChangePicturePage());
+      case AppRoutes.splash:
+        return MaterialPageRoute(builder: (_) => SplashScreen());
       default:
       // Handle unknown routes
         return MaterialPageRoute(
