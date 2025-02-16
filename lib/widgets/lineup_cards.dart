@@ -6,8 +6,13 @@ import 'package:provider/provider.dart';
 class Lineup extends StatefulWidget {
 
   final bool userLineup;
+  final int userID;
 
-  const Lineup({super.key, required this.userLineup});
+  const Lineup({
+    super.key,
+    required this.userLineup,
+    required this.userID,
+  });
 
   @override
   State<Lineup> createState() => _LineupState();
@@ -20,7 +25,11 @@ class _LineupState extends State<Lineup> {
   @override
   void initState() {
     super.initState();
-    context.read<LineupProvider>().loadLineup();
+    if (widget.userLineup) {
+      context.read<LineupProvider>().loadLineup();
+    } else {
+      context.read<LineupProvider>().loadOtherLineup(widget.userID);
+    }
   }
 
   @override

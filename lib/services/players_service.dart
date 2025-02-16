@@ -62,6 +62,36 @@ class PlayersService {
     }
   }
 
+  static Future<List<Player>> getLineupById(int userId) async {
+    try {
+      final url = Uri.parse('${ApiConstants.baseUrl}/ownedPlayers/getLineup/$userId');
+
+      final response = await http.get(
+        url,
+        headers: await ApiConstants.header(),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+        return jsonList.map((json) => Player.fromJson(json)).toList();
+      } else if (response.statusCode == 403) {
+        AuthService.logout();
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
+        throw 'User unauthorized';
+      } else {
+        throw 'Failed to load data: Error ${response.statusCode}';
+      }
+    } catch (e) {
+      if (e.toString().contains('403')) {
+        AuthService.logout();
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
+        throw 'User unauthorized';
+      }else {
+        throw 'Error: Connection failed';
+      }
+    }
+  }
+
   static Future<void> buyPlayer(int playerId) async {
     final url = Uri.parse('${ApiConstants.baseUrl}/ownedPlayers/buy/$playerId');
 

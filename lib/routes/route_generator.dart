@@ -28,7 +28,7 @@ class RouteGenerator {
       case AppRoutes.lineup:
         final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
-          builder: (_) => LineupPage(userLineup: args?['userLineup']),
+          builder: (_) => LineupPage(userLineup: args?['userLineup'], userId: args?['userId'],),
         );
       case AppRoutes.positionsStore:
         return MaterialPageRoute(builder: (_) => PositionsStorePage());

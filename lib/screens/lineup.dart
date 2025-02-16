@@ -4,9 +4,11 @@ import '../widgets/lineup_cards.dart';
 
 class LineupPage extends StatefulWidget {
   final bool userLineup;
+  final int userId;
   const LineupPage({
     super.key,
     required this.userLineup,
+    required this.userId,
   });
 
   @override
@@ -31,7 +33,7 @@ class _LineupPageState extends State<LineupPage> {
             ),
             Expanded(
               child: Center(
-                child: Lineup(userLineup: widget.userLineup),
+                child: Lineup(userLineup: widget.userLineup, userID: widget.userId),
               ),
             ),
           ],

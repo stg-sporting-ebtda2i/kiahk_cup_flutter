@@ -19,7 +19,7 @@ class _HomePageState
   static final List<Widget> _widgetOptions = <Widget>[
     ShowQuizzesPage(),
     MyCardPage(),
-    LineupPage(userLineup: true),
+    LineupPage(userLineup: true, userId: -1),
     Leaderboard(),
     MoreOptionsPage()
   ];

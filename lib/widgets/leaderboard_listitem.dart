@@ -50,7 +50,7 @@ class LeaderboardListItem extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.lineup, arguments: {'userLineup': false,});
+            Navigator.pushNamed(context, AppRoutes.lineup, arguments: {'userId': user.id, 'userLineup': false});
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white70,

@@ -27,4 +27,17 @@ class LineupProvider with ChangeNotifier {
     }
   }
 
+  void loadOtherLineup(int userId) async {
+    EasyLoading.show(status: 'Loading...');
+    try {
+      _lineup = await PlayersService.getLineup();
+      _userPosition = await PositionsService.getSelectedPosition();
+    } catch (e) {
+      toastError(e.toString());
+    } finally {
+      EasyLoading.dismiss(animation: true);
+      notifyListeners();
+    }
+  }
+
 }
