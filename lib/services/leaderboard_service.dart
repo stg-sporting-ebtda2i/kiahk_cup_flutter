@@ -25,6 +25,7 @@ class LeaderboardService {
       if (e.toString().toLowerCase().contains('error 400')) {
         throw 'No players found in this position';
       } else {
+        throw e.toString();
         throw 'Error: Connection failed';
       }
     }

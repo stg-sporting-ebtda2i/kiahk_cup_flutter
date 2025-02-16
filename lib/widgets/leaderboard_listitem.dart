@@ -31,16 +31,17 @@ class LeaderboardListItem extends StatelessWidget {
           width: 120,
           height: 175,
           child: UserCard(
-              width: 120,
-              name: user.name,
-              position: user.position,
-              rating: user.cardRating,
-              iconURL: user.iconImgLink,
+            width: 120,
+            name: user.name,
+            position: user.position,
+            rating: user.cardRating,
+            iconURL: user.iconImgLink,
             imageURL: user.userImgLink,
+            empty: user.emptyPic,
           ),
         ),
         Text(
-          '${user.lineupRating}',
+          '${user.lineupRating.round()}',
           style: TextStyle(
             fontSize: 23,
             color: Colors.white,

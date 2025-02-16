@@ -65,6 +65,7 @@ class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
                             image: null,
                             imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
                             position: 'ST',
+                            empty: false,
                           ),
                         ),
                         Row(
