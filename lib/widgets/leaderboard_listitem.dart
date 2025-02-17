@@ -37,7 +37,6 @@ class LeaderboardListItem extends StatelessWidget {
             rating: user.cardRating,
             iconURL: user.iconImgLink,
             imageURL: user.userImgLink,
-            empty: user.emptyPic,
           ),
         ),
         Text(

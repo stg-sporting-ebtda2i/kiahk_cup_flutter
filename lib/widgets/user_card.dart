@@ -10,21 +10,19 @@ class UserCard extends StatelessWidget {
     super.key,
     required this.width,
     this.image,
-    this.imageURL,
+    required this.imageURL,
     required this.name,
     required this.position,
     required this.rating,
     required this.iconURL,
-    required this.empty
   });
 
   final File? image;
-  final String? imageURL;
+  final String imageURL;
   final String name;
   final String position;
   final int rating;
   final String iconURL;
-  final bool empty;
 
   // Card Size: H=800px, W=559px.
 
@@ -55,14 +53,14 @@ class UserCard extends StatelessWidget {
               child: Stack(
                 children: [
                   // Card Icon (Background Image)
-                  CachedNetworkImage(
+                   iconURL!='' ? CachedNetworkImage(
                     imageUrl: iconURL,
                     width: double.infinity,
                     height: double.infinity,
                     errorWidget: (context, url, error) => errorImage(),
                     placeholder: (context, url) => loadingImage(),
                     fit: BoxFit.fill,
-                  ),
+                  ) : SizedBox(),
                   // Centered Image
                   Positioned(
                     top: cardHeight * (20 / 100),
@@ -74,8 +72,8 @@ class UserCard extends StatelessWidget {
                       image!,
                       fit: BoxFit.cover,
                     ) :
-                    empty ? CachedNetworkImage(
-                      imageUrl: imageURL!,
+                    imageURL!='' ? CachedNetworkImage(
+                      imageUrl: imageURL,
                       fit: BoxFit.cover,
                       errorWidget: (context, url, error) => errorImage(),
                       placeholder: (context, url) => loadingImage(),

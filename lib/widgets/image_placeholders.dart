@@ -7,7 +7,7 @@ Widget errorImage() {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.error, color: Colors.red, size: 40), // Error icon
+        Icon(Icons.error, color: Colors.red, size: 35), // Error icon
         SizedBox(height: 8),
         Text(
           'Failed to load image',

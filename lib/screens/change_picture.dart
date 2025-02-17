@@ -73,7 +73,6 @@ class _ChangePicturePageState extends State<ChangePicturePage> {
                             imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
                             position: 'ST',
                             image: _selectedImage,
-                            empty: false,
                           ),
                         ),
                         Button(
