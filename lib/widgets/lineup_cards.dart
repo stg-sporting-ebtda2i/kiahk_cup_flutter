@@ -27,8 +27,10 @@ class _LineupState extends State<Lineup> {
     super.initState();
     if (widget.userLineup) {
       context.read<LineupProvider>().loadLineup();
+      context.read<LineupProvider>().loadUserCard();
     } else {
       context.read<LineupProvider>().loadOtherLineup(widget.userID);
+      context.read<LineupProvider>().loadOtherUserCard(widget.userID);
     }
   }
 
