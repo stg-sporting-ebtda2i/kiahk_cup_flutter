@@ -55,19 +55,19 @@ class _IconsStorePageState extends State<IconsStorePage> {
                       selected: item.selected,
                       buy: () => ActionUtils(
                         context: context,
-                        action: () => IconsService.buyIcon(item.iconId),
+                        action: () => IconsService.buyIcon(item.id),
                         callback: () {
                           context.read<IconsStoreProvider>().loadStore();
                         }).confirmAction(),
                       sell: () => ActionUtils(
                           context: context,
-                          action: () => IconsService.sellIcon(item.iconId),
+                          action: () => IconsService.sellIcon(item.id),
                           callback: () {
                             provider.loadStore();
                           }).confirmAction(),
                       select: () => ActionUtils(
                           context: context,
-                          action: () => IconsService.selectIcon(item.iconId),
+                          action: () => IconsService.selectIcon(item.id),
                           callback: () {
                             context.read<IconsStoreProvider>().loadStore();
                           }).confirmAction(),

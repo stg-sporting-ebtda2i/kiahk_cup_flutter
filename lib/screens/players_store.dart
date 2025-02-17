@@ -58,7 +58,7 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                       selected: false,
                       buy: () => ActionUtils(
                         context: context,
-                        action: () => PlayersService.buyPlayer(item.playerId),
+                        action: () => PlayersService.buyPlayer(item.id),
                         callback: () {
                           context.read<LineupProvider>().loadLineup();
                           Navigator.pop(context);

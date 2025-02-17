@@ -1,5 +1,5 @@
 class Player {
-  final int playerId;
+  final int id;
   final String name;
   final String position;
   final int rating;
@@ -8,7 +8,7 @@ class Player {
   final int price;
 
   Player({
-    required this.playerId,
+    required this.id,
     required this.name,
     required this.position,
     required this.rating,
@@ -19,8 +19,7 @@ class Player {
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
-      // playerId: json['playerId'],
-      playerId: 1,
+      id: json['id'],
       name: json['name'],
       position: json['position'],
       rating: json['rating'],

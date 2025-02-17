@@ -74,14 +74,14 @@ class IconsService {
     final List<CardIcon> ownedIcons = results[1] as List<CardIcon>;
     final CardIcon selectedIcon = results[2] as CardIcon;
 
-    final Set<int> ownedIconIds = ownedIcons.map((icon) => icon.iconId).toSet();
+    final Set<int> ownedIconIds = ownedIcons.map((icon) => icon.id).toSet();
 
     final filteredIcons = <CardIcon>[];
     for (var icon in allIcons) {
-      if (icon.iconId == selectedIcon.iconId) {
+      if (icon.id == selectedIcon.id) {
         icon.selected = true;
       }
-      if (ownedIconIds.contains(icon.iconId)) {
+      if (ownedIconIds.contains(icon.id)) {
         icon.owned = true;
       }
       if (icon.available || icon.owned) {

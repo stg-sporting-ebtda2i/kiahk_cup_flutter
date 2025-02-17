@@ -40,7 +40,7 @@ class CardsUtils {
           height: cardHeight,
           onClick: clickable ? () => ActionUtils(
               context: context,
-              action: () => PlayersService.sellPlayer(p.playerId),
+              action: () => PlayersService.sellPlayer(p.id),
               callback: () {
                 context.read<LineupProvider>().loadLineup();
               }).confirmAction() : () {},

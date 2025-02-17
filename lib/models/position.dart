@@ -15,8 +15,7 @@ class Position {
 
   factory Position.fromJson(Map<String, dynamic> json) {
     return Position(
-      id: 2,
-      // id: json['id'],
+      id: json['id'],
       name: json['name'],
       price: json['price'],
     );

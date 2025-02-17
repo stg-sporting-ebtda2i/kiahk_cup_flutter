@@ -1,5 +1,5 @@
 class CardIcon {
-  final int iconId;
+  final int id;
   final String name;
   final int price;
   final bool available;
@@ -8,7 +8,7 @@ class CardIcon {
   bool selected;
 
   CardIcon({
-    required this.iconId,
+    required this.id,
     required this.name,
     required this.price,
     required this.available,
@@ -19,8 +19,7 @@ class CardIcon {
 
   factory CardIcon.fromJson(Map<String, dynamic> json) {
     return CardIcon(
-      // iconId: json['iconId'],
-      iconId: 1,
+      id: json['id'],
       name: json['name'],
       price: json['price'],
       available: json['available'],
