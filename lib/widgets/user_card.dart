@@ -46,7 +46,7 @@ class UserCard extends StatelessWidget {
               child: Stack(
                 children: [
                   // Card Icon (Background Image)
-                    user.iconUrl != '' ? CachedNetworkImage(
+                  CachedNetworkImage(
                     imageUrl: user.iconUrl,
                     cacheKey: user.iconKey,
                     width: double.infinity,
@@ -54,7 +54,7 @@ class UserCard extends StatelessWidget {
                     errorWidget: (context, url, error) => errorImage(),
                     placeholder: (context, url) => loadingImage(),
                     fit: BoxFit.fill,
-                  ) : SizedBox(),
+                  ),
                   // Centered Image
                   Positioned(
                     top: cardHeight * (20 / 100),
@@ -66,7 +66,7 @@ class UserCard extends StatelessWidget {
                       image!,
                       fit: BoxFit.cover,
                     ) :
-                    user.imageUrl != null ? CachedNetworkImage(
+                    (user.imageUrl != null && user.imageKey != null) ? CachedNetworkImage(
                       imageUrl: user.imageUrl ?? "",
                       cacheKey: user.imageKey,
                       fit: BoxFit.cover,

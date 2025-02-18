@@ -4,9 +4,9 @@ import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/models/Position.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
-import 'package:piehme_cup_flutter/services/leaderboard_service.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
 import 'package:piehme_cup_flutter/services/positions_service.dart';
+import 'package:piehme_cup_flutter/services/users_service.dart';
 
 class LineupProvider with ChangeNotifier {
 
@@ -56,17 +56,7 @@ class LineupProvider with ChangeNotifier {
   void loadUserCard() async {
     EasyLoading.show(status: 'Loading...');
     try {
-      _user = User(
-          id: -1,
-          name: 'Loading',
-          cardRating: 0,
-          imageUrl: null,
-          imageKey: null,
-          lineupRating: 0,
-          iconUrl: '',
-          iconKey: '',
-          position: ''
-      );
+      _user = await UsersService.getUserIcon();
     } catch (e) {
       toastError(e.toString());
     } finally {
@@ -78,8 +68,7 @@ class LineupProvider with ChangeNotifier {
   void loadOtherUserCard(int userId) async {
     EasyLoading.show(status: 'Loading...');
     try {
-      List<User> leaderboard = await LeaderboardService.getLeaderboard();
-      _user = leaderboard.firstWhere((user) => user.id == userId);
+      _user = await UsersService.getOtherUserIcon(userId);
     } catch (e) {
       toastError(e.toString());
     } finally {
