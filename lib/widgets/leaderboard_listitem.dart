@@ -32,11 +32,7 @@ class LeaderboardListItem extends StatelessWidget {
           height: 175,
           child: UserCard(
             width: 120,
-            name: user.name,
-            position: user.position,
-            rating: user.cardRating,
-            iconURL: user.iconImgLink,
-            imageURL: user.userImgLink,
+            user: user,
           ),
         ),
         Text(

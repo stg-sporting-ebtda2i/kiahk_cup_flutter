@@ -16,9 +16,11 @@ class LineupProvider with ChangeNotifier {
     id: -1,
     name: 'Loading',
     cardRating: 0,
-    userImgLink: '',
+    imageUrl: null,
+    imageKey: null,
     lineupRating: 0,
-    iconImgLink: '',
+    iconUrl: '',
+    iconKey: '',
     position: ''
   );
 
@@ -58,9 +60,11 @@ class LineupProvider with ChangeNotifier {
           id: -1,
           name: 'Loading',
           cardRating: 0,
-          userImgLink: '',
+          imageUrl: null,
+          imageKey: null,
           lineupRating: 0,
-          iconImgLink: '',
+          iconUrl: '',
+          iconKey: '',
           position: ''
       );
     } catch (e) {

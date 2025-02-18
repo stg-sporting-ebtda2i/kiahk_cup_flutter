@@ -3,7 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
 
 class StoreListItem extends StatelessWidget {
-  final String imgLink;
+  final String imageUrl;
+  final String imageKey;
   final int price;
   final bool owned;
   final bool selected;
@@ -13,7 +14,8 @@ class StoreListItem extends StatelessWidget {
 
   const StoreListItem({
     super.key,
-    required this.imgLink,
+    required this.imageUrl,
+    required this.imageKey,
     required this.price,
     required this.owned,
     required this.selected,
@@ -32,7 +34,8 @@ class StoreListItem extends StatelessWidget {
           width: 160,
           height: 229,
           child: CachedNetworkImage(
-            imageUrl: imgLink,
+            imageUrl: imageUrl,
+            cacheKey: imageKey,
             width: 160,
             height: 229,
             fit: BoxFit.cover,

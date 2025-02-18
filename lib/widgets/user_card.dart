@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
 
 class UserCard extends StatelessWidget {
@@ -10,19 +11,11 @@ class UserCard extends StatelessWidget {
     super.key,
     required this.width,
     this.image,
-    required this.imageURL,
-    required this.name,
-    required this.position,
-    required this.rating,
-    required this.iconURL,
+    required this.user,
   });
 
   final File? image;
-  final String imageURL;
-  final String name;
-  final String position;
-  final int rating;
-  final String iconURL;
+  final User user;
 
   // Card Size: H=800px, W=559px.
 
@@ -34,7 +27,7 @@ class UserCard extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: FutureBuilder<Color?>(
-        future: getTextColor(url: iconURL),
+        future: getTextColor(url: user.iconUrl),
         builder: (context, snapshot) {
           Color color;
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -53,8 +46,9 @@ class UserCard extends StatelessWidget {
               child: Stack(
                 children: [
                   // Card Icon (Background Image)
-                   iconURL!='' ? CachedNetworkImage(
-                    imageUrl: iconURL,
+                    user.iconUrl != '' ? CachedNetworkImage(
+                    imageUrl: user.iconUrl,
+                    cacheKey: user.iconKey,
                     width: double.infinity,
                     height: double.infinity,
                     errorWidget: (context, url, error) => errorImage(),
@@ -72,8 +66,9 @@ class UserCard extends StatelessWidget {
                       image!,
                       fit: BoxFit.cover,
                     ) :
-                    imageURL!='' ? CachedNetworkImage(
-                      imageUrl: imageURL,
+                    user.imageUrl != null ? CachedNetworkImage(
+                      imageUrl: user.imageUrl ?? "",
+                      cacheKey: user.imageKey,
                       fit: BoxFit.cover,
                       errorWidget: (context, url, error) => errorImage(),
                       placeholder: (context, url) => loadingImage(),
@@ -86,7 +81,7 @@ class UserCard extends StatelessWidget {
                     right: 0,
                     child: Center(
                       child: Text(
-                        name,
+                        user.name,
                         style: TextStyle(
                           fontSize: cardWidth * (9 / 100),
                           fontWeight: FontWeight.bold,
@@ -100,7 +95,7 @@ class UserCard extends StatelessWidget {
                     top: cardHeight * (22 / 100),
                     left: cardWidth * (17 / 100),
                     child: Text(
-                      position,
+                      user.position,
                       style: TextStyle(
                         fontSize: cardWidth * (6 / 100),
                         fontWeight: FontWeight.w500,
@@ -113,7 +108,7 @@ class UserCard extends StatelessWidget {
                     top: cardHeight * (12 / 100),
                     left: cardWidth * (14 / 100),
                     child: Text(
-                      '$rating',
+                      '${user.cardRating}',
                       style: TextStyle(
                         fontSize: cardWidth * (11 / 100),
                         fontWeight: FontWeight.bold,

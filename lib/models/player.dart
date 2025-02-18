@@ -4,7 +4,8 @@ class Player {
   final String position;
   final int rating;
   final bool available;
-  final String imgLink;
+  final String imageUrl;
+  final String imageKey;
   final int price;
 
   Player({
@@ -13,7 +14,8 @@ class Player {
     required this.position,
     required this.rating,
     required this.available,
-    required this.imgLink,
+    required this.imageKey,
+    required this.imageUrl,
     required this.price,
   });
 
@@ -24,7 +26,8 @@ class Player {
       position: json['position'],
       rating: json['rating'],
       available: json['available'],
-      imgLink: json['imgLink'],
+      imageUrl: json['imageUrl'],
+      imageKey: json['imageKey'],
       price: json['price'],
     );
   }

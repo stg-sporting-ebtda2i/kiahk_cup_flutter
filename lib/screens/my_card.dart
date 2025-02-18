@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
+import 'package:provider/provider.dart';
 import '../widgets/user_card.dart';
 
 class MyCardPage extends StatefulWidget {
@@ -35,6 +39,7 @@ class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final cardHeight = MediaQuery.of(context).size.height/2;
+    LineupProvider provider = Provider.of<LineupProvider>(context);
 
     return Scaffold(
         body: Stack(
@@ -59,12 +64,7 @@ class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
                           height: cardHeight,
                           child: UserCard(
                             width: 559*cardHeight/800,
-                            name: 'Patrick Remon',
-                            rating: 99,
-                            iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2F1730923909819.png?alt=media&token=27e5f3e6-b52f-4f0b-9916-f522f5aa9901',
-                            image: null,
-                            imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
-                            position: 'ST',
+                            user: provider.user,
                           ),
                         ),
                         Row(

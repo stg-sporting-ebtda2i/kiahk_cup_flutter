@@ -24,12 +24,7 @@ class CardsUtils {
         height: cardHeight,
         child: UserCard(
           width: 559*cardHeight/800,
-          name: provider.user.name,
-          rating: provider.user.cardRating,
-          iconURL: provider.user.iconImgLink,
-          image: null,
-          imageURL: provider.user.userImgLink,
-          position: provider.user.position,
+          user: provider.user,
         ),
       );
     }

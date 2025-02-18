@@ -52,7 +52,8 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                   itemBuilder: (context, index) {
                     final item = provider.items[index];
                     return StoreListItem(
-                      imgLink: item.imgLink,
+                      imageUrl: item.imageUrl,
+                      imageKey: item.imageKey,
                       price: item.price,
                       owned: false,
                       selected: false,
