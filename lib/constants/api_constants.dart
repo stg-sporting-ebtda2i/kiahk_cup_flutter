@@ -3,7 +3,7 @@ import 'package:piehme_cup_flutter/services/auth_service.dart';
 
 class ApiConstants {
 
-  static const String baseUrl = 'http://192.168.1.5:9000';
+  static const String baseUrl = 'http://192.168.1.120:9000';
   static const String tokenKey = 'jwttoken';
   static const String nameKey = 'name';
 

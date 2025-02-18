@@ -3,7 +3,8 @@ class CardIcon {
   final String name;
   final int price;
   final bool available;
-  final String imgLink;
+  final String imageUrl;
+  final String imageKey;
   bool owned;
   bool selected;
 
@@ -12,7 +13,8 @@ class CardIcon {
     required this.name,
     required this.price,
     required this.available,
-    required this.imgLink,
+    required this.imageUrl,
+    required this.imageKey,
     this.owned = false,
     this.selected = false,
   });
@@ -23,7 +25,8 @@ class CardIcon {
       name: json['name'],
       price: json['price'],
       available: json['available'],
-      imgLink: json['imgLink'],
+      imageUrl: json['imageUrl'],
+      imageKey: json['imageKey'],
     );
   }
 }

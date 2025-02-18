@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'dart:io';
 
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/user_card.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
+import 'package:provider/provider.dart';
 
 class ChangePicturePage extends StatefulWidget {
   const ChangePicturePage({super.key});
@@ -44,6 +46,8 @@ class _ChangePicturePageState extends State<ChangePicturePage> {
 
   @override
   Widget build(BuildContext context) {
+    LineupProvider provider = Provider.of<LineupProvider>(context);
+
     return Scaffold(
         body: Stack(
           children: [
@@ -67,11 +71,7 @@ class _ChangePicturePageState extends State<ChangePicturePage> {
                           height: 472,
                           child: UserCard(
                             width: 330,
-                            name: 'Patrick Remon',
-                            rating: 99,
-                            iconURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/CardIcons%2Ficon0.png?alt=media&token=926b31d4-7b75-4f57-ba28-28a78066628d',
-                            imageURL: 'https://firebasestorage.googleapis.com/v0/b/quiz-fut-draft.appspot.com/o/Users%2Fauto.png?alt=media&token=575a019d-e553-4be5-af05-8c50af82fdf4',
-                            position: 'ST',
+                            user: provider.user,
                             image: _selectedImage,
                           ),
                         ),

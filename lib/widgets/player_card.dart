@@ -23,7 +23,8 @@ class PlayerCard extends StatelessWidget {
         width: 559*height/800,
         height: height,
         child: CachedNetworkImage(
-          imageUrl: player.imgLink,
+          imageUrl: player.imageUrl,
+          cacheKey: player.imageKey,
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.fill,
