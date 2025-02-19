@@ -28,11 +28,9 @@ class _LineupState extends State<Lineup> {
   void initState() {
     super.initState();
     if (widget.userLineup) {
-      context.read<LineupProvider>().loadLineup();
-      context.read<LineupProvider>().loadUserCard();
+      context.read<LineupProvider>().loadUserData();
     } else {
-      context.read<LineupProvider>().loadOtherLineup(widget.userID);
-      context.read<LineupProvider>().loadOtherUserCard(widget.userID);
+      context.read<LineupProvider>().loadOtherUserData(widget.userID);
     }
     if (context.read<ButtonsVisibilityProvider>().isVisible('Store')) {
       widget.storeOpened = true; // close store after loading data

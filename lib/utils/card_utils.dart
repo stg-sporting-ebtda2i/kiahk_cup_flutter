@@ -40,7 +40,7 @@ class CardsUtils {
                   context: context,
                   action: () => PlayersService.sellPlayer(player.id),
                   callback: () {
-                    context.read<LineupProvider>().loadLineup();
+                    context.read<LineupProvider>().loadUserData();
                   }).confirmAction() : () {},
         );
       } else {

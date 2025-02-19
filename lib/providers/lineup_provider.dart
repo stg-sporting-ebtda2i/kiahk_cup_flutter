@@ -3,12 +3,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
+import 'package:piehme_cup_flutter/services/leaderboard_service.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
 import 'package:piehme_cup_flutter/services/users_service.dart';
 
 class LineupProvider with ChangeNotifier {
 
   late List<Player> _lineup = <Player>[];
+  late int _avgRating = 0;
+  late int _lineupRating = 0;
+  late int _maxRating = 0;
   final Set<int> _usedPlayerIds = {};
   late bool userCardUsed = false;
   late User _user = User(
@@ -24,39 +28,25 @@ class LineupProvider with ChangeNotifier {
   );
 
   List<Player> get lineup => _lineup;
+  int get avgRating => _avgRating;
+  int get lineupRating => _lineupRating;
+  int get maxRating => _maxRating;
   User get user => _user;
 
-  void loadLineup() async {
+  void loadUserData() async {
     EasyLoading.show(status: 'Loading...');
     try {
+      _avgRating = 0;
+      _maxRating = 0;
+      _lineupRating = 0;
+      List<int> stats = await LeaderboardService.getStats();
       _lineup = await PlayersService.getLineup();
-      resetAddedCards();
-    } catch (e) {
-      toastError(e.toString());
-    } finally {
-      EasyLoading.dismiss(animation: true);
-      notifyListeners();
-    }
-  }
-
-  void loadOtherLineup(int userId) async {
-    EasyLoading.show(status: 'Loading...');
-    try {
-      _lineup = await PlayersService.getLineupById(userId);
-      resetAddedCards();
-    } catch (e) {
-      toastError(e.toString());
-    } finally {
-      EasyLoading.dismiss(animation: true);
-      notifyListeners();
-    }
-  }
-
-  void loadUserCard() async {
-    EasyLoading.show(status: 'Loading...');
-    try {
       _user = await UsersService.getUserIcon();
       resetAddedCards();
+      _avgRating = stats[0];
+      _maxRating = stats[1];
+      _lineupRating = _user.lineupRating.round();
+      notifyListeners();
     } catch (e) {
       toastError(e.toString());
     } finally {
@@ -65,11 +55,20 @@ class LineupProvider with ChangeNotifier {
     }
   }
 
-  void loadOtherUserCard(int userId) async {
+  void loadOtherUserData(int userId) async {
     EasyLoading.show(status: 'Loading...');
     try {
+      _avgRating = 0;
+      _maxRating = 0;
+      _lineupRating = 0;
+      List<int> stats = await LeaderboardService.getStats();
+      _lineup = await PlayersService.getLineupById(userId);
       _user = await UsersService.getOtherUserIcon(userId);
       resetAddedCards();
+      _avgRating = stats[0];
+      _maxRating = stats[1];
+      _lineupRating = _user.lineupRating.round();
+      notifyListeners();
     } catch (e) {
       toastError(e.toString());
     } finally {

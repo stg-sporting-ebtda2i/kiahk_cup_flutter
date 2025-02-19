@@ -1,6 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
+import 'package:provider/provider.dart';
 
 class ScoresPanel extends StatefulWidget {
   const ScoresPanel({super.key});
@@ -10,36 +10,9 @@ class ScoresPanel extends StatefulWidget {
 }
 
 class _ScoresPanelState extends State<ScoresPanel> {
-  int average = 0;
-  int rating = 0;
-  int highest = 0;
-  // Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _updateScores();
-    // _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    //   _updateScores();
-    // });
-  }
-
-  // @override
-  // void dispose() {
-  //   _timer?.cancel();
-  //   super.dispose();
-  // }
-
-  void _updateScores() {
-    setState(() {
-      average++;
-      rating++;
-      highest++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LineupProvider>(context);
     return Padding(
       padding: EdgeInsets.fromLTRB(40, 30, 40, 15),
       child: Row(
@@ -49,7 +22,7 @@ class _ScoresPanelState extends State<ScoresPanel> {
           Column(
             children: [
               Text(
-                '$average',
+                '${provider.avgRating}',
                 style: TextStyle(
                   fontSize: 37,
                   color: Colors.greenAccent,
@@ -73,7 +46,7 @@ class _ScoresPanelState extends State<ScoresPanel> {
             child: Column(
               children: [
                 Text(
-                  '$rating',
+                  '${provider.lineupRating}',
                   style: TextStyle(
                     fontSize: 42,
                     color: Colors.greenAccent,
@@ -98,7 +71,7 @@ class _ScoresPanelState extends State<ScoresPanel> {
           Column(
             children: [
               Text(
-                '$highest',
+                '${provider.maxRating}',
                 style: TextStyle(
                   fontSize: 37,
                   color: Colors.greenAccent,

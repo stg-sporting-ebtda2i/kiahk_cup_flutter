@@ -61,16 +61,14 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                         context: context,
                         action: () => PlayersService.buyPlayer(item.id),
                         callback: () {
-                          context.read<LineupProvider>().loadLineup();
-                          context.read<LineupProvider>().loadUserCard();
+                          context.read<LineupProvider>().loadUserData();
                           Navigator.pop(context);
                         }).confirmAction(),
                       sell: () => ActionUtils(
                           context: context,
                           action: () => PlayersService.sellPlayer(item.id),
                           callback: () {
-                            context.read<LineupProvider>().loadLineup();
-                            context.read<LineupProvider>().loadUserCard();
+                            context.read<LineupProvider>().loadUserData();
                             Navigator.pop(context);
                           }).confirmAction(),
                       select: () {Navigator.pop(context);},

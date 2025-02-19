@@ -25,7 +25,34 @@ class LeaderboardService {
       if (e.toString().toLowerCase().contains('error 400')) {
         throw 'No players found in this position';
       } else {
-        throw e.toString();
+        throw 'Error: Connection failed';
+      }
+    }
+  }
+
+  static Future<List<int>> getStats() async {
+    try {
+      final url = Uri.parse('${ApiConstants.baseUrl}/leaderboard');
+
+      final response = await http.get(
+        url,
+        headers: await ApiConstants.header(),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonList = json.decode(response.body);
+        List<int> stats = <int>[
+          jsonList['avgRating']?.round() ?? 0,
+          jsonList['maxRating']?.round() ?? 0,
+        ];
+        return stats;
+      } else {
+        throw 'Failed to load data: Error ${response.statusCode}';
+      }
+    } catch (e) {
+      if (e.toString().toLowerCase().contains('error 400')) {
+        throw 'No players found in this position';
+      } else {
         throw 'Error: Connection failed';
       }
     }
