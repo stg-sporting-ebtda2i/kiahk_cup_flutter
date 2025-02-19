@@ -1,4 +1,6 @@
 
+import 'package:piehme_cup_flutter/main.dart';
+import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 
 class ApiConstants {
@@ -12,6 +14,8 @@ class ApiConstants {
   static Future<Map<String, String>> header() async {
     final String? token = await AuthService.getToken();
     if (token == null) {
+      AuthService.logout();
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
       throw Exception('No authentication token found');
     } else {
       return {

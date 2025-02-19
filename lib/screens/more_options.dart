@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
+import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_icon_button.dart';
@@ -70,7 +71,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                         text: 'Request Coins',
                       ),
                       SizedBox(height: 20,),
-                      iconButton(
+                      if (context.read<ButtonsVisibilityProvider>().isVisible('Change Picture')) iconButton(
                         onClick: () {
                           Navigator.pushNamed(context, AppRoutes.changePicture);
                         },
