@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
+import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/services/change_picture_service.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_icon_button.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
@@ -40,6 +46,25 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
     );
   }
 
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      File selectedImage = File(image.path);
+      EasyLoading.show(status: 'Loading...');
+      try {
+        await ChangePictureService.changePicture(selectedImage);
+      } catch(e) {
+        toastError(e.toString());
+      } finally {
+        EasyLoading.dismiss(animation: true);
+      }
+    } else {
+      toastError('Error: empty image selected');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final attendanceProvider = Provider.of<AttendanceProvider>(context);
@@ -73,7 +98,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                       SizedBox(height: 20,),
                       if (context.read<ButtonsVisibilityProvider>().isVisible('Change Picture')) iconButton(
                         onClick: () {
-                          Navigator.pushNamed(context, AppRoutes.changePicture);
+                          _pickImage();
                         },
                         icon: Icons.person,
                         text: 'Change Picture',
