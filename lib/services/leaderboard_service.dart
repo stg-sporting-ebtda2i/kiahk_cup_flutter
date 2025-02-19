@@ -16,7 +16,7 @@ class LeaderboardService {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonList = json.decode(response.body);
+        final List<dynamic> jsonList = json.decode(response.body)['users'];
         return jsonList.map((json) => User.fromJson(json)).toList();
       } else {
         throw 'Failed to load data: Error ${response.statusCode}';

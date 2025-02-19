@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/utils/card_utils.dart';
 import 'package:provider/provider.dart';
@@ -7,8 +8,9 @@ class Lineup extends StatefulWidget {
 
   final bool userLineup;
   final int userID;
+  late bool storeOpened = false;
 
-  const Lineup({
+  Lineup({
     super.key,
     required this.userLineup,
     required this.userID,
@@ -32,6 +34,9 @@ class _LineupState extends State<Lineup> {
       context.read<LineupProvider>().loadOtherLineup(widget.userID);
       context.read<LineupProvider>().loadOtherUserCard(widget.userID);
     }
+    if (context.read<ButtonsVisibilityProvider>().isVisible('Store')) {
+      widget.storeOpened = true; // close store after loading data
+    }
   }
 
   @override
@@ -49,7 +54,7 @@ class _LineupState extends State<Lineup> {
               CardsUtils.getCard(
                 context: context,
                 cardHeight: _cardHeight,
-                clickable: widget.userLineup,
+                clickable: widget.userLineup && widget.storeOpened,
                 position: 'LW'
               ),
               Transform.translate(
@@ -57,14 +62,14 @@ class _LineupState extends State<Lineup> {
                 child: CardsUtils.getCard(
                     context: context,
                     cardHeight: _cardHeight,
-                    clickable: widget.userLineup,
+                    clickable: widget.userLineup && widget.storeOpened,
                     position: 'ST'
                 ),
               ),
               CardsUtils.getCard(
                   context: context,
                   cardHeight: _cardHeight,
-                  clickable: widget.userLineup,
+                  clickable: widget.userLineup && widget.storeOpened,
                   position: 'RW'
               ),
             ],
@@ -79,23 +84,23 @@ class _LineupState extends State<Lineup> {
               CardsUtils.getCard(
                   context: context,
                   cardHeight: _cardHeight,
-                  clickable: widget.userLineup,
-                  position: 'LCM'
+                  clickable: widget.userLineup && widget.storeOpened,
+                  position: 'CM'
               ),
               Transform.translate(
                 offset: Offset(0, -30),
                 child: CardsUtils.getCard(
                     context: context,
                     cardHeight: _cardHeight,
-                    clickable: widget.userLineup,
+                    clickable: widget.userLineup && widget.storeOpened,
                     position: 'CAM'
                 ),
               ),
               CardsUtils.getCard(
                   context: context,
                   cardHeight: _cardHeight,
-                  clickable: widget.userLineup,
-                  position: 'RCM'
+                  clickable: widget.userLineup && widget.storeOpened,
+                  position: 'CM'
               ),
             ],
           ),
@@ -107,25 +112,25 @@ class _LineupState extends State<Lineup> {
             CardsUtils.getCard(
                 context: context,
                 cardHeight: _cardHeight,
-                clickable: widget.userLineup,
+                clickable: widget.userLineup && widget.storeOpened,
                 position: 'LB'
             ),
             CardsUtils.getCard(
                 context: context,
                 cardHeight: _cardHeight,
-                clickable: widget.userLineup,
-                position: 'LCB'
+                clickable: widget.userLineup && widget.storeOpened,
+                position: 'CB'
             ),
             CardsUtils.getCard(
                 context: context,
                 cardHeight: _cardHeight,
-                clickable: widget.userLineup,
-                position: 'RCB'
+                clickable: widget.userLineup && widget.storeOpened,
+                position: 'CB'
                     ''),
             CardsUtils.getCard(
                 context: context,
                 cardHeight: _cardHeight,
-                clickable: widget.userLineup,
+                clickable: widget.userLineup && widget.storeOpened,
                 position: 'RB'
             ),
           ],
@@ -134,7 +139,7 @@ class _LineupState extends State<Lineup> {
         CardsUtils.getCard(
             context: context,
             cardHeight: _cardHeight,
-            clickable: widget.userLineup,
+            clickable: widget.userLineup && widget.storeOpened,
             position: 'GK'
         ),
       ],

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
+import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
+import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_icon_button.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:piehme_cup_flutter/dialogs/attendance_dialog.dart';
+import 'package:provider/provider.dart';
 
 class MoreOptionsPage extends StatefulWidget {
   const MoreOptionsPage({super.key});
@@ -14,6 +17,12 @@ class MoreOptionsPage extends StatefulWidget {
 }
 
 class _MoreOptionsPageState extends State<MoreOptionsPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AttendanceProvider>().loadLiturgies();
+  }
 
   void _logout() {
     showDialog(
@@ -33,6 +42,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final attendanceProvider = Provider.of<AttendanceProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -53,7 +63,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                       iconButton(
                         onClick: () {
                           showAttendanceDialog(
-                              list: <String>['Madares Ahad', 'Odas el Atfal', 'Odas', 'Tasbeha','Salat Baker', 'Salat el Nom', 'Engeel'],
+                              list: attendanceProvider.liturgyNames!,
                               context: context,
                           );
                         },
@@ -61,7 +71,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                         text: 'Request Coins',
                       ),
                       SizedBox(height: 20,),
-                      iconButton(
+                      if (context.read<ButtonsVisibilityProvider>().isVisible('Change Picture')) iconButton(
                         onClick: () {
                           Navigator.pushNamed(context, AppRoutes.changePicture);
                         },

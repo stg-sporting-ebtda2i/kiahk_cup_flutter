@@ -27,7 +27,7 @@ class UserCard extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: FutureBuilder<Color?>(
-        future: getTextColor(url: user.iconUrl),
+        future: getTextColor(url: user.iconUrl, key: user.iconKey),
         builder: (context, snapshot) {
           Color color;
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,7 +46,7 @@ class UserCard extends StatelessWidget {
               child: Stack(
                 children: [
                   // Card Icon (Background Image)
-                    user.iconUrl != '' ? CachedNetworkImage(
+                  CachedNetworkImage(
                     imageUrl: user.iconUrl,
                     cacheKey: user.iconKey,
                     width: double.infinity,
@@ -54,7 +54,7 @@ class UserCard extends StatelessWidget {
                     errorWidget: (context, url, error) => errorImage(),
                     placeholder: (context, url) => loadingImage(),
                     fit: BoxFit.fill,
-                  ) : SizedBox(),
+                  ),
                   // Centered Image
                   Positioned(
                     top: cardHeight * (20 / 100),
@@ -66,7 +66,7 @@ class UserCard extends StatelessWidget {
                       image!,
                       fit: BoxFit.cover,
                     ) :
-                    user.imageUrl != null ? CachedNetworkImage(
+                    (user.imageUrl != null && user.imageKey != null) ? CachedNetworkImage(
                       imageUrl: user.imageUrl ?? "",
                       cacheKey: user.imageKey,
                       fit: BoxFit.cover,
@@ -126,9 +126,9 @@ class UserCard extends StatelessWidget {
   }
 }
 
-Future<Color> getTextColor({required String url}) async {
+Future<Color> getTextColor({required String url, required String key}) async {
   final PaletteGenerator paletteGenerator =
-  await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url));
+  await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url, cacheKey: key));
   Color? dominantColor = paletteGenerator.dominantColor?.color;
   final double? luminance = dominantColor?.computeLuminance();
   return luminance! > 0.5 ? Colors.black : Colors.white;

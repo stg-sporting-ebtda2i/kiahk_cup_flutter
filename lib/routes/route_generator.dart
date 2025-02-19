@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/screens/maintenance_screen.dart';
 import 'package:piehme_cup_flutter/screens/players_store.dart';
 import 'package:piehme_cup_flutter/screens/change_picture.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
@@ -43,6 +44,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ChangePicturePage());
       case AppRoutes.splash:
         return MaterialPageRoute(builder: (_) => SplashScreen());
+      case AppRoutes.maintenance:
+        return MaterialPageRoute(builder: (_) => MaintenancePage());
       default:
       // Handle unknown routes
         return MaterialPageRoute(

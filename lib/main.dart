@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
+import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/leaderboard_provider.dart';
@@ -31,6 +33,8 @@ void main() {
           ChangeNotifierProvider(create: (_) => LineupProvider()),
           ChangeNotifierProvider(create: (_) => RatingStoreProvider()),
           ChangeNotifierProvider(create: (_) => LeaderboardProvider()),
+          ChangeNotifierProvider(create: (_) => AttendanceProvider()),
+          ChangeNotifierProvider(create: (_) => ButtonsVisibilityProvider()),
         ],
       child: const PiehmeCup(),
     ),

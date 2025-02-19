@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
+import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
+import 'package:piehme_cup_flutter/services/attendance_service.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_dialog_button.dart';
 
 void showAttendanceDialog({
@@ -97,9 +101,19 @@ Future<void> pickDate({
     if (context.mounted) {
       showAlertDialog(
         context: context,
-        text: 'Are you sure that you want to request $selectedEvent on ${picked.day}/${picked.month}/${picked.year}?',
+        text: 'Are you sure that you want to request $selectedEvent on ${DateFormat('yyyy-MM-dd').format(picked)}?',
         positiveBtnText: 'Confirm',
-        positiveBtnAction: () {},
+        positiveBtnAction: () async {
+          Navigator.pop(context);
+          EasyLoading.show(status: 'Loading...');
+          try {
+            await AttendanceService.requestAttendance(selectedEvent, DateFormat('yyyy-MM-dd').format(picked));
+          } catch(e) {
+            toastError(e.toString());
+          } finally {
+            EasyLoading.dismiss(animation: true);
+          }
+        },
       );
     }
   }
