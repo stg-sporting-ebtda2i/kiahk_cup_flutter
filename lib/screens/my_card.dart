@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
@@ -15,32 +13,18 @@ class MyCardPage extends StatefulWidget {
   State<MyCardPage> createState() => _MyCardPageState();
 }
 
-class _MyCardPageState extends State<MyCardPage> with WidgetsBindingObserver {
+class _MyCardPageState extends State<MyCardPage> {
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    _updateCard();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      _updateCard();
-    }
-  }
-
-  void _updateCard() {
-
+    context.read<LineupProvider>().loadUserData();
   }
 
   @override
   Widget build(BuildContext context) {
     final cardHeight = MediaQuery.of(context).size.height/2;
     LineupProvider provider = Provider.of<LineupProvider>(context);
-
     return Scaffold(
         body: Stack(
           children: [
