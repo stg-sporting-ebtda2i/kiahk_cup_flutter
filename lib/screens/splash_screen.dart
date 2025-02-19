@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       page = AppRoutes.login;
     }
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 1), () {
       if (mounted) {
         Navigator.pushReplacementNamed(context, page);
       }

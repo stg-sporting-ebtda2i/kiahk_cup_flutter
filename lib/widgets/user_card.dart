@@ -27,7 +27,7 @@ class UserCard extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: FutureBuilder<Color?>(
-        future: getTextColor(url: user.iconUrl),
+        future: getTextColor(url: user.iconUrl, key: user.iconKey),
         builder: (context, snapshot) {
           Color color;
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -126,9 +126,9 @@ class UserCard extends StatelessWidget {
   }
 }
 
-Future<Color> getTextColor({required String url}) async {
+Future<Color> getTextColor({required String url, required String key}) async {
   final PaletteGenerator paletteGenerator =
-  await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url));
+  await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url, cacheKey: key));
   Color? dominantColor = paletteGenerator.dominantColor?.color;
   final double? luminance = dominantColor?.computeLuminance();
   return luminance! > 0.5 ? Colors.black : Colors.white;

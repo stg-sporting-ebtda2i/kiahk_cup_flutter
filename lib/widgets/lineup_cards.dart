@@ -80,7 +80,7 @@ class _LineupState extends State<Lineup> {
                   context: context,
                   cardHeight: _cardHeight,
                   clickable: widget.userLineup,
-                  position: 'LCM'
+                  position: 'CM'
               ),
               Transform.translate(
                 offset: Offset(0, -30),
@@ -95,7 +95,7 @@ class _LineupState extends State<Lineup> {
                   context: context,
                   cardHeight: _cardHeight,
                   clickable: widget.userLineup,
-                  position: 'RCM'
+                  position: 'CM'
               ),
             ],
           ),
@@ -114,13 +114,13 @@ class _LineupState extends State<Lineup> {
                 context: context,
                 cardHeight: _cardHeight,
                 clickable: widget.userLineup,
-                position: 'LCB'
+                position: 'CB'
             ),
             CardsUtils.getCard(
                 context: context,
                 cardHeight: _cardHeight,
                 clickable: widget.userLineup,
-                position: 'RCB'
+                position: 'CB'
                     ''),
             CardsUtils.getCard(
                 context: context,
