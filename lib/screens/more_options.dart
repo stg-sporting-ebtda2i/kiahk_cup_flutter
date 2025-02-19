@@ -78,7 +78,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                         icon: Icons.person,
                         text: 'Change Picture',
                       ),
-                      SizedBox(height: 20,),
+                      if (context.read<ButtonsVisibilityProvider>().isVisible('Change Picture')) SizedBox(height: 20,),
                       iconButton(
                           onClick: _logout,
                           icon: Icons.logout_rounded,
