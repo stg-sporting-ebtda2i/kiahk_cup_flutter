@@ -19,7 +19,15 @@ class PlayersService {
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = json.decode(response.body);
-        return jsonList.map((json) => Player.fromJson(json)).toList();
+        List<Player> players = jsonList.map((json) => Player.fromJson(json)).toList();
+        List<Player> ownedPlayers = await getLineup();
+        Set<int> ownedPlayerIds = ownedPlayers.map((player) => player.id).toSet();
+        for (Player p in players) {
+          if (ownedPlayerIds.contains(p.id)) {
+            p.owned = true;
+          }
+        }
+        return players;
       } else {
         throw 'Failed to load data: Error ${response.statusCode}';
       }

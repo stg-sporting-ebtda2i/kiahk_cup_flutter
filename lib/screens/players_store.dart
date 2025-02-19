@@ -55,17 +55,25 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                       imageUrl: item.imageUrl,
                       imageKey: item.imageKey,
                       price: item.price,
-                      owned: false,
+                      owned: item.owned,
                       selected: false,
                       buy: () => ActionUtils(
                         context: context,
                         action: () => PlayersService.buyPlayer(item.id),
                         callback: () {
                           context.read<LineupProvider>().loadLineup();
+                          context.read<LineupProvider>().loadUserCard();
                           Navigator.pop(context);
                         }).confirmAction(),
-                      sell: () {},
-                      select: () {},
+                      sell: () => ActionUtils(
+                          context: context,
+                          action: () => PlayersService.sellPlayer(item.id),
+                          callback: () {
+                            context.read<LineupProvider>().loadLineup();
+                            context.read<LineupProvider>().loadUserCard();
+                            Navigator.pop(context);
+                          }).confirmAction(),
+                      select: () {Navigator.pop(context);},
                     );
                   },
                 ),

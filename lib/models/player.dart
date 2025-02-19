@@ -7,7 +7,7 @@ class Player {
   final String imageUrl;
   final String imageKey;
   final int price;
-  late bool used = false;
+  late bool owned = false;
 
   Player({
     required this.id,
