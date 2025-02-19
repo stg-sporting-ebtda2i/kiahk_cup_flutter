@@ -20,16 +20,16 @@ class CoinsService {
       } else if (response.statusCode == 403) {
         AuthService.logout();
         navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
-        throw ' ';
+        throw 'Unauthorized user';
       } else {
-        throw ' ';
+        throw response.body;
       }
     } catch (e) {
       if (e.toString().contains('403')) {
         navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
-        throw ' ';
+        throw 'Unauthorized user';
       } else {
-      throw ' ';
+      throw e.toString();
       }
     }
   }

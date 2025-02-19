@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
+import 'package:piehme_cup_flutter/main.dart';
 
 class ButtonsVisibilityService {
 
@@ -20,7 +21,8 @@ class ButtonsVisibilityService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
-      throw 'Error: Connection failed';
+      navigatorKey.currentState?.pop(navigatorKey.currentContext);
+      throw 'Connection Failed';
     }
   }
 

@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
 import 'package:piehme_cup_flutter/models/Position.dart';
 
+import '../main.dart';
+import '../routes/app_routes.dart';
+
 class PositionsService {
 
   static Future<List<Position>> getAllPositions() async {
@@ -21,6 +24,7 @@ class PositionsService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw e.toString();
     }
   }
@@ -44,6 +48,7 @@ class PositionsService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw e.toString();
     }
   }

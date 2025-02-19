@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
+import 'package:piehme_cup_flutter/main.dart';
 import 'package:piehme_cup_flutter/models/price.dart';
+import 'package:piehme_cup_flutter/routes/app_routes.dart';
 
 class AttendanceService {
 
@@ -20,7 +22,8 @@ class AttendanceService {
         throw 'Error: ${response.statusCode}';
       }
     } catch (e) {
-      throw e.toString();
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
+      throw 'Connection Failed';
     }
   }
 
@@ -41,7 +44,8 @@ class AttendanceService {
         throw response.body;
       }
     } catch (e) {
-      throw e.toString();
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
+      throw 'Connection Failed';
     }
   }
 

@@ -4,6 +4,9 @@ import 'package:piehme_cup_flutter/constants/api_constants.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
+import '../routes/app_routes.dart';
+
 class LeaderboardService {
 
   static Future<List<User>> getLeaderboard() async {
@@ -25,6 +28,7 @@ class LeaderboardService {
       if (e.toString().toLowerCase().contains('error 400')) {
         throw 'No players found in this position';
       } else {
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
         throw 'Error: Connection failed';
       }
     }
@@ -53,6 +57,7 @@ class LeaderboardService {
       if (e.toString().toLowerCase().contains('error 400')) {
         throw 'No players found in this position';
       } else {
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
         throw 'Error: Connection failed';
       }
     }

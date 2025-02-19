@@ -3,6 +3,9 @@ import 'package:piehme_cup_flutter/constants/api_constants.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
+import '../routes/app_routes.dart';
+
 class UsersService {
 
   static Future<User> getUserIcon() async {
@@ -21,6 +24,7 @@ class UsersService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw 'Error: Connection failed';
     }
   }
@@ -41,6 +45,7 @@ class UsersService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw 'Error: Connection failed';
     }
   }

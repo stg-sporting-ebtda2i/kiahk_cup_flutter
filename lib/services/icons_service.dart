@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
 import 'package:piehme_cup_flutter/models/card_icon.dart';
 
+import '../main.dart';
+import '../routes/app_routes.dart';
+
 class IconsService {
 
   static Future<List<CardIcon>> getAllIcons() async {
@@ -21,6 +24,7 @@ class IconsService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw 'Error: Connection failed';
     }
   }
@@ -44,6 +48,7 @@ class IconsService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw 'Error: Connection failed';
     }
   }
@@ -64,6 +69,7 @@ class IconsService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw 'Error: Connection failed';
     }
   }

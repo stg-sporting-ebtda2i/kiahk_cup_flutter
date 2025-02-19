@@ -35,8 +35,8 @@ class PlayersService {
       if (e.toString().toLowerCase().contains('error 400')) {
       throw 'No players found in this position';
       } else {
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
         throw e.toString();
-        throw 'Error: Connection failed';
       }
     }
   }
@@ -66,6 +66,7 @@ class PlayersService {
         navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
         throw 'User unauthorized';
       }else {
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
         throw 'Error: Connection failed';
       }
     }
@@ -96,6 +97,7 @@ class PlayersService {
         navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
         throw 'User unauthorized';
       }else {
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
         throw 'Error: Connection failed';
       }
     }

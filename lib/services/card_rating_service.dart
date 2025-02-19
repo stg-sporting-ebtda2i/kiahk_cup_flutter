@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:piehme_cup_flutter/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
+import '../routes/app_routes.dart';
+
 class CardRatingService {
 
   static Future<int> getCardRating() async {
@@ -19,6 +22,7 @@ class CardRatingService {
         throw response.body;
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw e.toString();
     }
   }
@@ -61,6 +65,7 @@ class CardRatingService {
         throw response.body;
       }
     } catch (e) {
+      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
       throw e.toString();
     }
   }
