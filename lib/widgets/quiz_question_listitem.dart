@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/models/question.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 TextDirection getTextDirection(String text) {
   final rtlRegex = RegExp(r'[\u0600-\u06FF\u0590-\u05FF]');
@@ -32,8 +36,8 @@ class _QuestionListItemState extends State<QuestionListItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.question.question,
-              textDirection: getTextDirection(widget.question.question),
+              widget.question.title,
+              textDirection: getTextDirection(widget.question.title),
               style: const TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.bold,
@@ -42,21 +46,20 @@ class _QuestionListItemState extends State<QuestionListItem> {
             ),
             const SizedBox(height: 10),
             ...widget.question.options.asMap().entries.map((entry) {
-              final optionIndex = entry.key;
-              final optionText = entry.value;
+              final option = entry.value;
               return Directionality(
-                textDirection: getTextDirection(optionText),
+                textDirection: getTextDirection(option.name),
                 child: RadioListTile<int>(
                   title: Text(
-                    optionText,
-                    textDirection: getTextDirection(optionText),
+                    option.name,
+                    textDirection: getTextDirection(option.name),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
                   ),
-                  value: optionIndex,
+                  value: option.order,
                   groupValue: widget.question.selected,
                   onChanged: (value) {
                     setState(() {

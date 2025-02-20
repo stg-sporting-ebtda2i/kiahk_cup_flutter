@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/models/quiz.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 
 class QuizListItem extends StatelessWidget {
-  final String title;
-  final String coins;
-  final bool isSolved;
+  final Quiz quiz;
 
   const QuizListItem({
     super.key,
-    required this.title,
-    required this.coins,
-    required this.isSolved,
+    required this.quiz,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: !isSolved ? () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: {'quizID': 0}) : null,
+      onTap: !quiz.isSolved ? () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: {'quizSlug': quiz.slug}) : null,
       child: Opacity(
         opacity: 0.75,
         child: Container(
@@ -27,7 +24,7 @@ class QuizListItem extends StatelessWidget {
           ),
           child: Stack(
             children: [
-            if (isSolved)
+            if (quiz.isSolved)
               Align(
                 alignment: Alignment.topRight,
                 child: Icon(
@@ -55,7 +52,7 @@ class QuizListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      title,
+                      quiz.name,
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.bold,
@@ -64,7 +61,7 @@ class QuizListItem extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       child: Text(
-                        '$coins Coins',
+                        '${quiz.coins} Coins',
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,

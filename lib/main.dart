@@ -8,6 +8,7 @@ import 'package:piehme_cup_flutter/providers/leaderboard_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
+import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/providers/rating_store_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/routes/route_generator.dart';
@@ -35,6 +36,7 @@ void main() {
           ChangeNotifierProvider(create: (_) => LeaderboardProvider()),
           ChangeNotifierProvider(create: (_) => AttendanceProvider()),
           ChangeNotifierProvider(create: (_) => ButtonsVisibilityProvider()),
+          ChangeNotifierProvider(create: (_) => QuizzesProvider()),
         ],
       child: const PiehmeCup(),
     ),
