@@ -88,6 +88,13 @@ class QuestionInputMethod extends StatelessWidget {
       );
     }
 
+    if (questionType == QuestionType.written) {
+      return WrittenInputMethod(
+        setAnswer: setAnswer,
+        answer: answer as String?,
+      );
+    }
+
     return Container();
   }
 }
@@ -125,9 +132,7 @@ class ChoiceInputMethod extends StatelessWidget {
               value: option.order,
               groupValue: answer as int?,
               onChanged: (value) {
-
                 setAnswer(value!);
-
               },
               activeColor: Colors.greenAccent,
               fillColor: WidgetStateProperty.resolveWith<Color>((states) {
@@ -165,7 +170,7 @@ class _ReorderInputMethodState extends State<ReorderInputMethod> {
 
   @override
   void initState() {
-    options = List.from(widget.options); // Create a copy of the options list
+    options = List.from(widget.options);
     super.initState();
   }
 
@@ -231,6 +236,63 @@ class _ReorderInputMethodState extends State<ReorderInputMethod> {
           );
         }),
       ],
+    );
+  }
+}
+
+
+class WrittenInputMethod extends StatefulWidget {
+  final Function(Object) setAnswer;
+  final String? answer;
+
+  const WrittenInputMethod({
+    super.key,
+    required this.setAnswer,
+    required this.answer,
+  });
+
+  @override
+  State<WrittenInputMethod> createState() => _WrittenInputMethodState();
+}
+
+class _WrittenInputMethodState extends State<WrittenInputMethod> {
+
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    controller.addListener(() {
+      widget.setAnswer(controller.text);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: 'Write your answer here',
+          hintStyle: TextStyle(
+            color: Colors.white,
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.greenAccent,
+            ),
+          ),
+        ),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+        ),
+      ),
     );
   }
 }
