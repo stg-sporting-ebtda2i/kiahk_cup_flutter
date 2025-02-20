@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.stgsporting.piehmecup" "\0"
+            VALUE "CompanyName", "com.stgsporting.cup" "\0"
             VALUE "FileDescription", "piehme_cup_flutter" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "piehme_cup_flutter" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.stgsporting.piehmecup. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 com.stgsporting.cup. All rights reserved." "\0"
             VALUE "OriginalFilename", "piehme_cup_flutter.exe" "\0"
             VALUE "ProductName", "piehme_cup_flutter" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

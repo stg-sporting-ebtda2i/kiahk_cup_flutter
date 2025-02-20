@@ -1,4 +1,4 @@
-package com.stgsporting.piehmecup.piehme_cup_flutter
+package com.stgsporting.cup
 
 import io.flutter.embedding.android.FlutterActivity
 
