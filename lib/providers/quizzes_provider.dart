@@ -43,4 +43,22 @@ class QuizzesProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> submitQuiz(String slug, Map<String, dynamic> answers) async {
+    EasyLoading.show(status: 'Submitting...');
+    try {
+      bool result = await QuizzesService.submitQuiz(slug, answers);
+
+      if(result) loadQuizzes();
+
+      return result;
+    } catch (e) {
+      toastError(e.toString().replaceAll('Exception: ', ''));
+    } finally {
+      EasyLoading.dismiss(animation: true);
+      notifyListeners();
+    }
+
+    return false;
+  }
+
 }

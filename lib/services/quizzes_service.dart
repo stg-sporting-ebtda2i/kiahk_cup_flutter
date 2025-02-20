@@ -60,4 +60,29 @@ class QuizzesService {
       }
     }
   }
+
+  static Future<bool> submitQuiz(String slug, Map<String, dynamic> answers) async {
+    try {
+      final url = Uri.parse('${ApiConstants.baseUrl}/quizzes/$slug');
+
+      final response = await http.post(
+        url,
+        headers: await ApiConstants.header(),
+        body: jsonEncode({"questions": answers})
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      if (e.toString().toLowerCase().contains('error 400')) {
+        throw 'Quiz not found';
+      } else {
+        navigatorKey.currentState?.pushReplacementNamed(AppRoutes.splash);
+        throw e.toString();
+      }
+    }
+
+    return false;
+  }
 }

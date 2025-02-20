@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:piehme_cup_flutter/models/quiz.dart';
 import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/widgets/quiz_question_listitem.dart';
@@ -30,8 +31,21 @@ class _QuizPageState extends State<QuizPage> {
     Provider.of<QuizzesProvider>(context, listen: false).loadQuiz(quizSlug);
   }
 
-  void _submitQuiz() {
-    log(answers.toString());
+  void _submitQuiz() async {
+    bool isSuccess = await Provider.of<QuizzesProvider>(context, listen: false).submitQuiz(widget.quizSlug, answers);
+
+    if(isSuccess) {
+      if(mounted) Navigator.of(context).pop();
+
+      Fluttertoast.showToast(
+        msg: "Quiz Submitted",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 15.0,
+      );
+    }
   }
 
   @override
