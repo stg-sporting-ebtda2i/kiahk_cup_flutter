@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/widgets/quizzes_listitem.dart';
+import 'package:provider/provider.dart';
 import '../widgets/header.dart';
 import '../models/quiz.dart';
 
@@ -11,28 +13,16 @@ class ShowQuizzesPage extends StatefulWidget {
 }
 
 class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
-  late List<Quiz> _quizzes;
-
   @override
   void initState() {
     super.initState();
-    _refreshQuizzes();
-  }
-
-  void _refreshQuizzes() {
-    _quizzes = <Quiz>[
-      Quiz(name: 'Quiz 1', coins: 100, isSolved: false),
-      Quiz(name: 'Quiz 2', coins: 200, isSolved: true),
-      Quiz(name: 'Quiz 3', coins: 150, isSolved: false),
-      Quiz(name: 'Quiz 4', coins: 100, isSolved: false),
-      Quiz(name: 'Quiz 5', coins: 200, isSolved: true),
-      Quiz(name: 'Quiz 6', coins: 150, isSolved: false),
-      Quiz(name: 'Quiz 7', coins: 100, isSolved: false)
-    ];
+    context.read<QuizzesProvider>().loadQuizzes();
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<QuizzesProvider>(context);
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -52,14 +42,10 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
                   mainAxisSpacing: 15,
                 ),
                 padding: const EdgeInsets.all(15),
-                itemCount: _quizzes.length,
+                itemCount: provider.quizzes.length,
                 itemBuilder: (context, index) {
-                  final quiz = _quizzes[index];
-                  return QuizListItem(
-                    title: quiz.name,
-                    coins: quiz.coins.toString(),
-                    isSolved: quiz.isSolved,
-                  );
+                  final quiz = provider.quizzes[index];
+                  return QuizListItem(quiz: quiz);
                 },
               ),
             ),

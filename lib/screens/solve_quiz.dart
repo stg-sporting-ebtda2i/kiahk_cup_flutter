@@ -1,13 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/widgets/header.dart';
-import 'package:piehme_cup_flutter/models/question.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:piehme_cup_flutter/models/quiz.dart';
+import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/widgets/quiz_question_listitem.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
+import 'package:provider/provider.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key, required this.quizID});
+  const QuizPage({super.key, required this.quizSlug});
 
-  final int quizID;
+  final String quizSlug;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -15,31 +19,41 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
-  late List<Question> _questions;
+  Map<String, dynamic> answers = {};
 
   @override
   void initState() {
     super.initState();
-    _loadQuiz(widget.quizID);
+    _loadQuiz(widget.quizSlug);
   }
 
-  void _loadQuiz(int quizID) {
-    _questions = <Question>[
-      Question(question: "الاحد الاخير من كيهك بنقرأ جزء منين في الانجيل", options: <String>["لوقا 1", "يوحنا 1", "تكوين 5"]),
-      Question(question: "3+3=", options: <String>["5", "6", "7", "8"]),
-      Question(question: "4+4=", options: <String>["6", "7", "8", "9"]),
-      Question(question: "5+5=", options: <String>["10", "11", "12", "13"]),
-      Question(question: "6+6=", options: <String>["10", "12", "14", "16"]),
-      Question(question: "7+7=", options: <String>["12", "14", "16", "18"]),
-    ];
+  void _loadQuiz(String quizSlug) {
+    Provider.of<QuizzesProvider>(context, listen: false).loadQuiz(quizSlug);
   }
 
-  void _submitQuiz() {
+  void _submitQuiz() async {
+    bool isSuccess = await Provider.of<QuizzesProvider>(context, listen: false).submitQuiz(widget.quizSlug, answers);
 
+    if(isSuccess) {
+      if(mounted) Navigator.of(context).pop();
+
+      Fluttertoast.showToast(
+        msg: "Quiz Submitted",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 15.0,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    QuizzesProvider provider = Provider.of<QuizzesProvider>(context);
+
+    Quiz quiz = provider.currentQuiz;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -51,37 +65,49 @@ class _QuizPageState extends State<QuizPage> {
           ),
           Column(
             children: [
-              const SafeArea(
-                child: Header(),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 3),
+                child: Text(
+                  quiz.name,
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemCount: _questions.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index < _questions.length) {
-                      return QuestionListItem(
-                        question: _questions[index],
-                        onOptionSelected: (selectedIndex) {
-                          setState(() {
-                            _questions[index].selected = selectedIndex;
-                          });
-                        },
-                      );
-                    } else {
-                      return Container(
-                        padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
-                        child: Button(
-                          width: 100,
-                          height: 50,
-                          text: 'Submit',
-                          fontSize: 18,
-                          onClick: _submitQuiz,
-                          isLoading: false,
-                        ),
-                      );
-                    }
-                  },
+              Visibility(
+                visible: quiz.name.isNotEmpty,
+                child: Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: quiz.questions.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index < quiz.questions.length) {
+                        return QuestionListItem(
+                          question: quiz.questions[index],
+                          answer: answers[quiz.questions[index].id.toString()],
+                          setAnswer: (answer) {
+                            setState(() {
+                              answers[quiz.questions[index].id.toString()] = answer;
+                            });
+                          },
+                        );
+                      } else {
+                        return Container(
+                          padding: const EdgeInsets.fromLTRB(10, 35, 10, 15),
+                          child: Button(
+                            width: 150,
+                            height: 50,
+                            text: 'Submit',
+                            fontSize: 18,
+                            onClick: _submitQuiz,
+                            isLoading: false,
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
             ],

@@ -37,7 +37,7 @@ class RouteGenerator {
       case AppRoutes.quiz:
         final args = settings.arguments as Map<String, dynamic>?;
         return MaterialPageRoute(
-          builder: (_) => QuizPage(quizID: args?['quizID']),
+          builder: (_) => QuizPage(quizSlug: args?['quizSlug']),
         );
       case AppRoutes.splash:
         return MaterialPageRoute(builder: (_) => SplashScreen());
