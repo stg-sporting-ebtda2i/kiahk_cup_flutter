@@ -4,7 +4,7 @@ import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 
 class Loading {
   static void show(Function load, {String message = 'Loading...'}) async {
-    Duration delay = const Duration(milliseconds: 500);
+    Duration delay = const Duration(milliseconds: 1000);
     bool done = false;
 
     Future.delayed(delay, () {
