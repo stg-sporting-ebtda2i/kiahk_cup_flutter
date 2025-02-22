@@ -12,7 +12,7 @@ class LeaderboardProvider with ChangeNotifier {
   List<User> get leaderboard => _leaderboard;
 
   void loadLineup() async {
-    Loading.show(() async {
+    await Loading.show(() async {
       _leaderboard = await LeaderboardService.getLeaderboard();
       notifyListeners();
     });

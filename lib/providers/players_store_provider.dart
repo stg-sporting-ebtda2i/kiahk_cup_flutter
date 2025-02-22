@@ -12,7 +12,7 @@ class PlayersStoreProvider with ChangeNotifier {
   List<Player> get items => _items;
 
   void loadStore(String position) async {
-    Loading.show(() async {
+    await Loading.show(() async {
       _items = await PlayersService.getPlayersByPosition(position);
       notifyListeners();
     });

@@ -16,7 +16,7 @@ class RatingStoreProvider with ChangeNotifier {
     _currentRating = 0;
     _ratingPrice = 99999;
 
-    Loading.show(() async {
+    await Loading.show(() async {
       _currentRating = await CardRatingService.getCardRating();
       _ratingPrice = await CardRatingService.getRatingPrice();
       notifyListeners();

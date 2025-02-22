@@ -35,7 +35,7 @@ class LineupProvider with ChangeNotifier {
   User get user => _user;
 
   void loadUserData() async {
-    Loading.show(() async {
+    await Loading.show(() async {
       _avgRating = 0;
       _maxRating = 0;
       _lineupRating = 0;
@@ -51,7 +51,7 @@ class LineupProvider with ChangeNotifier {
   }
 
   void loadOtherUserData(int userId) async {
-    Loading.show(() async {
+    await Loading.show(() async {
       _avgRating = 0;
       _maxRating = 0;
       _lineupRating = 0;

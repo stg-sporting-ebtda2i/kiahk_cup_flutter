@@ -15,7 +15,7 @@ class QuizzesProvider with ChangeNotifier {
   List<Quiz> get quizzes => _items;
 
   void loadQuizzes() async {
-    Loading.show(() async {
+    await Loading.show(() async {
       _items = await QuizzesService.getQuizzes();
       notifyListeners();
     });
@@ -29,7 +29,7 @@ class QuizzesProvider with ChangeNotifier {
   void loadQuiz(String slug) async {
     _currentQuiz = Quiz(id: 0, name: '', slug: '', coins: 0, questions: [], isSolved: false);
 
-    Loading.show(() async {
+    await Loading.show(() async {
       _currentQuiz = await QuizzesService.getQuiz(slug);
 
       notifyListeners();
@@ -37,7 +37,7 @@ class QuizzesProvider with ChangeNotifier {
   }
 
   Future<void> submitQuiz(String slug, Map<String, dynamic> answers) async {
-    Loading.show(() async {
+    await Loading.show(() async {
       bool result = await QuizzesService.submitQuiz(slug, answers);
 
       if (result) {
@@ -47,6 +47,6 @@ class QuizzesProvider with ChangeNotifier {
       }
 
       notifyListeners();
-    }, message: 'Submitting...');
+    }, message: 'Submitting...', delay: Duration(milliseconds: 1));
   }
 }

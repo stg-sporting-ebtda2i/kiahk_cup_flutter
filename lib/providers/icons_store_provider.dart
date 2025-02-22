@@ -12,7 +12,7 @@ class IconsStoreProvider with ChangeNotifier {
   List<CardIcon> get items => _items;
 
   void loadStore() async {
-    Loading.show(() async {
+    await Loading.show(() async {
       _items = await IconsService.getStoreIcons();
       notifyListeners();
     });

@@ -12,7 +12,7 @@ class AttendanceProvider with ChangeNotifier {
   List<String>? get liturgyNames => _liturgyNames;
 
   void loadLiturgies() async {
-    Loading.show(() async {
+    await Loading.show(() async {
       _liturgies = await AttendanceService.getPrices();
       _liturgyNames = _liturgies.map((price) => price.name).toList();
       notifyListeners();
