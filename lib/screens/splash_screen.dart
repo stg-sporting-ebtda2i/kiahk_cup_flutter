@@ -15,12 +15,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkIfLoggedIn() async {
     String page;
-    if (await AuthService.hasToken()) {
-      page = AppRoutes.home;
-    } else {
-      page = AppRoutes.login;
-    }
-    if (mounted) {
+    String? token = await AuthService.getToken();
+    bool isLoggedIn = token != null;
+    page = isLoggedIn ? AppRoutes.home : AppRoutes.login;
+
+    if (mounted && isLoggedIn) {
       ButtonsVisibilityProvider provider = context.read<ButtonsVisibilityProvider>();
       await provider.refreshData();
       if (provider.isVisible('Maintenance')) {

@@ -21,7 +21,6 @@ class ButtonsVisibilityService {
         throw 'Failed to load data: Error ${response.statusCode}';
       }
     } catch (e) {
-      navigatorKey.currentState?.pop(navigatorKey.currentContext);
       throw 'Connection Failed';
     }
   }

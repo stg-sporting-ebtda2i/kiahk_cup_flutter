@@ -38,9 +38,7 @@ class AttendanceService {
           'date': date,
         }),
       );
-      if (response.statusCode == 200) {
-        throw 'Attendance requested successfully';
-      } else {
+      if (response.statusCode != 200) {
         throw response.body;
       }
     } catch (e) {

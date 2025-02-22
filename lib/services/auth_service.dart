@@ -65,10 +65,33 @@ class AuthService {
     }
   }
 
+  static Future<bool> checkValidToken(String token) async {
+    final url = Uri.parse('${ApiConstants.baseUrl}/userCard');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
+
+    return response.statusCode == 200;
+  }
+
   static Future<String?> getToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(ApiConstants.tokenKey);
+      String? token = prefs.getString(ApiConstants.tokenKey);
+      if (token == null) {
+        return null;
+      }
+
+      if(! await checkValidToken(token)) {
+        return null;
+      }
+
+      return token;
     } catch (e) {
       throw Exception('Failed to retrieve token: $e');
     }
