@@ -6,11 +6,15 @@ class Loading {
   static Future<void> show(Function load, {String message = 'Loading...', Duration delay = const Duration(milliseconds: 1000)}) async {
     bool done = false;
 
-    Future.delayed(delay, () {
-      if (!EasyLoading.isShow && !done) {
-        EasyLoading.show(status: message);
-      }
-    });
+    if(delay.inMilliseconds == 0) {
+      EasyLoading.show(status: message);
+    } else {
+      Future.delayed(delay, () {
+        if (!EasyLoading.isShow && !done) {
+          EasyLoading.show(status: message);
+        }
+      });
+    }
 
     try {
       await load();

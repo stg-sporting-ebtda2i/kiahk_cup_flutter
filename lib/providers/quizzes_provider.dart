@@ -47,6 +47,6 @@ class QuizzesProvider with ChangeNotifier {
       }
 
       notifyListeners();
-    }, message: 'Submitting...', delay: Duration(milliseconds: 1));
+    }, message: 'Submitting...', delay: Duration(milliseconds: 0));
   }
 }
