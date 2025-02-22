@@ -25,16 +25,29 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     ButtonsVisibilityProvider provider = context.read<ButtonsVisibilityProvider>();
-    if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
-    if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
-    if (provider.isVisible('Lineup')) {
-      _widgetOptions.add(LineupPage(userLineup: true, userId: -1));
-      _selectedIndex = _widgetOptions.length-1;
-    } else {
-      _selectedIndex = 0;
+    provider.refreshData();
+
+    provider.addListener(() {
+      _updateWidgetOptions(provider);
+    });
+  }
+
+  void _updateWidgetOptions(ButtonsVisibilityProvider provider) {
+    if(mounted) {
+      setState(() {
+      _widgetOptions.clear();
+      if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
+      if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
+      if (provider.isVisible('Lineup')) {
+        _widgetOptions.add(LineupPage(userLineup: true, userId: -1));
+        _selectedIndex = _widgetOptions.length-1;
+      } else {
+        _selectedIndex = 0;
+      }
+      if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
+      _widgetOptions.add(MoreOptionsPage());
+    });
     }
-    if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
-    _widgetOptions.add(MoreOptionsPage());
   }
 
   void _onItemTapped(int index) {
@@ -49,7 +62,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.isNotEmpty ? _widgetOptions.elementAt(_selectedIndex) : CircularProgressIndicator(),
       ),
       bottomNavigationBar: _widgetOptions.length>=2 ? BottomNavigationBar(
         items: <BottomNavigationBarItem>[
@@ -80,7 +93,7 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.black,
-      ) : null,
+      ) : Container(),
     );
   }
 }

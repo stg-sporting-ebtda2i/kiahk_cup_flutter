@@ -5,11 +5,11 @@ import 'package:piehme_cup_flutter/services/coins_service.dart';
 
 class HeaderProvider with ChangeNotifier {
   String? _name;
-  String? _coins;
+  int _coins = 0;
   Timer? _timer;
 
   String? get name => _name;
-  String? get coins => _coins;
+  int get coins => _coins;
 
   HeaderProvider() {
     _initialize();

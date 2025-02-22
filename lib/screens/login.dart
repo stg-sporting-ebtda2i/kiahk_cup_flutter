@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> login(BuildContext context) async {
     if (_usernameController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
       if (!mounted) return;
-      toastError('Please enter both username and password');
+      toast('Please enter both username and password');
       return;
     }
 
@@ -40,11 +40,11 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacementNamed(context, AppRoutes.home);
       } else {
         if (!context.mounted) return;
-        toastError('Login failed: Incorrect username or password');
+        toast('Login failed: Incorrect username or password');
       }
     } catch (e) {
       if (!mounted) return;
-      toastError(e.toString().replaceAll('Exception: ', ''));
+      toast(e.toString().replaceAll('Exception: ', ''));
     } finally {
       if (mounted) {
         setState(() {
