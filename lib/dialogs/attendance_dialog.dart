@@ -109,7 +109,7 @@ Future<void> pickDate({
           try {
             await AttendanceService.requestAttendance(selectedEvent, DateFormat('yyyy-MM-dd').format(picked));
           } catch(e) {
-            toastError(e.toString());
+            toast(e.toString());
           } finally {
             EasyLoading.dismiss(animation: true);
           }

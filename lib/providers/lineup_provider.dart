@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
@@ -34,8 +35,7 @@ class LineupProvider with ChangeNotifier {
   User get user => _user;
 
   void loadUserData() async {
-    EasyLoading.show(status: 'Loading...');
-    try {
+    Loading.show(() async {
       _avgRating = 0;
       _maxRating = 0;
       _lineupRating = 0;
@@ -47,17 +47,11 @@ class LineupProvider with ChangeNotifier {
       _maxRating = stats[1];
       _lineupRating = _user.lineupRating.round();
       notifyListeners();
-    } catch (e) {
-      toastError(e.toString());
-    } finally {
-      EasyLoading.dismiss(animation: true);
-      notifyListeners();
-    }
+    });
   }
 
   void loadOtherUserData(int userId) async {
-    EasyLoading.show(status: 'Loading...');
-    try {
+    Loading.show(() async {
       _avgRating = 0;
       _maxRating = 0;
       _lineupRating = 0;
@@ -69,12 +63,7 @@ class LineupProvider with ChangeNotifier {
       _maxRating = stats[1];
       _lineupRating = _user.lineupRating.round();
       notifyListeners();
-    } catch (e) {
-      toastError(e.toString());
-    } finally {
-      EasyLoading.dismiss(animation: true);
-      notifyListeners();
-    }
+    });
   }
 
   void resetAddedCards() {

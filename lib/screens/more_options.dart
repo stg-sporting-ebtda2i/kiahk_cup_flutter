@@ -56,12 +56,12 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
       try {
         await ChangePictureService.changePicture(selectedImage);
       } catch(e) {
-        toastError(e.toString());
+        toast(e.toString());
       } finally {
         EasyLoading.dismiss(animation: true);
       }
     } else {
-      toastError('Error: empty image selected');
+      toast('Error: empty image selected');
     }
   }
 

@@ -32,20 +32,9 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _submitQuiz() async {
-    bool isSuccess = await Provider.of<QuizzesProvider>(context, listen: false).submitQuiz(widget.quizSlug, answers);
+    await Provider.of<QuizzesProvider>(context, listen: false).submitQuiz(widget.quizSlug, answers);
 
-    if(isSuccess) {
-      if(mounted) Navigator.of(context).pop();
-
-      Fluttertoast.showToast(
-        msg: "Quiz Submitted",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.black87,
-        textColor: Colors.white,
-        fontSize: 15.0,
-      );
-    }
+    if(mounted) Navigator.of(context).pop();
   }
 
   @override
