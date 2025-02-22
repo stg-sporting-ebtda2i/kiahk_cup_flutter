@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:piehme_cup_flutter/models/Position.dart';
+import 'package:piehme_cup_flutter/models/position.dart';
 import 'package:piehme_cup_flutter/request.dart';
 
 class PositionsService {

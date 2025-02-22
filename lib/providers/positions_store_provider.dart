@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
-import 'package:piehme_cup_flutter/models/Position.dart';
+import 'package:piehme_cup_flutter/models/position.dart';
 import 'package:piehme_cup_flutter/services/positions_service.dart';
 
 class PositionsStoreProvider with ChangeNotifier {
