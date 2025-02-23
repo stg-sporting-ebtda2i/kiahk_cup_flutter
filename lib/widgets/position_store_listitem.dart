@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/models/Position.dart';
+import 'package:piehme_cup_flutter/models/position.dart';
 
 class PositionListItem extends StatelessWidget {
 

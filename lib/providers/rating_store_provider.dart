@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/services/card_rating_service.dart';
 
@@ -12,18 +13,14 @@ class RatingStoreProvider with ChangeNotifier {
   int get ratingPrice => _ratingPrice;
 
   void loadData() async {
-    EasyLoading.show(status: 'Loading...');
     _currentRating = 0;
     _ratingPrice = 99999;
-    try {
+
+    await Loading.show(() async {
       _currentRating = await CardRatingService.getCardRating();
       _ratingPrice = await CardRatingService.getRatingPrice();
-    } catch (e) {
-      toastError(e.toString().replaceAll('Exception: ', ''));
-    } finally {
-      EasyLoading.dismiss(animation: true);
       notifyListeners();
-    }
+    });
   }
 
 }

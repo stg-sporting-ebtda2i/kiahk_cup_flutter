@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
+import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
@@ -52,16 +53,11 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
 
     if (image != null) {
       File selectedImage = File(image.path);
-      EasyLoading.show(status: 'Loading...');
-      try {
+      await Loading.show(() async {
         await ChangePictureService.changePicture(selectedImage);
-      } catch(e) {
-        toastError(e.toString());
-      } finally {
-        EasyLoading.dismiss(animation: true);
-      }
-    } else {
-      toastError('Error: empty image selected');
+
+        toast("Image changed successfully");
+      }, delay: Duration(milliseconds: 0));
     }
   }
 

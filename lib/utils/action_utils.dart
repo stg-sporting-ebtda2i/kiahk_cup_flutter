@@ -32,7 +32,7 @@ class ActionUtils {
     try {
       await action();
     } catch(e) {
-      toastError(e.toString());
+      toast(e.toString());
     } finally {
       EasyLoading.dismiss(animation: true);
       if (context.mounted) {
