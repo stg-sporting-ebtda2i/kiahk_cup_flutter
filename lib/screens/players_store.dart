@@ -45,7 +45,7 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 15,
                     mainAxisSpacing: 15,
-                    childAspectRatio: 0.57,
+                    childAspectRatio: 0.45,
                   ),
                   padding: const EdgeInsets.all(15),
                   itemCount: provider.items.length,

@@ -1,9 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:heif_converter/heif_converter.dart';
-import 'package:path/path.dart' as p;
 import 'package:image_picker/image_picker.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
 import 'package:piehme_cup_flutter/dialogs/loading.dart';
@@ -54,14 +51,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      String extension = p.extension(image.path);
       String imagePath = image.path;
-      log(imagePath);
-
-      if (extension == ".heic") {
-        imagePath = await HeifConverter.convert(
-            image.path, format: "jpg") ?? image.path;
-      }
 
       File selectedImage = File(imagePath);
       await Loading.show(() async {
