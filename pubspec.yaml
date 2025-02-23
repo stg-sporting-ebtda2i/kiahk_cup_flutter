@@ -45,6 +45,7 @@ dependencies:
   http: ^1.2.2
   shared_preferences: ^2.0.6
   google_fonts: ^6.2.1
+  heif_converter: ^1.0.0
 
 dev_dependencies:
   flutter_test:

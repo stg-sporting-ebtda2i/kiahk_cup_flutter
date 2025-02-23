@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 
@@ -19,7 +21,10 @@ class Loading {
     try {
       await load();
     }catch(e) {
-      toast(e.toString());
+      if(e.toString().contains("Exception")){
+        log(e.toString());
+        toast("Something went wrong");
+      }
     }
     done = true;
 
