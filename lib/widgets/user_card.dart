@@ -52,7 +52,7 @@ class UserCard extends StatelessWidget {
                     width: double.infinity,
                     height: double.infinity,
                     errorWidget: (context, url, error) => errorImage(),
-                    placeholder: (context, url) => loadingImage(),
+                    placeholder: (context, url) => Image.asset("assets/placeholder.png", fit: BoxFit.fill),
                     fit: BoxFit.fill,
                   ),
                   // Centered Image

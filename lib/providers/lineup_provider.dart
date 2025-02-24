@@ -33,6 +33,8 @@ class LineupProvider with ChangeNotifier {
   User get user => _user;
 
   void loadUserData() async {
+    _lineup = [];
+
     await Loading.show(() async {
       _avgRating = 0;
       _maxRating = 0;
@@ -49,6 +51,8 @@ class LineupProvider with ChangeNotifier {
   }
 
   void loadOtherUserData(int userId) async {
+    _lineup = [];
+
     await Loading.show(() async {
       _avgRating = 0;
       _maxRating = 0;
@@ -61,7 +65,7 @@ class LineupProvider with ChangeNotifier {
       _maxRating = stats[1];
       _lineupRating = _user.lineupRating.round();
       notifyListeners();
-    });
+    }, message: 'Loading Lineup...', delay: Duration.zero);
   }
 
   void resetAddedCards() {
