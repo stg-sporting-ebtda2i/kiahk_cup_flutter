@@ -11,8 +11,7 @@ class RatingStoreProvider with ChangeNotifier {
   int get ratingPrice => _ratingPrice;
 
   void loadData() async {
-    _currentRating = 0;
-    _ratingPrice = 99999;
+    _ratingPrice = 0;
 
     await Loading.show(() async {
       _currentRating = await CardRatingService.getCardRating();

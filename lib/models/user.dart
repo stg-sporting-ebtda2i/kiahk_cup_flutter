@@ -22,6 +22,20 @@ class User {
     required this.position,
   });
 
+  factory User.empty() {
+    return User(
+        id: -1,
+        name: '',
+        cardRating: 0,
+        imageUrl: null,
+        imageKey: null,
+        lineupRating: 0,
+        iconUrl: '',
+        iconKey: '',
+        position: ''
+    );
+  }
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],

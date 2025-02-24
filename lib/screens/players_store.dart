@@ -26,7 +26,6 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PlayersStoreProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -36,47 +35,68 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
             width: double.infinity,
             height: double.infinity,
           ),
-          Column(
-            children: [
-              SafeArea(child: Header()),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    childAspectRatio: 0.45,
+          Consumer<PlayersStoreProvider>(
+            builder: (context, provider, child) {
+              return Column(
+                children: [
+                  SafeArea(child: Header()),
+                  Visibility(
+                    visible: provider.items.isNotEmpty || !provider.isLoaded,
+                    replacement: Container(
+                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        "No players available for position ${widget.position}",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    child: Expanded(
+                      child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                          childAspectRatio: 0.45,
+                        ),
+                        padding: const EdgeInsets.all(15),
+                        itemCount: provider.items.length,
+                        itemBuilder: (context, index) {
+                          final item = provider.items[index];
+                          return StoreListItem(
+                            imageUrl: item.imageUrl,
+                            imageKey: item.imageKey,
+                            price: item.price,
+                            owned: item.owned,
+                            selected: false,
+                            buy: () => ActionUtils(
+                              context: context,
+                              action: () => PlayersService.buyPlayer(item.id),
+                              callback: () {
+                                context.read<LineupProvider>().loadUserData();
+                                Navigator.pop(context);
+                              }).confirmAction(),
+                            sell: () => ActionUtils(
+                                context: context,
+                                action: () => PlayersService.sellPlayer(item.id),
+                                callback: () {
+                                  context.read<LineupProvider>().loadUserData();
+                                  Navigator.pop(context);
+                                }).confirmAction(),
+                            select: () {Navigator.pop(context);},
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                  padding: const EdgeInsets.all(15),
-                  itemCount: provider.items.length,
-                  itemBuilder: (context, index) {
-                    final item = provider.items[index];
-                    return StoreListItem(
-                      imageUrl: item.imageUrl,
-                      imageKey: item.imageKey,
-                      price: item.price,
-                      owned: item.owned,
-                      selected: false,
-                      buy: () => ActionUtils(
-                        context: context,
-                        action: () => PlayersService.buyPlayer(item.id),
-                        callback: () {
-                          context.read<LineupProvider>().loadUserData();
-                          Navigator.pop(context);
-                        }).confirmAction(),
-                      sell: () => ActionUtils(
-                          context: context,
-                          action: () => PlayersService.sellPlayer(item.id),
-                          callback: () {
-                            context.read<LineupProvider>().loadUserData();
-                            Navigator.pop(context);
-                          }).confirmAction(),
-                      select: () {Navigator.pop(context);},
-                    );
-                  },
-                ),
-              ),
-            ],
+                ],
+              );
+            }
           ),
         ],
       ),

@@ -14,17 +14,7 @@ class LineupProvider with ChangeNotifier {
   late int _maxRating = 0;
   final Set<int> _usedPlayerIds = {};
   late bool userCardUsed = false;
-  late User _user = User(
-    id: -1,
-    name: 'Loading',
-    cardRating: 0,
-    imageUrl: null,
-    imageKey: null,
-    lineupRating: 0,
-    iconUrl: '',
-    iconKey: '',
-    position: ''
-  );
+  late User _user = User.empty();
 
   List<Player> get lineup => _lineup;
   int get avgRating => _avgRating;
@@ -34,6 +24,7 @@ class LineupProvider with ChangeNotifier {
 
   void loadUserData() async {
     _lineup = [];
+    _lineupRating = 0;
 
     await Loading.show(() async {
       _avgRating = 0;
@@ -52,6 +43,8 @@ class LineupProvider with ChangeNotifier {
 
   void loadOtherUserData(int userId) async {
     _lineup = [];
+    _user = User.empty();
+    _lineupRating = 0;
 
     await Loading.show(() async {
       _avgRating = 0;

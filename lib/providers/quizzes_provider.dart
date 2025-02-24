@@ -16,7 +16,7 @@ class QuizzesProvider with ChangeNotifier {
     await Loading.show(() async {
       _items = await QuizzesService.getQuizzes();
       notifyListeners();
-    });
+    }, delay: Duration.zero);
   }
 
   Quiz _currentQuiz = Quiz.empty();
@@ -30,7 +30,7 @@ class QuizzesProvider with ChangeNotifier {
       _currentQuiz = await QuizzesService.getQuiz(slug);
 
       notifyListeners();
-    }, delay: Duration(milliseconds: 0));
+    }, delay: Duration.zero);
   }
 
   Future<void> submitQuiz(String slug, Map<String, dynamic> answers) async {

@@ -7,6 +7,7 @@ import '../widgets/lineup_cards.dart';
 class LineupPage extends StatefulWidget {
   final bool userLineup;
   final int userId;
+
   const LineupPage({
     super.key,
     required this.userLineup,
@@ -18,7 +19,6 @@ class LineupPage extends StatefulWidget {
 }
 
 class _LineupPageState extends State<LineupPage> {
-
   @override
   void initState() {
     super.initState();
@@ -36,18 +36,47 @@ class _LineupPageState extends State<LineupPage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/lineup_background.png'), // Background image
+            image: AssetImage('assets/lineup_background.png'),
+            // Background image
             fit: BoxFit.cover,
           ),
         ),
         child: Column(
           children: [
             SafeArea(
-              child: const ScoresPanel(),
+              child: Column(
+                children: [
+                  if(!widget.userLineup)
+                  Consumer<LineupProvider>(
+                    builder: (context, provider, child) {
+                      return Container(
+                        height: 40,
+                        color: Colors.white30,
+                        child: Center(
+                          child: Visibility(
+                            visible: provider.user.name.isNotEmpty,
+                            child: Text(
+                              "${provider.user.name}'s Lineup",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  ),
+
+                  const ScoresPanel(),
+                ],
+              ),
             ),
             Expanded(
               child: Center(
-                child: Lineup(userLineup: widget.userLineup, userID: widget.userId),
+                child: Lineup(
+                    userLineup: widget.userLineup, userID: widget.userId),
               ),
             ),
           ],
