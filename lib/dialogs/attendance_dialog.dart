@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:piehme_cup_flutter/dialogs/alert_dialog.dart';
 import 'package:piehme_cup_flutter/dialogs/loading.dart';
-import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
+import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/services/attendance_service.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_dialog_button.dart';
 

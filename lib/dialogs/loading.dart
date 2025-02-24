@@ -2,7 +2,7 @@
 import 'dart:developer';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
+import 'package:piehme_cup_flutter/dialogs/message.dart';
 
 class Loading {
   static Future<void> show(Function load, {String message = 'Loading...', Duration delay = const Duration(milliseconds: 1000)}) async {
@@ -21,9 +21,11 @@ class Loading {
     try {
       await load();
     }catch(e) {
+      log(e.toString());
       if(e.toString().contains("Exception")){
-        log(e.toString());
         toast("Something went wrong");
+      } else {
+        toast(e.toString());
       }
     }
     done = true;

@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:piehme_cup_flutter/models/quiz.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/widgets/quiz_question_listitem.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
@@ -34,7 +36,11 @@ class _QuizPageState extends State<QuizPage> {
   void _submitQuiz() async {
     await Provider.of<QuizzesProvider>(context, listen: false).submitQuiz(widget.quizSlug, answers);
 
-    if(mounted) Navigator.of(context).pop();
+    if(mounted) {
+      context.read<HeaderProvider>().refreshCoins();
+
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -55,7 +61,7 @@ class _QuizPageState extends State<QuizPage> {
           Column(
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 3),
+                padding: const EdgeInsets.fromLTRB(20, 50, 20, 3),
                 child: Text(
                   quiz.name,
                   style: const TextStyle(

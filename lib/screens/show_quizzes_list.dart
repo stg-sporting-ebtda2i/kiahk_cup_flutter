@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/widgets/quizzes_listitem.dart';
@@ -16,13 +18,11 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<QuizzesProvider>().loadQuizzes();
+    Provider.of<QuizzesProvider>(context, listen: false).loadQuizzes();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<QuizzesProvider>(context);
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -34,20 +34,22 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
         child: Column(
           children: [
             SafeArea(child: Header()),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                ),
-                padding: const EdgeInsets.all(15),
-                itemCount: provider.quizzes.length,
-                itemBuilder: (context, index) {
-                  final quiz = provider.quizzes[index];
-                  return QuizListItem(quiz: quiz);
-                },
-              ),
+            Consumer<QuizzesProvider>(
+              builder: (context, provider, child) {
+                return Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(15),
+                    itemCount: provider.quizzes.length,
+                    itemBuilder: (context, index) {
+                      final quiz = provider.quizzes[index];
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: QuizListItem(quiz: quiz),
+                      );
+                    },
+                  ),
+                );
+              }
             ),
           ],
         ),

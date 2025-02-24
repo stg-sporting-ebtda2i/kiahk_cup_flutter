@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:piehme_cup_flutter/models/quiz.dart';
 import 'package:piehme_cup_flutter/request.dart';
 
@@ -6,7 +7,6 @@ class QuizzesService {
 
   static Future<List<Quiz>> getQuizzes() async {
     final response = await Request.getFrom('/quizzes');
-
     final List<dynamic> jsonList = json.decode(response.body);
     List<Quiz> quizzes = jsonList.map((json) => Quiz.fromJson(json)).toList();
 

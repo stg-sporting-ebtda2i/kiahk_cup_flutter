@@ -1,18 +1,16 @@
+import 'dart:collection';
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/loading.dart';
-import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
-import 'package:piehme_cup_flutter/models/player.dart';
+import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/models/quiz.dart';
-import 'package:piehme_cup_flutter/models/quiz.dart';
-import 'package:piehme_cup_flutter/models/quiz.dart';
-import 'package:piehme_cup_flutter/services/players_service.dart';
 import 'package:piehme_cup_flutter/services/quizzes_service.dart';
 
 class QuizzesProvider with ChangeNotifier {
   List<Quiz> _items = <Quiz>[];
 
-  List<Quiz> get quizzes => _items;
+  UnmodifiableListView<Quiz> get quizzes => UnmodifiableListView(_items);
 
   void loadQuizzes() async {
     await Loading.show(() async {
@@ -21,19 +19,18 @@ class QuizzesProvider with ChangeNotifier {
     });
   }
 
-  Quiz _currentQuiz =
-      Quiz(id: 0, name: '', slug: '', coins: 0, questions: [], isSolved: false);
+  Quiz _currentQuiz = Quiz.empty();
 
   Quiz get currentQuiz => _currentQuiz;
 
   void loadQuiz(String slug) async {
-    _currentQuiz = Quiz(id: 0, name: '', slug: '', coins: 0, questions: [], isSolved: false);
+    _currentQuiz = Quiz.empty();
 
     await Loading.show(() async {
       _currentQuiz = await QuizzesService.getQuiz(slug);
 
       notifyListeners();
-    });
+    }, delay: Duration(milliseconds: 0));
   }
 
   Future<void> submitQuiz(String slug, Map<String, dynamic> answers) async {

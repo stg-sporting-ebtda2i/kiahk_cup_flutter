@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:piehme_cup_flutter/dialogs/loading.dart';
-import 'package:piehme_cup_flutter/dialogs/toast_error.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:piehme_cup_flutter/services/leaderboard_service.dart';

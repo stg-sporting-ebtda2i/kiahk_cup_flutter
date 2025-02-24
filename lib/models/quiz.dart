@@ -8,6 +8,7 @@ class Quiz {
   final String slug;
   final int coins;
   bool isSolved;
+  int coinsEarned;
   final List<Question> questions;
 
   Quiz({
@@ -16,8 +17,13 @@ class Quiz {
     required this.slug,
     required this.coins,
     required this.isSolved,
+    required this.coinsEarned,
     this.questions = const <Question>[],
   });
+
+  factory Quiz.empty() {
+    return Quiz(id: 0, name: '', slug: '', coins: 0, questions: [], isSolved: false, coinsEarned: 0);
+  }
 
   factory Quiz.fromJson(Map<String, dynamic> json) {
     List<Question> questions = [];
@@ -32,6 +38,7 @@ class Quiz {
       slug: json['slug'],
       coins: json['coins'],
       isSolved: json['isSolved'],
+      coinsEarned: json['coinsEarned'],
       questions: questions,
     );
   }
