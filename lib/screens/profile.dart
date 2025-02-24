@@ -60,29 +60,22 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
 
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imagePath,
+      compressQuality: 70,
+      aspectRatio: const CropAspectRatio(
+        ratioX: 1,
+        ratioY: 1,
+      ),
       uiSettings: [
         AndroidUiSettings(
-          toolbarTitle: 'Cropper',
-          toolbarWidgetColor: Colors.white,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-          ],
+          toolbarTitle: 'Crop character',
+          toolbarWidgetColor: Colors.black,
         ),
         IOSUiSettings(
-          title: 'Crop your character',
+          title: 'Crop character',
           rotateButtonsHidden: true,
-          minimumAspectRatio: 1.0,
-          rectWidth: 3000,
-          rectHeight: 3000,
-          rectX: 1,
-          rectY: 1,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-          ],
         ),
       ],
     );
-
     if(croppedFile == null) {
       return;
     }
