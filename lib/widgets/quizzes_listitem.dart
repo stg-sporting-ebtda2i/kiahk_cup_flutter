@@ -28,6 +28,7 @@ class QuizListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,6 +59,8 @@ class QuizListItem extends StatelessWidget {
                   ),
               ],
             ),
+            const SizedBox(height: 4),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -68,7 +71,7 @@ class QuizListItem extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: Colors.green,
+                    color: Colors.black,
                   ),
                 ),
 
@@ -82,6 +85,10 @@ class QuizListItem extends StatelessWidget {
                 ),
               ],
             ),
+
+            const SizedBox(height: 6),
+
+            Text("${quiz.numberOfQuestions} ${quiz.numberOfQuestions == 1 ? "Question" : "Questions"}"),
           ],
         ),
       ),

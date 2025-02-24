@@ -31,6 +31,7 @@ class Question {
   final String? picture;
   final List<Option> options;
   final QuestionType type;
+  final int coins;
 
   Question({
     required this.id,
@@ -38,6 +39,7 @@ class Question {
     required this.picture,
     required this.options,
     required this.type,
+    required this.coins,
   });
 
   static Question fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class Question {
       id: json['id'],
       title: utf8.decode(json['title'].codeUnits),
       picture: json['picture'],
+      coins: json['coins'],
       type: QuestionType.fromString(json['type']),
       options: json['options'].map<Option>((option) => Option.fromJson(option)).toList(),
     );

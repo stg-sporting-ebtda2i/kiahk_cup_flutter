@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/models/option.dart';
 import 'package:piehme_cup_flutter/models/question.dart';
@@ -29,15 +30,36 @@ class QuestionListItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            if(question.picture != null)
+              CachedNetworkImage(
+                imageUrl: question.picture!,
+                placeholder: (context, url) => const CircularProgressIndicator.adaptive(),
+                height: 200,
+              ),
+
             Text(
               question.title,
+              textAlign: TextAlign.center,
               textDirection: getTextDirection(question.title),
               style: const TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
+              ),
+            ),
+
+            Container(
+              margin: const EdgeInsets.only(top: 6),
+              alignment: Alignment.centerRight,
+              child: Text(
+                "+${question.coins}€",
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.green,
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -119,28 +141,48 @@ class ChoiceInputMethod extends StatelessWidget {
         ...options.map((option) {
           return Directionality(
             textDirection: getTextDirection(option.name),
-            child: RadioListTile<int>(
-              title: Text(
-                option.name,
-                textDirection: getTextDirection(option.name),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.white),
               ),
-              value: option.order,
-              groupValue: answer as int?,
-              onChanged: (value) {
-                setAnswer(value!);
-              },
-              activeColor: Colors.greenAccent,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Colors.greenAccent; // Selected color
-                }
-                return Colors.white; // Unselected color
-              }),
+              child: RadioListTile<int>(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    if(option.picture != null)
+                      CachedNetworkImage(
+                        imageUrl: option.picture!,
+                        height: 120,
+                      ),
+
+                    Text(
+                      option.name,
+                      textDirection: getTextDirection(option.name),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                value: option.order,
+                groupValue: answer as int?,
+                onChanged: (value) {
+                  setAnswer(value!);
+                },
+                activeColor: Colors.greenAccent,
+                fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return Colors.greenAccent; // Selected color
+                  }
+                  return Colors.white; // Unselected color
+                }),
+              ),
             ),
           );
         }),
@@ -214,15 +256,30 @@ class _ReorderInputMethodState extends State<ReorderInputMethod> {
             child: Directionality(
               textDirection: getTextDirection(option.name),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    option.name,
-                    textDirection: getTextDirection(option.name),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+
+                        if(option.picture != null)
+                          CachedNetworkImage(
+                            imageUrl: option.picture!,
+                            height: 100,
+                          ),
+
+                        Text(
+                          option.name,
+                          textDirection: getTextDirection(option.name),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
 

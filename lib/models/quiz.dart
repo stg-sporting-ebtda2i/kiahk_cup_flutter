@@ -7,6 +7,7 @@ class Quiz {
   final String name;
   final String slug;
   final int coins;
+  final int numberOfQuestions;
   bool isSolved;
   int coinsEarned;
   final List<Question> questions;
@@ -18,11 +19,12 @@ class Quiz {
     required this.coins,
     required this.isSolved,
     required this.coinsEarned,
+    required this.numberOfQuestions,
     this.questions = const <Question>[],
   });
 
   factory Quiz.empty() {
-    return Quiz(id: 0, name: '', slug: '', coins: 0, questions: [], isSolved: false, coinsEarned: 0);
+    return Quiz(id: 0, name: '', slug: '', coins: 0, questions: [], isSolved: false, coinsEarned: 0, numberOfQuestions: 0);
   }
 
   factory Quiz.fromJson(Map<String, dynamic> json) {
@@ -39,6 +41,7 @@ class Quiz {
       coins: json['coins'],
       isSolved: json['isSolved'],
       coinsEarned: json['coinsEarned'],
+      numberOfQuestions: json['questionsCount'] ?? 0,
       questions: questions,
     );
   }
