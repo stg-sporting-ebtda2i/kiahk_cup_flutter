@@ -44,7 +44,7 @@ AlertDialog alertDialog({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            dialogButton(text: cancelBtnText, onClick: () => Navigator.pop(context), backgroundColor: Colors.grey, color: Colors.white),
+            dialogButton(text: cancelBtnText, onClick: () => Navigator.pop(context), backgroundColor: Colors.grey.shade700, color: Colors.white),
             dialogButton(text: positiveBtnText, onClick: positiveBtnAction),
           ],
         ),

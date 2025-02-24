@@ -60,7 +60,6 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
 
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imagePath,
-      compressQuality: 70,
       aspectRatio: const CropAspectRatio(
         ratioX: 1,
         ratioY: 1,

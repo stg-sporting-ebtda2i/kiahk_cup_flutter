@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
@@ -38,10 +39,14 @@ class CardsUtils {
           onClick: clickable ? () =>
               ActionUtils(
                   context: context,
-                  action: () => PlayersService.sellPlayer(player.id),
+                  action: () async {
+                    await PlayersService.sellPlayer(player.id);
+
+                    toast("${player.name} has been sold");
+                  },
                   callback: () {
                     context.read<LineupProvider>().loadUserData();
-                  }).confirmAction() : () {},
+                  }).confirmAction(text: "Are you sure you want to sell ${player.name}?", confirmBtn: "Sell") : () {},
         );
       } else {
         return EmptyPlayerCard(

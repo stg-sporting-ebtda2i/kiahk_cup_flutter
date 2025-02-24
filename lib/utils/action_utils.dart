@@ -18,11 +18,11 @@ class ActionUtils {
     required this.callback,
   });
 
-  void confirmAction() {
+  void confirmAction({String text='Are you sure that you want to continue?', String confirmBtn='Confirm'}) {
     showAlertDialog(
         context: context,
-        text: 'Are you sure that you want to continue?',
-        positiveBtnText: 'Confirm',
+        text: text,
+        positiveBtnText: confirmBtn,
         positiveBtnAction: () {performAction();Navigator.pop(context);},
     );
   }
