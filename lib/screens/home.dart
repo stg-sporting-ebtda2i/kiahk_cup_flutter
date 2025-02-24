@@ -5,7 +5,7 @@ import 'show_quizzes_list.dart';
 import 'my_card.dart';
 import 'lineup.dart';
 import '../widgets/leaderboard.dart';
-import 'more_options.dart';
+import 'profile.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -83,8 +83,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Leaderboard',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz),
-            label: 'More',
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
