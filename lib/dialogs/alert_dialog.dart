@@ -4,10 +4,10 @@ import 'package:piehme_cup_flutter/widgets/widgets_dialog_button.dart';
 void showAlertDialog({
   required BuildContext context,
   required String text,
-  required String positiveBtnText,
+  String positiveBtnText="Confirm",
+  String cancelBtnText="Cancel",
   required VoidCallback positiveBtnAction,
 }) {
-  print('Showing dialog');
   showDialog(
       context: context,
       builder: (BuildContext c) {
@@ -15,6 +15,7 @@ void showAlertDialog({
           context: context,
           text: text,
           positiveBtnText: positiveBtnText,
+          cancelBtnText: cancelBtnText,
           positiveBtnAction: positiveBtnAction,
         );
       }
@@ -24,7 +25,8 @@ void showAlertDialog({
 AlertDialog alertDialog({
   required BuildContext context,
   required String text,
-  required String positiveBtnText,
+  String positiveBtnText = "Confirm",
+  String cancelBtnText = "Cancel",
   required VoidCallback positiveBtnAction,
 }) {
   return AlertDialog(
@@ -42,8 +44,8 @@ AlertDialog alertDialog({
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            dialogButton(text: 'Cancel', onClick: ()=> Navigator.pop(context)),
-            dialogButton(text: positiveBtnText, onClick: () {print('+ve clicked'); positiveBtnAction();}),
+            dialogButton(text: cancelBtnText, onClick: () => Navigator.pop(context), backgroundColor: Colors.grey, color: Colors.white),
+            dialogButton(text: positiveBtnText, onClick: positiveBtnAction),
           ],
         ),
       ],

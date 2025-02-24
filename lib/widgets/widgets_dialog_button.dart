@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 Widget dialogButton({
   required String text,
   required VoidCallback onClick,
+  Color backgroundColor = Colors.black,
+  Color color = Colors.white,
 }) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.black,
+      backgroundColor: backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
@@ -18,7 +20,7 @@ Widget dialogButton({
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 21,
-        color: Colors.white,
+        color: color,
       ),
     ),
   );

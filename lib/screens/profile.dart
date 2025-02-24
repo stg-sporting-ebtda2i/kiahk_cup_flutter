@@ -192,7 +192,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                             );
                           },
                           icon: Icons.add_rounded,
-                          text: '7odour',
+                          text: 'Hodour',
                         ),
                         SizedBox(
                           height: 20,

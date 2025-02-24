@@ -78,14 +78,14 @@ Future<void> pickDate({
     context: context,
     initialDate: DateTime.now(),
     firstDate: DateTime(2025),
-    lastDate: DateTime(2030),
+    lastDate: DateTime.now(),
     builder: (BuildContext context, Widget? child) {
       return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
               primary: Colors.black,
               onPrimary: Colors.white,
-              surface: Colors.greenAccent,
+              surface: Colors.white,
               onSurface: Colors.black,
             ),
             textTheme: TextTheme(
@@ -102,8 +102,9 @@ Future<void> pickDate({
     if (context.mounted) {
       showAlertDialog(
         context: context,
-        text: 'Are you sure that you want to request $selectedEvent on ${DateFormat('yyyy-MM-dd').format(picked)}?',
-        positiveBtnText: 'Confirm',
+        text: 'Hadart ${selectedEvent.toLowerCase()} yom ${DateFormat('dd/MM/yyy').format(picked)}',
+        positiveBtnText: 'Aywa',
+        cancelBtnText: 'La2',
         positiveBtnAction: () async {
           Navigator.pop(context);
           Loading.show(() async {
