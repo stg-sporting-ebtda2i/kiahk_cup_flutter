@@ -5,6 +5,7 @@ import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/screens/rating_store.dart';
 import 'package:piehme_cup_flutter/screens/icons_store.dart';
 import 'package:piehme_cup_flutter/screens/lineup.dart';
+import 'package:piehme_cup_flutter/screens/register.dart';
 import 'package:piehme_cup_flutter/screens/solve_quiz.dart';
 import 'package:piehme_cup_flutter/screens/splash_screen.dart';
 import 'app_routes.dart';
@@ -16,6 +17,8 @@ class RouteGenerator {
     switch (settings.name) {
       case AppRoutes.login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
+      case AppRoutes.register:
+        return MaterialPageRoute(builder: (_) => const RegisterPage());
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const HomePage());
       case AppRoutes.cardsStore:

@@ -9,4 +9,5 @@ class AppRoutes {
   static const String quiz = '/quiz';
   static const String splash = '/';
   static const String maintenance = '/maintenance';
+  static const String register = '/register';
 }

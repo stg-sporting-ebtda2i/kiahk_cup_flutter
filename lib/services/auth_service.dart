@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:piehme_cup_flutter/request.dart';
 import 'package:piehme_cup_flutter/utils/string_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,34 @@ class AuthService {
     await _saveName(StringUtils.capitalizeWords(username.trim()));
     return true;
   }
+
+  static Future<bool> register(String username, String password, String schoolYear) async {
+    final response = await Request("/register").contentJson()
+        .post({
+        'username': username, 'password': password, 'schoolYear': schoolYear
+        });
+
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+
+    final String jwtToken = responseData['jwttoken'];
+    await _saveToken(jwtToken);
+    await _saveName(StringUtils.capitalizeWords(username.trim()));
+    return true;
+  }
+
+  static Future<List<String>> getSchoolYears() async {
+    final response = await Request("/schoolYears").contentJson().get();
+
+    final List<dynamic> responseData = jsonDecode(response.body);
+
+    List<String> schoolYears = [];
+    for (Map<String, dynamic> schoolYear in responseData) {
+      schoolYears.add(schoolYear['name']);
+    }
+
+    return schoolYears;
+  }
+
 
   static Future<void> _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();

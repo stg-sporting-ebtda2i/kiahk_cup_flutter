@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/main.dart';
-import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path/path.dart';
 
 class Request {
   static const String baseUrl = 'https://piehme.stgsporting.com';
@@ -95,7 +97,6 @@ class Request {
       request.files.add(file);
     }
 
-
     if (body != null) {
       for (String key in body.keys) {
         request.fields[key] = body[key].toString();
@@ -108,12 +109,11 @@ class Request {
   http.Response _handle(http.Response response) {
     if (response.statusCode == 403) {
       AuthService.logout();
-      navigatorKey.currentState?.pushReplacementNamed(AppRoutes.login);
 
       throw "You are not logged in";
     }
 
-    if (response.statusCode != 200) {
+    if (![200, 201].contains(response.statusCode)) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
 
       throw responseBody['message'] ?? "Failed to handle request";
