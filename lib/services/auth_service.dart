@@ -8,16 +8,20 @@ class AuthService {
 
   static const String tokenKey = 'jwttoken';
   static const String nameKey = 'name';
-  
+  static const String confirmedKey = 'confirmed';
+
   static Future<bool> login(String username, String password) async {
     final response = await Request("/login").contentJson().post({'username': username.trim(), 'password': password.trim()});
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
-
-    final String jwtToken = responseData['jwttoken'];
-    await _saveToken(jwtToken);
-    await _saveName(StringUtils.capitalizeWords(username.trim()));
+    _saveResponse(responseData);
     return true;
+  }
+
+  static Future<void> delete() async {
+    await (await Request("/users/delete").contentJson().withToken()).delete();
+
+    await logout();
   }
 
   static Future<bool> register(String username, String password, String schoolYear) async {
@@ -28,9 +32,7 @@ class AuthService {
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
 
-    final String jwtToken = responseData['jwttoken'];
-    await _saveToken(jwtToken);
-    await _saveName(StringUtils.capitalizeWords(username.trim()));
+    _saveResponse(responseData);
     return true;
   }
 
@@ -47,16 +49,15 @@ class AuthService {
     return schoolYears;
   }
 
-
-  static Future<void> _saveToken(String token) async {
+  static void _saveResponse(Map<String, dynamic> response) async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString(AuthService.tokenKey, token);
-  }
-
-  static Future<void> _saveName(String name) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(AuthService.nameKey, name);
+    await prefs.setBool(AuthService.confirmedKey, response["confirmed"]);
+    await prefs.setString(AuthService.tokenKey, response["jwttoken"]);
+    await prefs.setString(
+        AuthService.nameKey,
+        StringUtils.capitalizeWords(response["username"])
+    );
   }
 
   static Future<bool> checkValidToken(String token) async {
@@ -84,10 +85,16 @@ class AuthService {
     return prefs.getString(AuthService.nameKey);
   }
 
+  static Future<bool> getConfirmed() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(AuthService.confirmedKey) ?? false;
+  }
+
   static Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(AuthService.tokenKey);
     await prefs.remove(AuthService.nameKey);
+    await prefs.remove(AuthService.confirmedKey);
   }
 
   static Future<bool> hasToken() async {

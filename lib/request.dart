@@ -73,6 +73,10 @@ class Request {
     return _handle(await http.post(uri, headers: headers, body: jsonEncode(body)));
   }
 
+  Future<http.Response> delete() async {
+    return await http.delete(uri, headers: headers);
+  }
+
   Future<http.Response> patch([Map<String, dynamic>? body]) async {
     if (_isMultiPart) {
       return multipartRequest("PATCH", body);
@@ -107,6 +111,7 @@ class Request {
   }
 
   http.Response _handle(http.Response response) {
+    log("$uri ${response.statusCode}");
     if (response.statusCode == 403) {
       AuthService.logout();
 

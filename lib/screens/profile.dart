@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -26,11 +27,19 @@ class MoreOptionsPage extends StatefulWidget {
 }
 
 class _MoreOptionsPageState extends State<MoreOptionsPage> {
+
+  bool _confirmed = false;
+
   @override
   void initState() {
     super.initState();
     context.read<AttendanceProvider>().loadLiturgies();
     Provider.of<UserProvider>(context, listen: false).loadUserData();
+    AuthService.getConfirmed().then((confirmed) {
+      setState(() {
+        _confirmed = confirmed;
+      });
+    });
   }
 
   void _logout() {
@@ -42,6 +51,24 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
         positiveBtnText: 'Logout',
         positiveBtnAction: () {
           AuthService.logout();
+          Navigator.pop(context);
+          Navigator.pushReplacementNamed(context, AppRoutes.login);
+        },
+      ),
+    );
+  }
+
+  void _delete() {
+    showDialog(
+      context: context,
+      builder: (context) => alertDialog(
+        context: context,
+        text: 'Are you sure that you want to delete your account?',
+        positiveBtnText: 'Delete',
+        positiveBtnAction: () async {
+          await AuthService.delete();
+          if(!mounted) return;
+
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRoutes.login);
         },
@@ -193,6 +220,15 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                           onClick: _logout,
                           icon: Icons.logout_rounded,
                           text: 'Logout',
+                        ),
+
+                        if(!_confirmed)
+                        SizedBox(height: 20),
+                        if(!_confirmed)
+                        iconButton(
+                          onClick: _delete,
+                          icon: Icons.delete,
+                          text: 'Delete',
                         ),
                       ],
                     ),
