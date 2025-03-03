@@ -5,9 +5,9 @@ class ButtonsVisibilityProvider with ChangeNotifier {
 
   List<String> _visibleBtn = <String> [];
 
-  ButtonsVisibilityProvider() {
-    refreshData();
-  }
+  // ButtonsVisibilityProvider() {
+  //   refreshData();
+  // }
 
   Future<void> refreshData() async {
     _visibleBtn = await ButtonsVisibilityService.getVisibleBtnsNames();
