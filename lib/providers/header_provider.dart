@@ -29,6 +29,10 @@ class HeaderProvider with ChangeNotifier {
     });
   }
 
+  void stop() {
+    _timer?.cancel();
+  }
+
   @override
   void dispose() {
     _timer?.cancel();

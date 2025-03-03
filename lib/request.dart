@@ -1,13 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:piehme_cup_flutter/main.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path/path.dart';
 
 class Request {
   static const String baseUrl = 'https://piehme.stgsporting.com';

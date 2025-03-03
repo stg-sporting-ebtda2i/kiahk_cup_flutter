@@ -49,7 +49,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
         text: 'Are you sure that you want to logout?',
         positiveBtnText: 'Logout',
         positiveBtnAction: () {
-          context.read<HeaderProvider>().dispose();
+          context.read<HeaderProvider>().stop();
           AuthService.logout();
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRoutes.login);
