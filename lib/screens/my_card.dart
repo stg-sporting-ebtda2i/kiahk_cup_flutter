@@ -44,10 +44,10 @@ class _MyCardPageState extends State<MyCardPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 559*cardHeight/800,
+                          width: 900*cardHeight/1266,
                           height: cardHeight,
                           child: UserCard(
-                            width: 559*cardHeight/800,
+                            width: 900*cardHeight/1266,
                             user: provider.user,
                           ),
                         ),

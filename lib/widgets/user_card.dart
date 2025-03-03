@@ -18,11 +18,12 @@ class UserCard extends StatelessWidget {
   final User user;
 
   // Card Size: H=800px, W=559px.
+  // New Card Size: H=1266px, W=900px
 
   @override
   Widget build(BuildContext context) {
     final cardWidth = width;
-    final cardHeight = cardWidth * (800 / 559);
+    final cardHeight = cardWidth * (1266 / 900);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -31,7 +32,7 @@ class UserCard extends StatelessWidget {
         builder: (context, snapshot) {
           Color color;
           if (snapshot.connectionState == ConnectionState.waiting) {
-            color = Colors.black;
+            color = Colors.transparent;
           } else if (snapshot.hasError) {
             color = Colors.black;
           } else if (!snapshot.hasData) {
@@ -57,26 +58,26 @@ class UserCard extends StatelessWidget {
                   ),
                   // Centered Image
                   Positioned(
-                    top: cardHeight * (20 / 100),
+                    top: cardHeight * (25 / 100),
                     left: cardWidth * (20 / 100),
                     right: cardWidth * (20 / 100),
-                    bottom: cardHeight * (30 / 100),
+                    bottom: cardHeight * (25 / 100),
                     child: image != null ?
                     Image.file(
                       image!,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.scaleDown,
                     ) :
                     (user.imageUrl != null && user.imageKey != null) ? CachedNetworkImage(
                       imageUrl: user.imageUrl ?? "",
                       cacheKey: user.imageKey,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.scaleDown,
                       errorWidget: (context, url, error) => errorImage(),
                       placeholder: (context, url) => loadingImage(),
                     ) : SizedBox(),
                   ),
                   // Name Text
                   Positioned(
-                    top: cardHeight * (72 / 100),
+                    top: cardHeight * (73 / 100),
                     left: 0,
                     right: 0,
                     child: Center(
@@ -92,7 +93,7 @@ class UserCard extends StatelessWidget {
                   ),
                   // Position Text
                   Positioned(
-                    top: cardHeight * (22 / 100),
+                    top: cardHeight * (31 / 100),
                     left: cardWidth * (17 / 100),
                     child: Text(
                       user.position,
@@ -105,7 +106,7 @@ class UserCard extends StatelessWidget {
                   ),
                   // Card Rating Text
                   Positioned(
-                    top: cardHeight * (12 / 100),
+                    top: cardHeight * (20 / 100),
                     left: cardWidth * (14 / 100),
                     child: Text(
                       '${user.cardRating}',
