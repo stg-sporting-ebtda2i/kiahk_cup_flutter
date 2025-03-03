@@ -11,16 +11,16 @@ class HeaderProvider with ChangeNotifier {
   String? get name => _name;
   int get coins => _coins;
 
-  HeaderProvider() {
-    _initialize();
-  }
+  // HeaderProvider() {
+  //   _initialize();
+  // }
 
   void refreshCoins() async {
     _coins = await CoinsService.getCoins();
     notifyListeners();
   }
 
-  Future<void> _initialize() async {
+  Future<void> initialize() async {
     _name = await AuthService.getName();
     _coins = await CoinsService.getCoins();
     notifyListeners();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -20,10 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
     page = isLoggedIn ? AppRoutes.home : AppRoutes.login;
 
     if (mounted && isLoggedIn) {
-      ButtonsVisibilityProvider provider = context.read<ButtonsVisibilityProvider>();
-      await provider.refreshData();
-      if (provider.isVisible('Maintenance')) {
+      ButtonsVisibilityProvider btnsProvider = context.read<ButtonsVisibilityProvider>();
+      HeaderProvider headerProvider = context.read<HeaderProvider>();
+      await btnsProvider.refreshData();
+      if (btnsProvider.isVisible('Maintenance')) {
         page = AppRoutes.maintenance;
+      } else {
+        await headerProvider.initialize();
       }
     }
     Future.delayed(Duration(seconds: 1), () {

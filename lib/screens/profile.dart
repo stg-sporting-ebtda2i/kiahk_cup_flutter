@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -10,6 +8,7 @@ import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/user_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/change_picture_service.dart';
@@ -50,6 +49,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
         text: 'Are you sure that you want to logout?',
         positiveBtnText: 'Logout',
         positiveBtnAction: () {
+          context.read<HeaderProvider>().dispose();
           AuthService.logout();
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRoutes.login);
