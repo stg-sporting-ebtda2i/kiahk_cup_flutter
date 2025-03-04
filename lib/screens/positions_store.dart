@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
 import 'package:piehme_cup_flutter/services/positions_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
@@ -15,9 +16,13 @@ class PositionsStorePage extends StatefulWidget {
 
 class _PositionsStorePageState extends State<PositionsStorePage> {
 
+  late PositionsStoreProvider provider;
+  late LineupProvider lineupProvider;
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PositionsStoreProvider>(context);
+    provider = Provider.of<PositionsStoreProvider>(context);
+    lineupProvider = Provider.of<LineupProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -48,24 +53,27 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
                         delay: 0,
                           context: context,
                           action: () => PositionsService.buyPosition(item.id),
-                          callback: () {
-                            // provider.loadStore();
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
                           }
                       ).confirmAction(),
                       sell: () => ActionUtils(
                         delay: 0,
                           context: context,
                           action: () => PositionsService.sellPosition(item.id),
-                          callback: () {
-                            // provider.loadStore();
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
                           }
                       ).confirmAction(),
                       select: () => ActionUtils(
                         delay: 0,
                           context: context,
                           action: () => PositionsService.selectPosition(item.id),
-                          callback: () {
-                            // provider.loadStore();
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
                           }
                       ).confirmAction(),
                     );

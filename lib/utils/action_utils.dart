@@ -38,12 +38,11 @@ class ActionUtils {
     } finally {
       Future.delayed(Duration(seconds: delay), () {
         EasyLoading.dismiss(animation: true);
+        if (context.mounted) {
+          context.read<HeaderProvider>().refreshCoins();
+          callback();
+        }
       });
-      EasyLoading.dismiss(animation: true);
-      if (context.mounted) {
-        context.read<HeaderProvider>().refreshCoins();
-        callback();
-      }
     }
   }
 

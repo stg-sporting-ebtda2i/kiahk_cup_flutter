@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
     if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
     if (provider.isVisible('Lineup')) {
-      _widgetOptions.add(LineupPage(userLineup: true, userId: -1));
+      _widgetOptions.add(LineupPage(userLineup: true));
       _selectedIndex = _widgetOptions.length-1;
     } else {
       _selectedIndex = 0;
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
         if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
         if (provider.isVisible('Lineup')) {
-          _widgetOptions.add(LineupPage(userLineup: true, userId: -1));
+          _widgetOptions.add(LineupPage(userLineup: true));
           _selectedIndex = _widgetOptions.length-1;
         } else {
           _selectedIndex = 0;

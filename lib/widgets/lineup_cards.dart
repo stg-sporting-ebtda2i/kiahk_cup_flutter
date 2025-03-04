@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/providers/base_lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/utils/card_utils.dart';
-import 'package:piehme_cup_flutter/widgets/player_card.dart';
 import 'package:provider/provider.dart';
 
 class Lineup extends StatefulWidget {
 
   final bool userLineup;
-  final int userID;
 
   const Lineup({
     super.key,
     required this.userLineup,
-    required this.userID,
   });
 
   @override
@@ -24,26 +20,10 @@ class Lineup extends StatefulWidget {
 }
 
 class _LineupState extends State<Lineup> {
-  //
-  // @override
-  // bool get wantKeepAlive => true;
 
   late double _cardHeight;
   late bool _storeOpened = false;
   late BaseLineupProvider _provider;
-
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   if (state == AppLifecycleState.resumed) {
-  //     BaseLineupProvider provider;
-  //     if (widget.userLineup) {
-  //       provider = context.read<LineupProvider>();
-  //     } else {
-  //       provider = context.read<OtherLineupProvider>();
-  //     }
-  //     provider.refreshListeners();
-  //   }
-  // }
 
   @override
   void initState() {
@@ -109,22 +89,8 @@ class _LineupState extends State<Lineup> {
     );
   }
 
-  // Widget getCard(String p) {
-  //   return Consumer<LineupProvider>(
-  //       builder: (context, provider, child) {
-  //         return CardsUtils.getCard(
-  //           context: context,
-  //           cardHeight: _cardHeight,
-  //           clickable: widget.userLineup && _storeOpened,
-  //           position: p,
-  //           provider: provider,
-  //         );
-  //       }
-  //   );
-  // }
-
   Widget getCard(String position) {
-    return Selector<LineupProvider, String?>(
+    return widget.userLineup ? Selector<LineupProvider, String?>(
       selector: (context, provider) => (provider.checkChangedData(position)),
       builder: (context, player, child) {
         return player!=null ?
@@ -136,6 +102,18 @@ class _LineupState extends State<Lineup> {
           provider: _provider,
         ) : SizedBox();
       },
+    ) : Selector<OtherLineupProvider, String?>(
+    selector: (context, provider) => (provider.checkChangedData(position)),
+    builder: (context, player, child) {
+    return player!=null ?
+    CardsUtils.getCard(
+    context: context,
+    cardHeight: _cardHeight,
+    clickable: widget.userLineup && _storeOpened,
+    position: position,
+    provider: _provider,
+    ) : SizedBox();
+    },
     );
   }
 
