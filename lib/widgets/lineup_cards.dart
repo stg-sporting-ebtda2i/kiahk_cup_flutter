@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/models/player.dart';
+import 'package:piehme_cup_flutter/providers/base_lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
+import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/utils/card_utils.dart';
+import 'package:piehme_cup_flutter/widgets/player_card.dart';
 import 'package:provider/provider.dart';
 
 class Lineup extends StatefulWidget {
 
   final bool userLineup;
   final int userID;
-  late bool storeOpened = false;
 
-  Lineup({
+  const Lineup({
     super.key,
     required this.userLineup,
     required this.userID,
@@ -21,20 +24,37 @@ class Lineup extends StatefulWidget {
 }
 
 class _LineupState extends State<Lineup> {
+  //
+  // @override
+  // bool get wantKeepAlive => true;
 
   late double _cardHeight;
+  late bool _storeOpened = false;
+  late BaseLineupProvider _provider;
+
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.resumed) {
+  //     BaseLineupProvider provider;
+  //     if (widget.userLineup) {
+  //       provider = context.read<LineupProvider>();
+  //     } else {
+  //       provider = context.read<OtherLineupProvider>();
+  //     }
+  //     provider.refreshListeners();
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
+    _storeOpened = context.read<ButtonsVisibilityProvider>().isVisible('Store');
     if (widget.userLineup) {
-      context.read<LineupProvider>().loadUserData();
+      _provider = context.read<LineupProvider>();
     } else {
-      context.read<LineupProvider>().loadOtherUserData(widget.userID);
+      _provider = context.read<OtherLineupProvider>();
     }
-    if (context.read<ButtonsVisibilityProvider>().isVisible('Store')) {
-      widget.storeOpened = true; // close store after loading data
-    }
+    _provider.resetAddedCards();
   }
 
   @override
@@ -49,27 +69,12 @@ class _LineupState extends State<Lineup> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CardsUtils.getCard(
-                context: context,
-                cardHeight: _cardHeight,
-                clickable: widget.userLineup && widget.storeOpened,
-                position: 'LW'
-              ),
+              getCard('LW'),
               Transform.translate(
                 offset: Offset(0, -40),
-                child: CardsUtils.getCard(
-                    context: context,
-                    cardHeight: _cardHeight,
-                    clickable: widget.userLineup && widget.storeOpened,
-                    position: 'ST'
-                ),
+                child: getCard('ST'),
               ),
-              CardsUtils.getCard(
-                  context: context,
-                  cardHeight: _cardHeight,
-                  clickable: widget.userLineup && widget.storeOpened,
-                  position: 'RW'
-              ),
+              getCard('RW'),
             ],
           ),
         ),
@@ -79,27 +84,12 @@ class _LineupState extends State<Lineup> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CardsUtils.getCard(
-                  context: context,
-                  cardHeight: _cardHeight,
-                  clickable: widget.userLineup && widget.storeOpened,
-                  position: 'CM'
-              ),
+              getCard('CM'),
               Transform.translate(
                 offset: Offset(0, -30),
-                child: CardsUtils.getCard(
-                    context: context,
-                    cardHeight: _cardHeight,
-                    clickable: widget.userLineup && widget.storeOpened,
-                    position: 'CAM'
-                ),
+                child: getCard('CAM'),
               ),
-              CardsUtils.getCard(
-                  context: context,
-                  cardHeight: _cardHeight,
-                  clickable: widget.userLineup && widget.storeOpened,
-                  position: 'CM'
-              ),
+              getCard('CM'),
             ],
           ),
         ),
@@ -107,40 +97,46 @@ class _LineupState extends State<Lineup> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CardsUtils.getCard(
-                context: context,
-                cardHeight: _cardHeight,
-                clickable: widget.userLineup && widget.storeOpened,
-                position: 'LB'
-            ),
-            CardsUtils.getCard(
-                context: context,
-                cardHeight: _cardHeight,
-                clickable: widget.userLineup && widget.storeOpened,
-                position: 'CB'
-            ),
-            CardsUtils.getCard(
-                context: context,
-                cardHeight: _cardHeight,
-                clickable: widget.userLineup && widget.storeOpened,
-                position: 'CB'
-                    ''),
-            CardsUtils.getCard(
-                context: context,
-                cardHeight: _cardHeight,
-                clickable: widget.userLineup && widget.storeOpened,
-                position: 'RB'
-            ),
+            getCard('LB'),
+            getCard('CB'),
+            getCard('CB'),
+            getCard('RB'),
           ],
         ),
         // Goalkeeper (GK)
-        CardsUtils.getCard(
-            context: context,
-            cardHeight: _cardHeight,
-            clickable: widget.userLineup && widget.storeOpened,
-            position: 'GK'
-        ),
+        getCard('GK'),
       ],
     );
   }
+
+  // Widget getCard(String p) {
+  //   return Consumer<LineupProvider>(
+  //       builder: (context, provider, child) {
+  //         return CardsUtils.getCard(
+  //           context: context,
+  //           cardHeight: _cardHeight,
+  //           clickable: widget.userLineup && _storeOpened,
+  //           position: p,
+  //           provider: provider,
+  //         );
+  //       }
+  //   );
+  // }
+
+  Widget getCard(String position) {
+    return Selector<LineupProvider, String?>(
+      selector: (context, provider) => (provider.checkChangedData(position)),
+      builder: (context, player, child) {
+        return player!=null ?
+        CardsUtils.getCard(
+          context: context,
+          cardHeight: _cardHeight,
+          clickable: widget.userLineup && _storeOpened,
+          position: position,
+          provider: _provider,
+        ) : SizedBox();
+      },
+    );
+  }
+
 }

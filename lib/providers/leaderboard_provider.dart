@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:piehme_cup_flutter/services/leaderboard_service.dart';
 
@@ -9,11 +8,9 @@ class LeaderboardProvider with ChangeNotifier {
 
   List<User> get leaderboard => _leaderboard;
 
-  void loadLineup() async {
-    await Loading.show(() async {
-      _leaderboard = await LeaderboardService.getLeaderboard();
-      notifyListeners();
-    });
+  Future<void> loadLeaderboard() async {
+    _leaderboard = await LeaderboardService.getLeaderboard();
+    notifyListeners();
   }
 
 }

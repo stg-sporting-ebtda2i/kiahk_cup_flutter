@@ -19,12 +19,6 @@ class PlayersStorePage extends StatefulWidget {
 class _PlayersStorePageState extends State<PlayersStorePage> {
 
   @override
-  void initState() {
-    super.initState();
-      context.read<PlayersStoreProvider>().loadStore(widget.position);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -75,19 +69,25 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                             owned: item.owned,
                             selected: false,
                             buy: () => ActionUtils(
+                              delay: 0,
                               context: context,
                               action: () => PlayersService.buyPlayer(item.id),
-                              callback: () {
-                                context.read<LineupProvider>().loadUserData();
+                              callback: () async {
+                                await context.read<LineupProvider>().loadLineup(-1);
+                                if (!context.mounted) return;
                                 Navigator.pop(context);
-                              }).confirmAction(),
+                              },
+                            ).confirmAction(),
                             sell: () => ActionUtils(
+                              delay: 0,
                                 context: context,
                                 action: () => PlayersService.sellPlayer(item.id),
-                                callback: () {
-                                  context.read<LineupProvider>().loadUserData();
+                                callback: () async {
+                                  await context.read<LineupProvider>().loadLineup(-1);
+                                  if (!context.mounted) return;
                                   Navigator.pop(context);
-                                }).confirmAction(),
+                                },
+                          ).confirmAction(),
                             select: () {Navigator.pop(context);},
                           );
                         },

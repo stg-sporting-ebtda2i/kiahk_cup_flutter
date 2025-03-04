@@ -16,12 +16,6 @@ class PositionsStorePage extends StatefulWidget {
 class _PositionsStorePageState extends State<PositionsStorePage> {
 
   @override
-  void initState() {
-    super.initState();
-    context.read<PositionsStoreProvider>().loadStore();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PositionsStoreProvider>(context);
     return Scaffold(
@@ -51,19 +45,28 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
                     return PositionListItem(
                       item: item,
                       buy: () => ActionUtils(
+                        delay: 0,
                           context: context,
                           action: () => PositionsService.buyPosition(item.id),
-                          callback: () {provider.loadStore();}
+                          callback: () {
+                            // provider.loadStore();
+                          }
                       ).confirmAction(),
                       sell: () => ActionUtils(
+                        delay: 0,
                           context: context,
                           action: () => PositionsService.sellPosition(item.id),
-                          callback: () {provider.loadStore();}
+                          callback: () {
+                            // provider.loadStore();
+                          }
                       ).confirmAction(),
                       select: () => ActionUtils(
+                        delay: 0,
                           context: context,
                           action: () => PositionsService.selectPosition(item.id),
-                          callback: () {provider.loadStore();}
+                          callback: () {
+                            // provider.loadStore();
+                          }
                       ).confirmAction(),
                     );
                   },

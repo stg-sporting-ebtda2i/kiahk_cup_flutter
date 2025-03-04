@@ -16,12 +16,6 @@ class IconsStorePage extends StatefulWidget {
 class _IconsStorePageState extends State<IconsStorePage> {
 
   @override
-  void initState() {
-    super.initState();
-    context.read<IconsStoreProvider>().loadStore();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<IconsStoreProvider>(context);
     return Scaffold(
@@ -55,22 +49,25 @@ class _IconsStorePageState extends State<IconsStorePage> {
                       owned: item.owned,
                       selected: item.selected,
                       buy: () => ActionUtils(
+                        delay: 0,
                         context: context,
                         action: () => IconsService.buyIcon(item.id),
                         callback: () {
-                          context.read<IconsStoreProvider>().loadStore();
+                          // context.read<IconsStoreProvider>().loadStore();
                         }).confirmAction(),
                       sell: () => ActionUtils(
+                        delay: 0,
                           context: context,
                           action: () => IconsService.sellIcon(item.id),
                           callback: () {
-                            provider.loadStore();
+                            // provider.loadStore();
                           }).confirmAction(),
                       select: () => ActionUtils(
+                        delay: 0,
                           context: context,
                           action: () => IconsService.selectIcon(item.id),
                           callback: () {
-                            context.read<IconsStoreProvider>().loadStore();
+                            // context.read<IconsStoreProvider>().loadStore();
                           }).confirmAction(),
                     );
                   },

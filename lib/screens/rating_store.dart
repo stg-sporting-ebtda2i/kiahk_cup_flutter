@@ -17,13 +17,6 @@ class _RatingStorePageState extends State<RatingStorePage> {
   int delta = 0;
   late RatingStoreProvider provider;
 
-  @override
-  void initState() {
-    super.initState();
-    provider = context.read<RatingStoreProvider>();
-    provider.loadData();
-  }
-
   void _incRating() {
     if ((provider.currentRating+delta)<99) {
       setState(() {
@@ -104,6 +97,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () => ActionUtils(
+                            delay: 0,
                               context: context,
                               action: () => CardRatingService.upgradeRating(delta),
                               callback: () {

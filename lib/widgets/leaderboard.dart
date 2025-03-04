@@ -16,12 +16,6 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
 
   @override
-  void initState() {
-    super.initState();
-    context.read<LeaderboardProvider>().loadLineup();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LeaderboardProvider>(context);
     return Scaffold(

@@ -15,11 +15,6 @@ class ShowQuizzesPage extends StatefulWidget {
 }
 
 class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<QuizzesProvider>(context, listen: false).loadQuizzes();
-  }
 
   @override
   Widget build(BuildContext context) {

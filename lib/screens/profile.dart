@@ -32,8 +32,6 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AttendanceProvider>().loadLiturgies();
-    Provider.of<UserProvider>(context, listen: false).loadUserData();
     AuthService.getConfirmed().then((confirmed) {
       setState(() {
         _confirmed = confirmed;
@@ -67,8 +65,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
         positiveBtnText: 'Delete',
         positiveBtnAction: () async {
           await AuthService.delete();
-          if(!mounted) return;
-
+          if(!context.mounted) return;
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRoutes.login);
         },
