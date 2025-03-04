@@ -33,15 +33,17 @@ class DataUtils {
       return;
     }
 
-    await attendanceProvider.loadLiturgies();
-    await headerProvider.initialize();
-    await iconsStoreProvider.loadStore();
-    await leaderboardProvider.loadLeaderboard();
-    await lineupProvider.loadLineup(-1);
-    await positionsStoreProvider.loadStore();
-    await quizzesProvider.loadQuizzes();
-    await ratingStoreProvider.loadData();
-    await userProvider.loadUserData();
+    await Future.wait([
+      attendanceProvider.loadLiturgies(),
+      headerProvider.initialize(),
+      iconsStoreProvider.loadStore(),
+      leaderboardProvider.loadLeaderboard(),
+      lineupProvider.loadLineup(-1),
+      positionsStoreProvider.loadStore(),
+      quizzesProvider.loadQuizzes(),
+      ratingStoreProvider.loadData(),
+      userProvider.loadUserData(),
+    ]);
 
   }
 

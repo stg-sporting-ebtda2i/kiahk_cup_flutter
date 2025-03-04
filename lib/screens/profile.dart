@@ -108,10 +108,10 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
     File selectedImage = File(imagePath);
     await Loading.show(() async {
       await ChangePictureService.changePicture(selectedImage);
-      if (mounted) {
-        Provider.of<UserProvider>(context, listen: false).loadUserData();
-      }
-
+      await Future.delayed(Duration(seconds: 5));
+      await Future.wait([
+        if (mounted) context.read<UserProvider>().loadUserData(),
+      ]);
       toast("Image changed successfully");
     }, delay: Duration(milliseconds: 0), message: "Changing image...");
   }
