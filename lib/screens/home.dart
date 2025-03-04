@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'show_quizzes_list.dart';
 import 'my_card.dart';
 import 'lineup.dart';
-import '../widgets/leaderboard.dart';
+import 'leaderboard.dart';
 import 'profile.dart';
 
 class HomePage extends StatefulWidget {
