@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'show_quizzes_list.dart';
 import 'my_card.dart';
 import 'lineup.dart';
-import '../widgets/leaderboard.dart';
+import 'leaderboard.dart';
 import 'profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,28 +25,37 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     ButtonsVisibilityProvider provider = context.read<ButtonsVisibilityProvider>();
-    provider.refreshData();
-
-    provider.addListener(() {
-      _updateWidgetOptions(provider);
-    });
+    if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
+    if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
+    if (provider.isVisible('Lineup')) {
+      _widgetOptions.add(LineupPage(userLineup: true));
+      _selectedIndex = _widgetOptions.length-1;
+    } else {
+      _selectedIndex = 0;
+    }
+    if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
+    _widgetOptions.add(MoreOptionsPage());
+    // ButtonsVisibilityProvider provider = context.read<ButtonsVisibilityProvider>();
+    // provider.addListener(() {
+    //   _updateWidgetOptions(provider);
+    // });
   }
 
   void _updateWidgetOptions(ButtonsVisibilityProvider provider) {
     if(mounted) {
       setState(() {
-      _widgetOptions.clear();
-      if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
-      if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
-      if (provider.isVisible('Lineup')) {
-        _widgetOptions.add(LineupPage(userLineup: true, userId: -1));
-        _selectedIndex = _widgetOptions.length-1;
-      } else {
-        _selectedIndex = 0;
-      }
-      if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
-      _widgetOptions.add(MoreOptionsPage());
-    });
+        _widgetOptions.clear();
+        if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
+        if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
+        if (provider.isVisible('Lineup')) {
+          _widgetOptions.add(LineupPage(userLineup: true));
+          _selectedIndex = _widgetOptions.length-1;
+        } else {
+          _selectedIndex = 0;
+        }
+        if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
+        _widgetOptions.add(MoreOptionsPage());
+      });
     }
   }
 

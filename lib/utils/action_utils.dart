@@ -11,11 +11,13 @@ class ActionUtils {
   final BuildContext context;
   final VoidCallback callback;
   final Future<void> Function() action;
+  late int delay = 0;
 
   ActionUtils({
     required this.context,
     required this.action,
     required this.callback,
+    required this.delay,
   });
 
   void confirmAction({String text='Are you sure that you want to continue?', String confirmBtn='Confirm'}) {
@@ -34,11 +36,13 @@ class ActionUtils {
     } catch(e) {
       toast(e.toString());
     } finally {
-      EasyLoading.dismiss(animation: true);
-      if (context.mounted) {
-        context.read<HeaderProvider>().refreshCoins();
-        callback();
-      }
+      Future.delayed(Duration(seconds: delay), () {
+        EasyLoading.dismiss(animation: true);
+        if (context.mounted) {
+          context.read<HeaderProvider>().refreshCoins();
+          callback();
+        }
+      });
     }
   }
 

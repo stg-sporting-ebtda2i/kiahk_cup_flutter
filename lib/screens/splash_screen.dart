@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
-import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
-import 'package:provider/provider.dart';
+import 'package:piehme_cup_flutter/utils/data_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkIfLoggedIn() async {
     String page;
@@ -21,20 +19,11 @@ class _SplashScreenState extends State<SplashScreen> {
     page = isLoggedIn ? AppRoutes.home : AppRoutes.login;
 
     if (mounted && isLoggedIn) {
-      ButtonsVisibilityProvider btnsProvider = context.read<ButtonsVisibilityProvider>();
-      HeaderProvider headerProvider = context.read<HeaderProvider>();
-      await btnsProvider.refreshData();
-      if (btnsProvider.isVisible('Maintenance')) {
-        page = AppRoutes.maintenance;
-      } else {
-        await headerProvider.initialize();
-      }
+      await DataUtils.initApp(context);
     }
-    Future.delayed(Duration(seconds: 1), () {
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, page);
-      }
-    });
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, page);
+    }
   }
 
   @override

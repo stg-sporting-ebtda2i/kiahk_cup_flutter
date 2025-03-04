@@ -10,10 +10,7 @@ class HeaderProvider with ChangeNotifier {
 
   String? get name => _name;
   int get coins => _coins;
-
-  // HeaderProvider() {
-  //   _initialize();
-  // }
+  
 
   void refreshCoins() async {
     _coins = await CoinsService.getCoins();

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
-import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/utils/data_utils.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_text_field.dart';
-import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,8 +38,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (isLoginSuccessful) {
         if (!context.mounted) return;
-        HeaderProvider headerProvider = context.read<HeaderProvider>();
-        await headerProvider.initialize();
+        await DataUtils.initApp(context);
         if (!context.mounted) return;
         Navigator.pushReplacementNamed(context, AppRoutes.home);
       } else {
@@ -59,15 +57,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // Future<void> _checkIfLoggedIn() async {
-  //   if (await AuthService.hasToken() && mounted) {
-  //     Navigator.pushReplacementNamed(context, AppRoutes.home);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // _checkIfLoggedIn();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,

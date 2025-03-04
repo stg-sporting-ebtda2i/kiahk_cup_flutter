@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/services/icons_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
@@ -15,15 +16,13 @@ class IconsStorePage extends StatefulWidget {
 
 class _IconsStorePageState extends State<IconsStorePage> {
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<IconsStoreProvider>().loadStore();
-  }
+  late IconsStoreProvider provider;
+  late LineupProvider lineupProvider;
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<IconsStoreProvider>(context);
+    provider = Provider.of<IconsStoreProvider>(context);
+    lineupProvider = Provider.of<LineupProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -55,22 +54,28 @@ class _IconsStorePageState extends State<IconsStorePage> {
                       owned: item.owned,
                       selected: item.selected,
                       buy: () => ActionUtils(
+                        delay: 0,
                         context: context,
                         action: () => IconsService.buyIcon(item.id),
-                        callback: () {
-                          context.read<IconsStoreProvider>().loadStore();
+                        callback: () async {
+                          await provider.loadStore();
+                          await lineupProvider.loadLineup(-1);
                         }).confirmAction(),
                       sell: () => ActionUtils(
+                        delay: 0,
                           context: context,
                           action: () => IconsService.sellIcon(item.id),
-                          callback: () {
-                            provider.loadStore();
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
                           }).confirmAction(),
                       select: () => ActionUtils(
+                        delay: 0,
                           context: context,
                           action: () => IconsService.selectIcon(item.id),
-                          callback: () {
-                            context.read<IconsStoreProvider>().loadStore();
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
                           }).confirmAction(),
                     );
                   },

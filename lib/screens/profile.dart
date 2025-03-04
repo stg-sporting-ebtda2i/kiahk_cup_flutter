@@ -32,8 +32,6 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AttendanceProvider>().loadLiturgies();
-    Provider.of<UserProvider>(context, listen: false).loadUserData();
     AuthService.getConfirmed().then((confirmed) {
       setState(() {
         _confirmed = confirmed;
@@ -67,8 +65,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
         positiveBtnText: 'Delete',
         positiveBtnAction: () async {
           await AuthService.delete();
-          if(!mounted) return;
-
+          if(!context.mounted) return;
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRoutes.login);
         },
@@ -111,10 +108,10 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
     File selectedImage = File(imagePath);
     await Loading.show(() async {
       await ChangePictureService.changePicture(selectedImage);
-      if (mounted) {
-        Provider.of<UserProvider>(context, listen: false).loadUserData();
-      }
-
+      await Future.delayed(Duration(seconds: 5));
+      await Future.wait([
+        if (mounted) context.read<UserProvider>().loadUserData(),
+      ]);
       toast("Image changed successfully");
     }, delay: Duration(milliseconds: 0), message: "Changing image...");
   }
