@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:piehme_cup_flutter/http_client.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +13,7 @@ class Request {
   Map<String, String> headers = {};
   bool _isMultiPart = false;
   List<http.MultipartFile> files = [];
+  http.Client client = CustomHttpClient.createLEClient(); // Use the custom HTTP client
 
   Request(String url) : uri = Uri.parse(baseUrl + url);
 
@@ -58,7 +60,7 @@ class Request {
   }
 
   Future<http.Response> get() async {
-    return _handle(await http.get(uri, headers: headers));
+    return _handle(await client.get(uri, headers: headers));
   }
 
   Future<http.Response> post([Map<String, dynamic>? body]) async {
@@ -66,11 +68,11 @@ class Request {
       return multipartRequest("POST", body);
     }
 
-    return _handle(await http.post(uri, headers: headers, body: jsonEncode(body)));
+    return _handle(await client.post(uri, headers: headers, body: jsonEncode(body)));
   }
 
   Future<http.Response> delete() async {
-    return await http.delete(uri, headers: headers);
+    return await client.delete(uri, headers: headers);
   }
 
   Future<http.Response> patch([Map<String, dynamic>? body]) async {
@@ -78,7 +80,7 @@ class Request {
       return multipartRequest("PATCH", body);
     }
 
-    return _handle(await http.patch(uri, headers: headers, body: jsonEncode(body)));
+    return _handle(await client.patch(uri, headers: headers, body: jsonEncode(body)));
   }
 
   Future<http.Response> put([Map<String, dynamic>? body]) async {
@@ -86,7 +88,7 @@ class Request {
       return multipartRequest("PUT", body);
     }
 
-    return _handle(await http.put(uri, headers: headers, body: jsonEncode(body)));
+    return _handle(await client.put(uri, headers: headers, body: jsonEncode(body)));
   }
 
   Future<http.Response> multipartRequest(String method, [Map<String, dynamic>? body]) async {
