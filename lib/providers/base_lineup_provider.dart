@@ -32,6 +32,14 @@ abstract class BaseLineupProvider with ChangeNotifier {
     _usedPlayerIds.add(player.id);
   }
 
+  bool isChecked(Player player) {
+    return _checkedPlayerIds.contains(player.id);
+  }
+
+  void check(Player player) {
+    _checkedPlayerIds.add(player.id);
+  }
+
   Player? getNextPlayer(String position) {
     final availablePlayers = lineup
         .where((player) => player.position == position && !isUsed(player))
@@ -46,13 +54,13 @@ abstract class BaseLineupProvider with ChangeNotifier {
 
   String checkChangedData(String position) {
     final availablePlayers = lineup
-        .where((player) => player.position == position && !isUsed(player))
+        .where((player) => player.position == position && !isChecked(player))
         .toList();
     if (position == user.position) {
       userCardChecked = true;
       return user.name;
     } else if (availablePlayers.isNotEmpty) {
-      _checkedPlayerIds.add(availablePlayers.first.id);
+      check(availablePlayers.first);
       return availablePlayers.first.name;
     } else {
       return 'Null';
