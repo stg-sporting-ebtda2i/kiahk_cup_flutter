@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
@@ -51,46 +52,55 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                       ),
                     ),
                     child: Expanded(
-                      child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 15,
-                          mainAxisSpacing: 15,
-                          childAspectRatio: 0.45,
-                        ),
-                        padding: const EdgeInsets.all(15),
-                        itemCount: provider.items.length,
-                        itemBuilder: (context, index) {
-                          final item = provider.items[index];
-                          return StoreListItem(
-                            imageUrl: item.imageUrl,
-                            imageKey: item.imageKey,
-                            price: item.price,
-                            owned: item.owned,
-                            selected: false,
-                            buy: () => ActionUtils(
-                              delay: 0,
-                              context: context,
-                              action: () => PlayersService.buyPlayer(item.id),
-                              callback: () async {
-                                await context.read<LineupProvider>().loadLineup(-1);
-                                if (!context.mounted) return;
-                                Navigator.pop(context);
-                              },
-                            ).confirmAction(),
-                            sell: () => ActionUtils(
-                              delay: 0,
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          await Loading.show(() async {
+                            await provider.loadStore(widget.position);
+                          }, delay: Duration(milliseconds: 0));
+                        },
+                        color: Colors.black,
+                        backgroundColor: Colors.greenAccent,
+                        child: GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            childAspectRatio: 0.45,
+                          ),
+                          padding: const EdgeInsets.all(15),
+                          itemCount: provider.items.length,
+                          itemBuilder: (context, index) {
+                            final item = provider.items[index];
+                            return StoreListItem(
+                              imageUrl: item.imageUrl,
+                              imageKey: item.imageKey,
+                              price: item.price,
+                              owned: item.owned,
+                              selected: false,
+                              buy: () => ActionUtils(
+                                delay: 0,
                                 context: context,
-                                action: () => PlayersService.sellPlayer(item.id),
+                                action: () => PlayersService.buyPlayer(item.id),
                                 callback: () async {
                                   await context.read<LineupProvider>().loadLineup(-1);
                                   if (!context.mounted) return;
                                   Navigator.pop(context);
                                 },
-                          ).confirmAction(),
-                            select: () {Navigator.pop(context);},
-                          );
-                        },
+                              ).confirmAction(),
+                              sell: () => ActionUtils(
+                                delay: 0,
+                                  context: context,
+                                  action: () => PlayersService.sellPlayer(item.id),
+                                  callback: () async {
+                                    await context.read<LineupProvider>().loadLineup(-1);
+                                    if (!context.mounted) return;
+                                    Navigator.pop(context);
+                                  },
+                            ).confirmAction(),
+                              select: () {Navigator.pop(context);},
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

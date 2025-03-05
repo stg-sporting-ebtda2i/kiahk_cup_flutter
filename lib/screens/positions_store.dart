@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
 import 'package:piehme_cup_flutter/services/positions_service.dart';
@@ -36,48 +37,57 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
             children: [
               SafeArea(child: Header()),
               Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    childAspectRatio: 1,
-                  ),
-                  padding: const EdgeInsets.all(15),
-                  itemCount: provider.items.length,
-                  itemBuilder: (context, index) {
-                    final item = provider.items[index];
-                    return PositionListItem(
-                      item: item,
-                      buy: () => ActionUtils(
-                        delay: 0,
-                          context: context,
-                          action: () => PositionsService.buyPosition(item.id),
-                          callback: () async {
-                            await provider.loadStore();
-                            await lineupProvider.loadLineup(-1);
-                          }
-                      ).confirmAction(),
-                      sell: () => ActionUtils(
-                        delay: 0,
-                          context: context,
-                          action: () => PositionsService.sellPosition(item.id),
-                          callback: () async {
-                            await provider.loadStore();
-                            await lineupProvider.loadLineup(-1);
-                          }
-                      ).confirmAction(),
-                      select: () => ActionUtils(
-                        delay: 0,
-                          context: context,
-                          action: () => PositionsService.selectPosition(item.id),
-                          callback: () async {
-                            await provider.loadStore();
-                            await lineupProvider.loadLineup(-1);
-                          }
-                      ).confirmAction(),
-                    );
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await Loading.show(() async {
+                      await provider.loadStore();
+                    }, delay: Duration(milliseconds: 0));
                   },
+                  color: Colors.black,
+                  backgroundColor: Colors.greenAccent,
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                      childAspectRatio: 1,
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    itemCount: provider.items.length,
+                    itemBuilder: (context, index) {
+                      final item = provider.items[index];
+                      return PositionListItem(
+                        item: item,
+                        buy: () => ActionUtils(
+                          delay: 0,
+                            context: context,
+                            action: () => PositionsService.buyPosition(item.id),
+                            callback: () async {
+                              await provider.loadStore();
+                              await lineupProvider.loadLineup(-1);
+                            }
+                        ).confirmAction(),
+                        sell: () => ActionUtils(
+                          delay: 0,
+                            context: context,
+                            action: () => PositionsService.sellPosition(item.id),
+                            callback: () async {
+                              await provider.loadStore();
+                              await lineupProvider.loadLineup(-1);
+                            }
+                        ).confirmAction(),
+                        select: () => ActionUtils(
+                          delay: 0,
+                            context: context,
+                            action: () => PositionsService.selectPosition(item.id),
+                            callback: () async {
+                              await provider.loadStore();
+                              await lineupProvider.loadLineup(-1);
+                            }
+                        ).confirmAction(),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

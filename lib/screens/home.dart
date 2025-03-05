@@ -41,23 +41,23 @@ class _HomePageState extends State<HomePage> {
     // });
   }
 
-  void _updateWidgetOptions(ButtonsVisibilityProvider provider) {
-    if(mounted) {
-      setState(() {
-        _widgetOptions.clear();
-        if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
-        if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
-        if (provider.isVisible('Lineup')) {
-          _widgetOptions.add(LineupPage(userLineup: true));
-          _selectedIndex = _widgetOptions.length-1;
-        } else {
-          _selectedIndex = 0;
-        }
-        if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
-        _widgetOptions.add(MoreOptionsPage());
-      });
-    }
-  }
+  // void _updateWidgetOptions(ButtonsVisibilityProvider provider) {
+  //   if(mounted) {
+  //     setState(() {
+  //       _widgetOptions.clear();
+  //       if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
+  //       if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
+  //       if (provider.isVisible('Lineup')) {
+  //         _widgetOptions.add(LineupPage(userLineup: true));
+  //         _selectedIndex = _widgetOptions.length-1;
+  //       } else {
+  //         _selectedIndex = 0;
+  //       }
+  //       if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
+  //       _widgetOptions.add(MoreOptionsPage());
+  //     });
+  //   }
+  // }
 
   void _onItemTapped(int index) {
     setState(() {

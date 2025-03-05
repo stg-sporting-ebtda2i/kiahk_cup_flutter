@@ -37,6 +37,7 @@ class _LeaderboardState extends State<Leaderboard> {
                     }, message: 'Loading Leaderboard...', delay: Duration.zero);
                   },
                   color: Colors.black,
+                  backgroundColor: Colors.greenAccent,
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     itemCount: provider.leaderboard.length,

@@ -11,6 +11,7 @@ class PlayersStoreProvider with ChangeNotifier {
   bool get isLoaded => _isLoaded;
 
   Future<void> loadStore(String position) async {
+    _isLoaded = false;
     _items = <Player>[];
     notifyListeners();
     _items = await PlayersService.getPlayersByPosition(position);

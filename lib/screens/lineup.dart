@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/providers/base_lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/widgets/lineup_scores_panel.dart';
 import 'package:provider/provider.dart';

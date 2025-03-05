@@ -37,6 +37,7 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
                       }, message: 'Loading Quizzes...', delay: Duration.zero);
                     },
                     color: Colors.black,
+                    backgroundColor: Colors.greenAccent,
                     child: ListView.builder(
                       padding: const EdgeInsets.all(15),
                       itemCount: provider.quizzes.length,
