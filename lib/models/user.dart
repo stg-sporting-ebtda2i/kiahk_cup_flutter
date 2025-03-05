@@ -1,4 +1,6 @@
 
+import 'package:piehme_cup_flutter/utils/string_utils.dart';
+
 class User {
   final int id;
   final String name;
@@ -39,7 +41,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
-      name: json['name'],
+      name: StringUtils.capitalizeWords(json['name']),
       cardRating: json['cardRating'],
       imageUrl: json['imageUrl'],
       imageKey: json['imageKey'],
