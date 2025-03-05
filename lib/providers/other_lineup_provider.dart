@@ -34,7 +34,6 @@ class OtherLineupProvider extends BaseLineupProvider {
     await Loading.show(() async {
       _avgRating = 0;
       _maxRating = 0;
-      _lineupRating = 0;
       List<int> stats = await LeaderboardService.getStats();
       _lineup = await PlayersService.getLineupById(userId);
       _user = await UsersService.getOtherUserIcon(userId);
@@ -44,11 +43,6 @@ class OtherLineupProvider extends BaseLineupProvider {
       _lineupRating = _user.lineupRating.round();
       notifyListeners();
     }, message: 'Loading Lineup...', delay: Duration.zero);
-  }
-
-  @override
-  void refreshListeners() {
-    notifyListeners();
   }
 
 }

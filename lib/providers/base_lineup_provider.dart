@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
 
@@ -15,7 +15,6 @@ abstract class BaseLineupProvider with ChangeNotifier {
   int get maxRating;
   User get user;
   Future<void> loadLineup(int userId);
-  void refreshListeners();
 
   void resetAddedCards() {
     _usedPlayerIds.clear();

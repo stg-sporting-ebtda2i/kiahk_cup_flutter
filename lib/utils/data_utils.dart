@@ -3,6 +3,7 @@ import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
+import 'package:piehme_cup_flutter/providers/icons_text_color_provider.dart';
 import 'package:piehme_cup_flutter/providers/leaderboard_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
@@ -25,6 +26,7 @@ class DataUtils {
     final quizzesProvider = context.read<QuizzesProvider>();
     final ratingStoreProvider = context.read<RatingStoreProvider>();
     final userProvider = context.read<UserProvider>();
+    final iconsTextColorProvider = context.read<IconsTextColorProvider>();
 
     await buttonsVisibilityProvider.refreshData();
 
@@ -43,6 +45,7 @@ class DataUtils {
       quizzesProvider.loadQuizzes(),
       ratingStoreProvider.loadData(),
       userProvider.loadUserData(),
+      iconsTextColorProvider.loadAllCachedColors(),
     ]);
 
   }

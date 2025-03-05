@@ -27,8 +27,6 @@ class LineupProvider extends BaseLineupProvider {
   @override
   Future<void> loadLineup(int userId) async {
     _lineup = [];
-    _lineupRating = 0;
-
     _avgRating = 0;
     _maxRating = 0;
     _lineupRating = 0;
@@ -39,11 +37,6 @@ class LineupProvider extends BaseLineupProvider {
     _avgRating = stats[0];
     _maxRating = stats[1];
     _lineupRating = _user.lineupRating.round();
-    notifyListeners();
-  }
-
-  @override
-  void refreshListeners() {
     notifyListeners();
   }
 
