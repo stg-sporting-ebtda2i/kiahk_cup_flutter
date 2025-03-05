@@ -56,7 +56,7 @@ class LeaderboardListItem extends StatelessWidget {
             backgroundColor: Colors.white70,
           ),
           child: Text(
-            'View lienup',
+            'View lineup',
             style: TextStyle(
               color: Colors.black,
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
@@ -47,6 +48,13 @@ class DataUtils {
       userProvider.loadUserData(),
       iconsTextColorProvider.loadAllCachedColors(),
     ]);
+
+    List<String> checkedKeys = <String>[];
+    for (User user in leaderboardProvider.leaderboard) {
+      if (checkedKeys.contains(user.iconKey)) continue;
+      await iconsTextColorProvider.getTextColor(key: user.iconKey, url: user.iconUrl);
+      checkedKeys.add(user.iconKey);
+    }
 
   }
 
