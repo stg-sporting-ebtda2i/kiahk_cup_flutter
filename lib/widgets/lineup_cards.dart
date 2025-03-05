@@ -90,31 +90,55 @@ class _LineupState extends State<Lineup> {
   }
 
   Widget getCard(String position) {
-    return widget.userLineup ? Selector<LineupProvider, String?>(
-      selector: (context, provider) => (provider.checkChangedData(position)),
-      builder: (context, player, child) {
-        return player!=null ?
-        CardsUtils.getCard(
-          context: context,
-          cardHeight: _cardHeight,
-          clickable: widget.userLineup && _storeOpened,
-          position: position,
-          provider: _provider,
-        ) : SizedBox();
-      },
-    ) : Selector<OtherLineupProvider, String?>(
-    selector: (context, provider) => (provider.checkChangedData(position)),
-    builder: (context, player, child) {
-    return player!=null ?
-    CardsUtils.getCard(
-    context: context,
-    cardHeight: _cardHeight,
-    clickable: widget.userLineup && _storeOpened,
-    position: position,
-    provider: _provider,
-    ) : SizedBox();
-    },
-    );
-  }
+      return widget.userLineup ? Consumer<LineupProvider>(
+        builder: (context, provider, child) {
+          return CardsUtils.getCard(
+            context: context,
+            cardHeight: _cardHeight,
+            clickable: widget.userLineup && _storeOpened,
+            position: position,
+            provider: _provider,
+          );
+        },
+      ) : Consumer<OtherLineupProvider>(
+        builder: (context, provider, child) {
+          return CardsUtils.getCard(
+            context: context,
+            cardHeight: _cardHeight,
+            clickable: widget.userLineup && _storeOpened,
+            position: position,
+            provider: _provider,
+          );
+        },
+      );
+    }
+
+  // Widget getCard(String position) {
+  //   return widget.userLineup ? Selector<LineupProvider, String?>(
+  //     selector: (context, provider) => (provider.checkChangedData(position)),
+  //     builder: (context, player, child) {
+  //       return player!=null ?
+  //       CardsUtils.getCard(
+  //         context: context,
+  //         cardHeight: _cardHeight,
+  //         clickable: widget.userLineup && _storeOpened,
+  //         position: position,
+  //         provider: _provider,
+  //       ) : SizedBox();
+  //     },
+  //   ) : Selector<OtherLineupProvider, String?>(
+  //   selector: (context, provider) => (provider.checkChangedData(position)),
+  //   builder: (context, player, child) {
+  //     return player!=null ?
+  //     CardsUtils.getCard(
+  //       context: context,
+  //       cardHeight: _cardHeight,
+  //       clickable: widget.userLineup && _storeOpened,
+  //       position: position,
+  //       provider: _provider,
+  //     ) : SizedBox();
+  //   },
+  //   );
+  // }
 
 }

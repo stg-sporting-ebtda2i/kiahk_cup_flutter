@@ -42,7 +42,7 @@ class CardsUtils {
           onClick: clickable ? () =>
               ActionUtils(
                   context: context,
-                  delay: 1,
+                  delay: 0,
                   action: () async {
                     await PlayersService.sellPlayer(player.id);
                     toast("${player.name} has been sold");
@@ -58,10 +58,10 @@ class CardsUtils {
             await Loading.show(() async {
               PlayersStoreProvider provider = context.read<PlayersStoreProvider>();
               await provider.loadStore(position);
+              if (!context.mounted) return;
+              Navigator.pushNamed(context, AppRoutes.playersStore,
+                  arguments: {'position': position});
             }, delay: Duration(milliseconds: 0));
-            if (!context.mounted) return;
-            Navigator.pushNamed(context, AppRoutes.playersStore,
-                arguments: {'position': position});
           } : () {},
         );
       }

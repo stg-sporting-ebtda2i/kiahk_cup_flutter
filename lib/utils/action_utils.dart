@@ -9,7 +9,7 @@ import '../providers/header_provider.dart';
 class ActionUtils {
 
   final BuildContext context;
-  final VoidCallback callback;
+  final Future<void> Function() callback;
   final Future<void> Function() action;
   late int delay = 0;
 
@@ -36,12 +36,12 @@ class ActionUtils {
     } catch(e) {
       toast(e.toString());
     } finally {
-      Future.delayed(Duration(seconds: delay), () {
-        EasyLoading.dismiss(animation: true);
+      Future.delayed(Duration(seconds: delay), () async {
         if (context.mounted) {
           context.read<HeaderProvider>().refreshCoins();
-          callback();
+          await callback();
         }
+        EasyLoading.dismiss(animation: true);
       });
     }
   }

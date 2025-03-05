@@ -103,10 +103,10 @@ class _RatingStorePageState extends State<RatingStorePage> {
                             delay: 0,
                               context: context,
                               action: () => CardRatingService.upgradeRating(delta),
-                              callback: () {
+                              callback: () async {
                                 delta = 0;
                                 provider.loadData();
-                                lineupProvider.loadLineup(-1);
+                                await lineupProvider.loadLineup(-1);
                               }
                           ).confirmAction(),
                           style: ElevatedButton.styleFrom(
