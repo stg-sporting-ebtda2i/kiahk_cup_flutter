@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -10,6 +8,7 @@ import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
+import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/user_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/change_picture_service.dart';
@@ -33,8 +32,6 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AttendanceProvider>().loadLiturgies();
-    Provider.of<UserProvider>(context, listen: false).loadUserData();
     AuthService.getConfirmed().then((confirmed) {
       setState(() {
         _confirmed = confirmed;
@@ -50,6 +47,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
         text: 'Are you sure that you want to logout?',
         positiveBtnText: 'Logout',
         positiveBtnAction: () {
+          context.read<HeaderProvider>().stop();
           AuthService.logout();
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRoutes.login);
@@ -67,8 +65,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
         positiveBtnText: 'Delete',
         positiveBtnAction: () async {
           await AuthService.delete();
-          if(!mounted) return;
-
+          if(!context.mounted) return;
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRoutes.login);
         },
@@ -111,10 +108,10 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
     File selectedImage = File(imagePath);
     await Loading.show(() async {
       await ChangePictureService.changePicture(selectedImage);
-      if (mounted) {
-        Provider.of<UserProvider>(context, listen: false).loadUserData();
-      }
-
+      await Future.delayed(Duration(seconds: 5));
+      await Future.wait([
+        if (mounted) context.read<UserProvider>().loadUserData(),
+      ]);
       toast("Image changed successfully");
     }, delay: Duration(milliseconds: 0), message: "Changing image...");
   }

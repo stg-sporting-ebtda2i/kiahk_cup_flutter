@@ -4,8 +4,10 @@ import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
+import 'package:piehme_cup_flutter/providers/icons_text_color_provider.dart';
 import 'package:piehme_cup_flutter/providers/leaderboard_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
+import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
@@ -33,12 +35,14 @@ void main() {
           ChangeNotifierProvider(create: (_) => PlayersStoreProvider()),
           ChangeNotifierProvider(create: (_) => PositionsStoreProvider()),
           ChangeNotifierProvider(create: (_) => LineupProvider()),
+          ChangeNotifierProvider(create: (_) => OtherLineupProvider()),
           ChangeNotifierProvider(create: (_) => RatingStoreProvider()),
           ChangeNotifierProvider(create: (_) => LeaderboardProvider()),
           ChangeNotifierProvider(create: (_) => AttendanceProvider()),
           ChangeNotifierProvider(create: (_) => ButtonsVisibilityProvider()),
           ChangeNotifierProvider(create: (_) => QuizzesProvider()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => IconsTextColorProvider()),
         ],
       child: const PiehmeCup(),
     ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
+import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/user_card.dart';
+import 'package:provider/provider.dart';
 
 class LeaderboardListItem extends StatelessWidget {
 
@@ -44,14 +46,17 @@ class LeaderboardListItem extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.lineup, arguments: {'userId': user.id, 'userLineup': false});
-          },
+          onPressed: () async {
+              final otherLineupProvider = context.read<OtherLineupProvider>();
+              await otherLineupProvider.loadLineup(user.id);
+              if (!context.mounted) return;
+              Navigator.pushNamed(context, AppRoutes.lineup, arguments: {'userLineup': false});
+            },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white70,
           ),
           child: Text(
-            'View lienup',
+            'View lineup',
             style: TextStyle(
               color: Colors.black,
             ),

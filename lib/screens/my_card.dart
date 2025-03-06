@@ -16,12 +16,6 @@ class MyCardPage extends StatefulWidget {
 class _MyCardPageState extends State<MyCardPage> {
 
   @override
-  void initState() {
-    super.initState();
-    context.read<LineupProvider>().loadUserData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final cardHeight = MediaQuery.of(context).size.height/2;
     LineupProvider provider = Provider.of<LineupProvider>(context);
@@ -44,10 +38,10 @@ class _MyCardPageState extends State<MyCardPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 559*cardHeight/800,
+                          width: 900*cardHeight/1266,
                           height: cardHeight,
                           child: UserCard(
-                            width: 559*cardHeight/800,
+                            width: 900*cardHeight/1266,
                             user: provider.user,
                           ),
                         ),

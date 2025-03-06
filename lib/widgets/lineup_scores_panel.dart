@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:piehme_cup_flutter/providers/base_lineup_provider.dart';
 
-class ScoresPanel extends StatefulWidget {
-  const ScoresPanel({super.key});
+class ScoresPanel extends StatelessWidget {
 
-  @override
-  State<ScoresPanel> createState() => _ScoresPanelState();
-}
+  final BaseLineupProvider provider;
 
-class _ScoresPanelState extends State<ScoresPanel> {
+  const ScoresPanel({super.key, required this.provider});
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LineupProvider>(context);
     return Padding(
       padding: EdgeInsets.fromLTRB(40, 30, 40, 15),
       child: Row(

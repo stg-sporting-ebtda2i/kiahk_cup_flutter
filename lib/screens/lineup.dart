@@ -1,34 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
+import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/widgets/lineup_scores_panel.dart';
 import 'package:provider/provider.dart';
 import '../widgets/lineup_cards.dart';
 
-class LineupPage extends StatefulWidget {
+class LineupPage extends StatelessWidget {
   final bool userLineup;
-  final int userId;
 
   const LineupPage({
     super.key,
     required this.userLineup,
-    required this.userId,
   });
-
-  @override
-  State<LineupPage> createState() => _LineupPageState();
-}
-
-class _LineupPageState extends State<LineupPage> {
-  @override
-  void initState() {
-    super.initState();
-    LineupProvider provider = context.read<LineupProvider>();
-    if (widget.userLineup) {
-      provider.loadUserData();
-    } else {
-      provider.loadOtherUserData(widget.userId);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +29,8 @@ class _LineupPageState extends State<LineupPage> {
             SafeArea(
               child: Column(
                 children: [
-                  if(!widget.userLineup)
-                  Consumer<LineupProvider>(
+                  if(!userLineup)
+                  Consumer<OtherLineupProvider>(
                     builder: (context, provider, child) {
                       return Container(
                         height: 40,
@@ -68,15 +51,20 @@ class _LineupPageState extends State<LineupPage> {
                       );
                     }
                   ),
-
-                  const ScoresPanel(),
+                  userLineup ? Consumer<LineupProvider>(
+                    builder: (context, provider, child) {
+                      return ScoresPanel(provider: provider);
+                      },
+                  ) : Consumer<OtherLineupProvider>(builder: (context, provider, child) {
+                    return ScoresPanel(provider: provider);
+                  },),
                 ],
               ),
             ),
             Expanded(
               child: Center(
                 child: Lineup(
-                    userLineup: widget.userLineup, userID: widget.userId),
+                    userLineup: userLineup),
               ),
             ),
           ],

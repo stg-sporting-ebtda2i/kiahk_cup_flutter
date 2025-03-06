@@ -1,6 +1,4 @@
 import 'dart:collection';
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
@@ -12,11 +10,9 @@ class QuizzesProvider with ChangeNotifier {
 
   UnmodifiableListView<Quiz> get quizzes => UnmodifiableListView(_items);
 
-  void loadQuizzes() async {
-    await Loading.show(() async {
-      _items = await QuizzesService.getQuizzes();
-      notifyListeners();
-    }, delay: Duration.zero);
+  Future<void> loadQuizzes() async {
+    _items = await QuizzesService.getQuizzes();
+    notifyListeners();
   }
 
   Quiz _currentQuiz = Quiz.empty();

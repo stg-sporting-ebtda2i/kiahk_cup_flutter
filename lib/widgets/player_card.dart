@@ -20,7 +20,7 @@ class PlayerCard extends StatelessWidget {
     return GestureDetector(
       onTap: onClick,
       child: SizedBox(
-        width: 559*height/800,
+        width: 900*height/1266,
         height: height,
         child: CachedNetworkImage(
           imageUrl: player.imageUrl,

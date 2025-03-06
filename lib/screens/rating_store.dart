@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/rating_store_provider.dart';
 import 'package:piehme_cup_flutter/services/card_rating_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
@@ -16,13 +17,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
 
   int delta = 0;
   late RatingStoreProvider provider;
-
-  @override
-  void initState() {
-    super.initState();
-    provider = context.read<RatingStoreProvider>();
-    provider.loadData();
-  }
+  late LineupProvider lineupProvider;
 
   void _incRating() {
     if ((provider.currentRating+delta)<99) {
@@ -42,7 +37,8 @@ class _RatingStorePageState extends State<RatingStorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<RatingStoreProvider>(context);
+    provider = Provider.of<RatingStoreProvider>(context);
+    lineupProvider = Provider.of<LineupProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -104,11 +100,13 @@ class _RatingStorePageState extends State<RatingStorePage> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () => ActionUtils(
+                            delay: 0,
                               context: context,
                               action: () => CardRatingService.upgradeRating(delta),
-                              callback: () {
+                              callback: () async {
                                 delta = 0;
                                 provider.loadData();
+                                await lineupProvider.loadLineup(-1);
                               }
                           ).confirmAction(),
                           style: ElevatedButton.styleFrom(

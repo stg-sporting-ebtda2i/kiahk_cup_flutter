@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:piehme_cup_flutter/request.dart';
 import 'package:piehme_cup_flutter/utils/string_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +13,7 @@ class AuthService {
     final response = await Request("/login").contentJson().post({'username': username.trim(), 'password': password.trim()});
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
-    _saveResponse(responseData);
+    await _saveResponse(responseData);
     return true;
   }
 
@@ -32,7 +31,7 @@ class AuthService {
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
 
-    _saveResponse(responseData);
+    await _saveResponse(responseData);
     return true;
   }
 
@@ -49,7 +48,7 @@ class AuthService {
     return schoolYears;
   }
 
-  static void _saveResponse(Map<String, dynamic> response) async {
+  static Future<void> _saveResponse(Map<String, dynamic> response) async {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.setBool(AuthService.confirmedKey, response["confirmed"]);

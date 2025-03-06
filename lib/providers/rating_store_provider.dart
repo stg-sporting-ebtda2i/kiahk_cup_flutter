@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/services/card_rating_service.dart';
 
 class RatingStoreProvider with ChangeNotifier {
@@ -10,14 +9,12 @@ class RatingStoreProvider with ChangeNotifier {
   int get currentRating => _currentRating;
   int get ratingPrice => _ratingPrice;
 
-  void loadData() async {
+  Future<void> loadData() async {
     _ratingPrice = 0;
 
-    await Loading.show(() async {
-      _currentRating = await CardRatingService.getCardRating();
-      _ratingPrice = await CardRatingService.getRatingPrice();
-      notifyListeners();
-    });
+    _currentRating = await CardRatingService.getCardRating();
+    _ratingPrice = await CardRatingService.getRatingPrice();
+    notifyListeners();
   }
 
 }

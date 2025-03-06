@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/models/quiz.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/widgets/quiz_question_listitem.dart';
 
 class QuizListItem extends StatelessWidget {
   final Quiz quiz;
@@ -32,15 +33,20 @@ class QuizListItem extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
               children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Text(
-                    quiz.name,
-                    style: const TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Text(
+                      quiz.name,
+                      textDirection: getTextDirection(quiz.name),
+                      softWrap: true,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/utils/data_utils.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_text_field.dart';
 import '../services/auth_service.dart';
@@ -37,6 +38,8 @@ class _LoginPageState extends State<LoginPage> {
 
       if (isLoginSuccessful) {
         if (!context.mounted) return;
+        await DataUtils.initApp(context);
+        if (!context.mounted) return;
         Navigator.pushReplacementNamed(context, AppRoutes.home);
       } else {
         if (!context.mounted) return;
@@ -54,15 +57,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> _checkIfLoggedIn() async {
-    if (await AuthService.hasToken() && mounted) {
-      Navigator.pushReplacementNamed(context, AppRoutes.home);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    _checkIfLoggedIn();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
