@@ -110,11 +110,6 @@ class Request {
 
   http.Response _handle(http.Response response) {
     log("$uri ${response.statusCode}");
-    if (response.statusCode == 403) {
-      AuthService.logout();
-
-      throw "You are not logged in";
-    }
 
     if (![200, 201].contains(response.statusCode)) {
       final Map<String, dynamic> responseBody = json.decode(response.body);

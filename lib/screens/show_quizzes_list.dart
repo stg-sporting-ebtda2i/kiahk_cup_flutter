@@ -30,7 +30,7 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
             Consumer<QuizzesProvider>(
               builder: (context, provider, child) {
                 return Expanded(
-                  child: RefreshIndicator(
+                  child: RefreshIndicator.adaptive(
                     onRefresh: () async {
                       await Loading.show(() async {
                         await context.read<QuizzesProvider>().loadQuizzes();
