@@ -51,7 +51,7 @@ class LineupPage extends StatelessWidget {
                     }
                   ),
 
-                  const ScoresPanel(),
+                  ScoresPanel(userLineup: userLineup,),
                 ],
               ),
             ),
