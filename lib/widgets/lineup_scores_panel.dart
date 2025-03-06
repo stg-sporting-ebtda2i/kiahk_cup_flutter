@@ -1,30 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/base_lineup_provider.dart';
-import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
-import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
-import 'package:provider/provider.dart';
 
-class ScoresPanel extends StatefulWidget {
-  final bool userLineup;
-  const ScoresPanel({super.key, required this.userLineup});
+class ScoresPanel extends StatelessWidget {
 
-  @override
-  State<ScoresPanel> createState() => _ScoresPanelState();
-}
+  final BaseLineupProvider provider;
 
-class _ScoresPanelState extends State<ScoresPanel> {
-
-  late BaseLineupProvider provider;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.userLineup) {
-      provider = context.read<LineupProvider>();
-    } else {
-      provider = context.read<OtherLineupProvider>();
-    }
-  }
+  const ScoresPanel({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {

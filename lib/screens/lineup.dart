@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/widgets/lineup_scores_panel.dart';
 import 'package:provider/provider.dart';
@@ -50,8 +51,13 @@ class LineupPage extends StatelessWidget {
                       );
                     }
                   ),
-
-                  ScoresPanel(userLineup: userLineup,),
+                  userLineup ? Consumer<LineupProvider>(
+                    builder: (context, provider, child) {
+                      return ScoresPanel(provider: provider);
+                      },
+                  ) : Consumer<OtherLineupProvider>(builder: (context, provider, child) {
+                    return ScoresPanel(provider: provider);
+                  },),
                 ],
               ),
             ),
