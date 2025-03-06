@@ -41,7 +41,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
-      name: StringUtils.capitalizeWords(json['name']),
+      name: StringUtils.capitalizeWords(json['name']).split("@").first,
       cardRating: json['cardRating'],
       imageUrl: json['imageUrl'],
       imageKey: json['imageKey'],

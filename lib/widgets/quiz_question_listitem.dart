@@ -234,14 +234,18 @@ class _ReorderInputMethodState extends State<ReorderInputMethod> {
   @override
   void initState() {
     options = List.from(widget.options);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.answer == null) {
+        widget.setAnswer(options.map((option) => option.order).toList());
+      }
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if(widget.answer == null) {
-      widget.setAnswer(options.map((option) => option.order).toList());
-    }
 
     return ReorderableListView(
       physics: const NeverScrollableScrollPhysics(),
