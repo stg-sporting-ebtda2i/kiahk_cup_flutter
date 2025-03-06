@@ -39,9 +39,20 @@ class User {
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
+    String name = json['name'].split("@").first;
+
+    var names = name.split("_");
+    if(names.length > 1) {
+      name = names.reversed
+          .take(names.length - 1)
+          .toList()
+          .reversed
+          .join(" ");
+    }
+
     return User(
       id: json['id'],
-      name: StringUtils.capitalizeWords(json['name']).split("@").first,
+      name: StringUtils.capitalizeWords(name),
       cardRating: json['cardRating'],
       imageUrl: json['imageUrl'],
       imageKey: json['imageKey'],
