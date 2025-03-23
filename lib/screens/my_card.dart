@@ -45,40 +45,42 @@ class _MyCardPageState extends State<MyCardPage> {
                             user: provider.user,
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Button(
-                              width: 120,
-                              height: 52,
-                              text: 'Position',
-                              isLoading: false,
-                              fontSize: 18,
-                              onClick: () {
-                                Navigator.pushNamed(context, AppRoutes.positionsStore);
-                              },
-                            ),
-                            Button(
-                              width: 120,
-                              height: 52,
-                              text: 'Card',
-                              isLoading: false,
-                              fontSize: 18,
-                              onClick: () {
-                                Navigator.pushNamed(context, AppRoutes.cardsStore);
-                              },
-                            ),
-                            Button(
-                              width: 120,
-                              height: 52,
-                              text: 'Rating',
-                              isLoading: false,
-                              fontSize: 18,
-                              onClick: () {
-                                Navigator.pushNamed(context, AppRoutes.ratingStore);
-                              },
-                            ),
-                          ],
+                        SafeArea(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Button(
+                                width: 120,
+                                height: 52,
+                                text: 'Position',
+                                isLoading: false,
+                                fontSize: 18,
+                                onClick: () {
+                                  Navigator.pushNamed(context, AppRoutes.positionsStore);
+                                },
+                              ),
+                              Button(
+                                width: 120,
+                                height: 52,
+                                text: 'Card',
+                                isLoading: false,
+                                fontSize: 18,
+                                onClick: () {
+                                  Navigator.pushNamed(context, AppRoutes.cardsStore);
+                                },
+                              ),
+                              Button(
+                                width: 120,
+                                height: 52,
+                                text: 'Rating',
+                                isLoading: false,
+                                fontSize: 18,
+                                onClick: () {
+                                  Navigator.pushNamed(context, AppRoutes.ratingStore);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
