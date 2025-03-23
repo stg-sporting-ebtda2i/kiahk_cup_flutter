@@ -28,7 +28,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
   }
 
   void _decRating() {
-    if (delta>0) {
+    if ((provider.currentRating+delta)>50) {
       setState(() {
         delta--;
       });
@@ -66,7 +66,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
                         ),
                       ),
                       Text(
-                        '${provider.ratingPrice*delta} €',
+                        (provider.ratingPrice*delta) >= 0 ? '${provider.ratingPrice*delta} €' : '+${provider.ratingPrice*delta*-1} €',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 22,
