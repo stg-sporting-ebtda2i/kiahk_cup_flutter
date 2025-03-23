@@ -13,13 +13,13 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkIfLoggedIn() async {
-    String page;
     String? token = await AuthService.getToken();
     bool isLoggedIn = token != null;
-    page = isLoggedIn ? AppRoutes.home : AppRoutes.login;
 
     if (mounted && isLoggedIn) {
-      await DataUtils.initApp(context, page);
+      await DataUtils.initApp(context, AppRoutes.home);
+    } else if (mounted) {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
     }
   }
 
