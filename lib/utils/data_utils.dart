@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 
 class DataUtils {
 
-  static Future<void> initApp(BuildContext context) async {
+  static Future<void> initApp(BuildContext context, String page) async {
     final attendanceProvider = context.read<AttendanceProvider>();
     final buttonsVisibilityProvider = context.read<ButtonsVisibilityProvider>();
     final headerProvider = context.read<HeaderProvider>();
@@ -58,6 +58,11 @@ class DataUtils {
         await iconsTextColorProvider.getTextColor(key: user.iconKey, url: user.iconUrl);
         checkedKeys.add(user.iconKey);
       }
+
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, page);
+      }
+
     } catch (e) {
       toast(e.toString());
       if (context.mounted) {

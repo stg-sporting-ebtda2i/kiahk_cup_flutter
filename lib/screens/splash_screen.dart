@@ -19,10 +19,7 @@ class SplashScreenState extends State<SplashScreen> {
     page = isLoggedIn ? AppRoutes.home : AppRoutes.login;
 
     if (mounted && isLoggedIn) {
-      await DataUtils.initApp(context);
-    }
-    if (mounted) {
-      Navigator.pushReplacementNamed(context, page);
+      await DataUtils.initApp(context, page);
     }
   }
 
