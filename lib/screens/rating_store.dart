@@ -66,7 +66,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
                         ),
                       ),
                       Text(
-                        (provider.ratingPrice*delta) >= 0 ? '${provider.ratingPrice*delta} €' : '+${provider.ratingPrice*delta*-1} €',
+                        (provider.ratingPrice*delta) >= 0 ? '${provider.ratingPrice*delta*-1} €' : '+${provider.ratingPrice*delta*-1} €',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 22,
