@@ -200,19 +200,34 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                             height: 20,
                           ),
 
-                        iconButton(
-                          onClick: () {
-                            showAttendanceDialog(
-                              list: attendanceProvider.liturgyNames!,
-                              context: context,
-                            );
-                          },
-                          icon: Icons.add_rounded,
-                          text: 'Hodour',
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        if (provider.isVisible('Manage Attendance'))
+                          iconButton(
+                            onClick: () {
+                              showAttendanceDialog(
+                                list: attendanceProvider.liturgyNames!,
+                                context: context,
+                              );
+                            },
+                            icon: Icons.add_rounded,
+                            text: 'Hodour',
+                          ),
+                        if (provider.isVisible('Manage Attendance'))
+                          SizedBox(
+                            height: 20,
+                          ),
+
+                        if (provider.isVisible('Manage Attendance'))
+                          iconButton(
+                            onClick: () {
+                              Navigator.pushNamed(context, AppRoutes.requestedAttendances);
+                            },
+                            icon: Icons.history,
+                            text: 'Requested',
+                          ),
+                        if (provider.isVisible('Manage Attendance'))
+                          SizedBox(
+                            height: 20,
+                          ),
                         iconButton(
                           onClick: _logout,
                           icon: Icons.logout_rounded,

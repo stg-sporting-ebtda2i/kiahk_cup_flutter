@@ -10,4 +10,5 @@ class AppRoutes {
   static const String splash = '/';
   static const String maintenance = '/maintenance';
   static const String register = '/register';
+  static const String requestedAttendances = '/home/requested_attendances';
 }

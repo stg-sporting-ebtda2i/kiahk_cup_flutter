@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
@@ -16,7 +17,7 @@ import 'package:provider/provider.dart';
 
 class DataUtils {
 
-  static Future<void> initApp(BuildContext context) async {
+  static Future<void> initApp(BuildContext context, String page) async {
     final attendanceProvider = context.read<AttendanceProvider>();
     final buttonsVisibilityProvider = context.read<ButtonsVisibilityProvider>();
     final headerProvider = context.read<HeaderProvider>();
@@ -29,31 +30,44 @@ class DataUtils {
     final userProvider = context.read<UserProvider>();
     final iconsTextColorProvider = context.read<IconsTextColorProvider>();
 
-    await buttonsVisibilityProvider.refreshData();
+    try {
+      await buttonsVisibilityProvider.refreshData();
 
-    if (buttonsVisibilityProvider.isVisible('Maintenance') && context.mounted) {
-      Navigator.pushReplacementNamed(context, AppRoutes.maintenance);
-      return;
-    }
+      if (buttonsVisibilityProvider.isVisible('Maintenance') && context.mounted) {
+        Navigator.pushReplacementNamed(context, AppRoutes.maintenance);
+        return;
+      }
 
-    await Future.wait([
-      attendanceProvider.loadLiturgies(),
-      headerProvider.initialize(),
-      iconsStoreProvider.loadStore(),
-      leaderboardProvider.loadLeaderboard(),
-      lineupProvider.loadLineup(-1),
-      positionsStoreProvider.loadStore(),
-      quizzesProvider.loadQuizzes(),
-      ratingStoreProvider.loadData(),
-      userProvider.loadUserData(),
-      iconsTextColorProvider.loadAllCachedColors(),
-    ]);
+      await Future.wait([
+        attendanceProvider.loadLiturgies(),
+        attendanceProvider.loadRequestedAttendances(),
+        headerProvider.initialize(),
+        iconsStoreProvider.loadStore(),
+        leaderboardProvider.loadLeaderboard(),
+        lineupProvider.loadLineup(-1),
+        positionsStoreProvider.loadStore(),
+        quizzesProvider.loadQuizzes(),
+        ratingStoreProvider.loadData(),
+        userProvider.loadUserData(),
+        iconsTextColorProvider.loadAllCachedColors(),
+      ]);
 
-    List<String> checkedKeys = <String>[];
-    for (User user in leaderboardProvider.leaderboard) {
-      if (checkedKeys.contains(user.iconKey)) continue;
-      await iconsTextColorProvider.getTextColor(key: user.iconKey, url: user.iconUrl);
-      checkedKeys.add(user.iconKey);
+      List<String> checkedKeys = <String>[];
+      for (User user in leaderboardProvider.leaderboard) {
+        if (checkedKeys.contains(user.iconKey)) continue;
+        await iconsTextColorProvider.getTextColor(key: user.iconKey, url: user.iconUrl);
+        checkedKeys.add(user.iconKey);
+      }
+
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, page);
+      }
+
+    } catch (e) {
+      toast(e.toString());
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
+      }
     }
 
   }

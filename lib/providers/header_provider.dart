@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:piehme_cup_flutter/services/coins_service.dart';
+import 'package:piehme_cup_flutter/utils/string_utils.dart';
 
 class HeaderProvider with ChangeNotifier {
   String? _name;
@@ -18,7 +19,18 @@ class HeaderProvider with ChangeNotifier {
   }
 
   Future<void> initialize() async {
-    _name = await AuthService.getName();
+    String? n = await AuthService.getName();
+    String name = n!.split("@").first;
+
+    var names = name.split("_");
+    if(names.length > 1) {
+      name = names.reversed
+          .take(names.length - 1)
+          .toList()
+          .reversed
+          .join(" ");
+    }
+    _name = StringUtils.capitalizeWords(name);
     _coins = await CoinsService.getCoins();
     notifyListeners();
     _timer = Timer.periodic(const Duration(minutes: 1), (timer) {

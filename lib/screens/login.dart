@@ -38,9 +38,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (isLoginSuccessful) {
         if (!context.mounted) return;
-        await DataUtils.initApp(context);
-        if (!context.mounted) return;
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
+        await DataUtils.initApp(context, AppRoutes.home);
       } else {
         if (!context.mounted) return;
         toast('Login failed: Incorrect username or password');
