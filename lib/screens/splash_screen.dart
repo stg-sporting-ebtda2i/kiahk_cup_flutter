@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:piehme_cup_flutter/utils/data_utils.dart';
+import 'package:piehme_cup_flutter/utils/splash_utils.dart';
+
+class SplashTheme {
+  final Color start;
+  final Color end;
+  final String imgPath;
+
+  SplashTheme({
+    required this.start,
+    required this.end,
+    required this.imgPath,
+  });
+}
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,11 +44,12 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SplashTheme theme = SplashUtils.getTheme();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFfee396), Color(0xFFb6783d)],
+            colors: [theme.start, theme.end],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight
           ),
@@ -44,7 +58,7 @@ class SplashScreenState extends State<SplashScreen> {
           child: SizedBox(
             height: 180,
             width: 180,
-            child: Image.asset('assets/splash_logo.png'), // Ensure the image path is correct
+            child: Image.asset(theme.imgPath), // Ensure the image path is correct
           ),
         ),
       ),
