@@ -94,16 +94,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  loginTextField(
-                    controller: _usernameController,
-                    hint: 'Username',
-                    obscureText: false,
-                  ),
+                  CustomTextField(
+                      hint: 'Username',
+                      icon: Icon(Icons.account_circle_rounded),
+                      controller: _usernameController,
+                      inputType: TextInputType.text),
                   const SizedBox(height: 10),
-                  loginTextField(
-                    controller: _passwordController,
+                  CustomTextField(
                     hint: 'Password',
-                    obscureText: true,
+                    icon: Icon(Icons.lock),
+                    controller: _passwordController,
+                    inputType: TextInputType.visiblePassword,
+                    obscure: true,
                   ),
                   const SizedBox(height: 10),
                   TextSelectionTheme(
@@ -147,13 +149,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Button(
-                    width: 220,
-                    height: 55,
+                  CustomButton(
                     text: 'Register',
                     isLoading: _isLoading,
-                    onClick: () => register(context),
-                    fontSize: 20,
+                    onPressed: () => register(context),
                   ),
                   const SizedBox(height: 45),
                   GestureDetector(

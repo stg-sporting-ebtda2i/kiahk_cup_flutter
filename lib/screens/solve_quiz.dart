@@ -103,12 +103,9 @@ class _QuizPageState extends State<QuizPage> {
                 visible: _currentPageIndex == quiz.questions.length - 1,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Button(
-                    width: double.infinity,
-                    height: 50,
+                  child: CustomButton(
                     text: 'Submit',
-                    fontSize: 18,
-                    onClick: _submitQuiz,
+                    onPressed: _submitQuiz,
                     isLoading: false,
                   ),
                 ),

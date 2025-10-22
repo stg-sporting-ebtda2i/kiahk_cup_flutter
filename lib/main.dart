@@ -23,9 +23,10 @@ import 'package:flutter/services.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
+      statusBarColor: Colors.black,
       systemNavigationBarColor: Colors.black,
       systemNavigationBarIconBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
     ),
   );
   runApp(
@@ -75,7 +76,7 @@ class PiehmeCup extends StatelessWidget {
       initialRoute: AppRoutes.splash,
       onGenerateRoute: RouteGenerator.generateRoute,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.brand),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.brand, brightness: Brightness.light,),
         useMaterial3: true,
       ),
       builder: EasyLoading.init(),

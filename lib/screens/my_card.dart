@@ -49,33 +49,24 @@ class _MyCardPageState extends State<MyCardPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Button(
-                                width: 120,
-                                height: 52,
+                              CustomButton(
                                 text: 'Position',
                                 isLoading: false,
-                                fontSize: 18,
-                                onClick: () {
+                                onPressed: () {
                                   Navigator.pushNamed(context, AppRoutes.positionsStore);
                                 },
                               ),
-                              Button(
-                                width: 120,
-                                height: 52,
+                              CustomButton(
                                 text: 'Card',
                                 isLoading: false,
-                                fontSize: 18,
-                                onClick: () {
+                                onPressed: () {
                                   Navigator.pushNamed(context, AppRoutes.cardsStore);
                                 },
                               ),
-                              Button(
-                                width: 120,
-                                height: 52,
+                              CustomButton(
                                 text: 'Rating',
                                 isLoading: false,
-                                fontSize: 18,
-                                onClick: () {
+                                onPressed: () {
                                   Navigator.pushNamed(context, AppRoutes.ratingStore);
                                 },
                               ),

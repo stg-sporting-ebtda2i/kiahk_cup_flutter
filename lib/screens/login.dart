@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/utils/data_utils.dart';
@@ -19,7 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
   Future<void> login(BuildContext context) async {
-    if (_usernameController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
+    if (_usernameController.text.trim().isEmpty ||
+        _passwordController.text.trim().isEmpty) {
       if (!mounted) return;
       toast('Please enter both username and password');
       return;
@@ -60,67 +62,70 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          const Image(
-            image: AssetImage('assets/other_background.png'),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Login',
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  loginTextField(
-                    controller: _usernameController,
-                    hint: 'Username',
-                    obscureText: false,
-                  ),
-                  const SizedBox(height: 10),
-                  loginTextField(
-                    controller: _passwordController,
-                    hint: 'Password',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 20),
-                  Button(
-                    width: 220,
-                    height: 55,
-                    text: 'Login',
-                    isLoading: _isLoading,
-                    onClick: () => login(context),
-                    fontSize: 20,
-                  ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            const Image(
+              image: AssetImage('assets/form_background2.png'),
+              fit: BoxFit.cover,
+              width: double.maxFinite,
+              height: double.maxFinite,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Form(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 100),
+                      CustomTextField(
+                        hint: 'Username',
+                        icon: Icon(
+                          Icons.account_circle_rounded,
+                          color: AppColors.textFieldHint,
+                        ),
+                        controller: _usernameController,
+                        inputType: TextInputType.text,
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        hint: 'Password',
+                        icon: Icon(
+                          Icons.lock,
+                          color: AppColors.textFieldHint,
+                        ),
+                        controller: _passwordController,
+                        inputType: TextInputType.visiblePassword,
+                        obscure: true,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomButton(
+                        text: 'Login',
+                        isLoading: _isLoading,
+                        onPressed: () => login(context),
+                      ),
 
-                  // const SizedBox(height: 45),
-                  //
-                  // GestureDetector(
-                  //   onTap: () => Navigator.pushNamed(context, AppRoutes.register),
-                  //   child: Text(
-                  //     "Don't have an account? Register here",
-                  //     style: const TextStyle(
-                  //       color: Colors.blue,
-                  //       fontSize: 16,
-                  //     ),
-                  //   ),
-                  // ),
-                ],
+                      // const SizedBox(height: 45),
+                      //
+                      // GestureDetector(
+                      //   onTap: () => Navigator.pushNamed(context, AppRoutes.register),
+                      //   child: Text(
+                      //     "Don't have an account? Register here",
+                      //     style: const TextStyle(
+                      //       color: Colors.blue,
+                      //       fontSize: 16,
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
