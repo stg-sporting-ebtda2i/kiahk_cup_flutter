@@ -107,14 +107,14 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () => login(context),
                       ),
 
-                      // const SizedBox(height: 45),
-                      //
+                      // const SizedBox(height: 35),
                       // GestureDetector(
                       //   onTap: () => Navigator.pushNamed(context, AppRoutes.register),
                       //   child: Text(
+                      //     textAlign: TextAlign.center,
                       //     "Don't have an account? Register here",
                       //     style: const TextStyle(
-                      //       color: Colors.blue,
+                      //       color: Colors.white,
                       //       fontSize: 16,
                       //     ),
                       //   ),

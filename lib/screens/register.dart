@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
+import 'package:piehme_cup_flutter/widgets/widgets_custom_dropdown.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_text_field.dart';
 import '../services/auth_service.dart';
 
@@ -15,7 +14,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final List<String> _schoolYears = [];
+  final List<String> _schoolYears = ['J1', 'J1', 'J1'];
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -71,105 +70,70 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          const Image(
-            image: AssetImage('assets/other_background.png'),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Register',
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                  CustomTextField(
-                      hint: 'Username',
-                      icon: Icon(Icons.account_circle_rounded),
-                      controller: _usernameController,
-                      inputType: TextInputType.text),
-                  const SizedBox(height: 10),
-                  CustomTextField(
-                    hint: 'Password',
-                    icon: Icon(Icons.lock),
-                    controller: _passwordController,
-                    inputType: TextInputType.visiblePassword,
-                    obscure: true,
-                  ),
-                  const SizedBox(height: 10),
-                  TextSelectionTheme(
-                    data: TextSelectionThemeData(
-                      selectionColor: Color.fromRGBO(105, 240, 174, 130),
-                      selectionHandleColor: Colors.greenAccent,
-                    ),
-                    child: DropdownMenu(
-                      dropdownMenuEntries:
-                          _schoolYears.map((String schoolYear) {
-                        return DropdownMenuEntry<String>(
-                          value: schoolYear,
-                          label: schoolYear,
-                        );
-                      }).toList(),
-                      width: double.infinity,
-                      textAlign: TextAlign.center,
-                      textStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            const Image(
+              image: AssetImage('assets/form_background2.png'),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Form(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 175),
+                      CustomTextField(
+                          hint: 'Username',
+                          icon: Icon(Icons.account_circle_rounded),
+                          controller: _usernameController,
+                          inputType: TextInputType.text),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        hint: 'Password',
+                        icon: Icon(Icons.lock),
+                        controller: _passwordController,
+                        inputType: TextInputType.visiblePassword,
+                        obscure: true,
                       ),
-                      onSelected: (String? value) {
-                        if (value == null) return;
-
-                        setState(() {
-                          _schoolYear = value;
-                        });
-                      },
-                      inputDecorationTheme: InputDecorationTheme(
-                        filled: true,
-                        fillColor: Colors.black54,
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        focusColor: Colors.greenAccent,
-                        focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(color: Colors.greenAccent, width: 1),
+                      const SizedBox(height: 10),
+                      CustomDropdownMenu(
+                          items: _schoolYears,
+                          value: _schoolYear,
+                          onSelected: (schoolYear) {
+                            _schoolYear = schoolYear!;
+                          },
+                          hint: 'School Year'),
+                      const SizedBox(height: 20),
+                      CustomButton(
+                        text: 'Register',
+                        isLoading: _isLoading,
+                        onPressed: () => register(context),
+                      ),
+                      const SizedBox(height: 45),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          "Already have an account? Login",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: 'Dubai'),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  CustomButton(
-                    text: 'Register',
-                    isLoading: _isLoading,
-                    onPressed: () => register(context),
-                  ),
-                  const SizedBox(height: 45),
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Text(
-                      "Already have an account? Login",
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
