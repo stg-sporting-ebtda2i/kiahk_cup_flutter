@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   Future<void> _checkIfLoggedIn() async {
-    await Future.delayed(Duration(seconds: 7));
+    await Future.delayed(Duration(seconds: 3));
     String? token = await AuthService.getToken();
     bool isLoggedIn = token != null;
 

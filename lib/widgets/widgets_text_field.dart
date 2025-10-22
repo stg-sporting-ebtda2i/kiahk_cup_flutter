@@ -39,10 +39,12 @@ class CustomTextField extends StatelessWidget {
         labelStyle: TextStyle(
           fontSize: 18,
           color: AppColors.textFieldHint,
+            fontFamily: 'Dubai'
         ),
         floatingLabelStyle: TextStyle(
           fontSize: 18,
           color: AppColors.brand,
+            fontFamily: 'Dubai'
         ),
         labelText: hint,
         prefixIcon: icon,

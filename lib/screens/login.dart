@@ -14,10 +14,48 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOut,
+    ));
+
+    // Start animation after build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _animationController.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   Future<void> login(BuildContext context) async {
     if (_usernameController.text.trim().isEmpty ||
@@ -80,45 +118,50 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(height: 100),
-                      CustomTextField(
-                        hint: 'Username',
-                        icon: Icon(
-                          Icons.account_circle_rounded,
-                          color: AppColors.textFieldHint,
+                      // Animated form elements
+                      AnimatedBuilder(
+                        animation: _animationController,
+                        builder: (context, child) {
+                          return SlideTransition(
+                            position: _slideAnimation,
+                            child: FadeTransition(
+                              opacity: _fadeAnimation,
+                              child: child,
+                            ),
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            CustomTextField(
+                              hint: 'Username',
+                              icon: Icon(
+                                Icons.account_circle_rounded,
+                                color: AppColors.textFieldHint,
+                              ),
+                              controller: _usernameController,
+                              inputType: TextInputType.text,
+                            ),
+                            const SizedBox(height: 10),
+                            CustomTextField(
+                              hint: 'Password',
+                              icon: Icon(
+                                Icons.lock,
+                                color: AppColors.textFieldHint,
+                              ),
+                              controller: _passwordController,
+                              inputType: TextInputType.visiblePassword,
+                              obscure: true,
+                            ),
+                            const SizedBox(height: 20),
+                            CustomButton(
+                              text: 'Login',
+                              isLoading: _isLoading,
+                              onPressed: () => login(context),
+                            ),
+                          ],
                         ),
-                        controller: _usernameController,
-                        inputType: TextInputType.text,
                       ),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                        hint: 'Password',
-                        icon: Icon(
-                          Icons.lock,
-                          color: AppColors.textFieldHint,
-                        ),
-                        controller: _passwordController,
-                        inputType: TextInputType.visiblePassword,
-                        obscure: true,
-                      ),
-                      const SizedBox(height: 20),
-                      CustomButton(
-                        text: 'Login',
-                        isLoading: _isLoading,
-                        onPressed: () => login(context),
-                      ),
-
-                      // const SizedBox(height: 35),
-                      // GestureDetector(
-                      //   onTap: () => Navigator.pushNamed(context, AppRoutes.register),
-                      //   child: Text(
-                      //     textAlign: TextAlign.center,
-                      //     "Don't have an account? Register here",
-                      //     style: const TextStyle(
-                      //       color: Colors.white,
-                      //       fontSize: 16,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
