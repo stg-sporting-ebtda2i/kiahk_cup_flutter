@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
@@ -15,16 +16,16 @@ import 'package:piehme_cup_flutter/providers/rating_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/user_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/routes/route_generator.dart';
+import 'package:piehme_cup_flutter/services/navigation_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.black,
       systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
     ),
   );
   runApp(
@@ -69,10 +70,14 @@ class PiehmeCup extends StatelessWidget {
     ]);
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: true,
+      navigatorKey: NavigationService.navigatorKey,
       initialRoute: AppRoutes.splash,
       onGenerateRoute: RouteGenerator.generateRoute,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.brand),
+        useMaterial3: true,
+      ),
       builder: EasyLoading.init(),
     );
   }
