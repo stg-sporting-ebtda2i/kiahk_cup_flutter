@@ -1,20 +1,10 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:piehme_cup_flutter/utils/data_utils.dart';
-import 'package:piehme_cup_flutter/utils/splash_utils.dart';
-
-class SplashTheme {
-  final Color start;
-  final Color end;
-  final String imgPath;
-
-  SplashTheme({
-    required this.start,
-    required this.end,
-    required this.imgPath,
-  });
-}
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,8 +14,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-
   Future<void> _checkIfLoggedIn() async {
+    await Future.delayed(Duration(seconds: 7));
     String? token = await AuthService.getToken();
     bool isLoggedIn = token != null;
 
@@ -44,23 +34,46 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SplashTheme theme = SplashUtils.getTheme();
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [theme.start, theme.end],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight
+      body: Stack(
+        children: [
+          const Image(
+            image: AssetImage('assets/splash_background.png'),
+            fit: BoxFit.cover,
+            width: double.maxFinite,
+            height: double.maxFinite,
           ),
-        ),
-        child: Center(
-          child: SizedBox(
-            height: 180,
-            width: 180,
-            child: Image.asset(theme.imgPath), // Ensure the image path is correct
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 50),
+                SizedBox(
+                  width: 450,
+                  height: 250,
+                  child: Lottie.asset('assets/map-search.json'),
+                ),
+                AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Looking for the Road...',
+                      textStyle: GoogleFonts.leagueSpartan(
+                        fontSize: 24,
+                        color: Color.fromARGB(255, 217, 217, 217),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      speed: Duration(milliseconds: 200),
+                    ),
+                  ],
+                  totalRepeatCount: 100, // Repeat many times
+                  pause: Duration(milliseconds: 100),
+                  displayFullTextOnTap: false,
+                  stopPauseOnTap: false,
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
