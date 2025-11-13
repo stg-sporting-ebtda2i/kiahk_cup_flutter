@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
+import 'package:piehme_cup_flutter/widgets/my_card_icon_button.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
 import 'package:provider/provider.dart';
 import '../widgets/user_card.dart';
@@ -14,73 +16,89 @@ class MyCardPage extends StatefulWidget {
 }
 
 class _MyCardPageState extends State<MyCardPage> {
-
   @override
   Widget build(BuildContext context) {
-    final cardHeight = MediaQuery.of(context).size.height/2;
+    final cardHeight = MediaQuery.of(context).size.height / 2.3;
     LineupProvider provider = Provider.of<LineupProvider>(context);
     return Scaffold(
         body: Stack(
+      children: [
+        const Image(
+          image: AssetImage('assets/backgrounds/user_card_background.jpg'),
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Image(
-              image: AssetImage('assets/other_background.png'),
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
+            SizedBox(
+              height: 115,
+              child: SafeArea(
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 4, 0),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'My Card',
+                        style: const TextStyle(
+                          fontSize: 23,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        // textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Header(),
+                  ],
+                ),
+              ),
+            ),
+            Hero(
+              tag: "user-card",
+              child: SizedBox(
+                width: 900 * cardHeight / 1266,
+                height: cardHeight,
+                child: UserCard(
+                  width: 900 * cardHeight / 1266,
+                  user: provider.user,
+                ),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
-              child: Column(
+              padding: const EdgeInsets.fromLTRB(55, 30, 50, 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SafeArea(child: Header()),
-                  Expanded(child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 900*cardHeight/1266,
-                          height: cardHeight,
-                          child: UserCard(
-                            width: 900*cardHeight/1266,
-                            user: provider.user,
-                          ),
-                        ),
-                        SafeArea(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton(
-                                text: 'Position',
-                                isLoading: false,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, AppRoutes.positionsStore);
-                                },
-                              ),
-                              CustomButton(
-                                text: 'Card',
-                                isLoading: false,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, AppRoutes.cardsStore);
-                                },
-                              ),
-                              CustomButton(
-                                text: 'Rating',
-                                isLoading: false,
-                                onPressed: () {
-                                  Navigator.pushNamed(context, AppRoutes.ratingStore);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),),
+                  MyCardIconButton(
+                      text: 'Position',
+                      iconPath: 'assets/icons/position.png',
+                      callback: () {}),
+                  MyCardIconButton(
+                      text: 'Card',
+                      iconPath: 'assets/icons/card.png',
+                      callback: () {}),
+                  MyCardIconButton(
+                      text: 'Rating',
+                      iconPath: 'assets/icons/rating.png',
+                      callback: () {}),
+                  MyCardIconButton(
+                      text: 'Picture',
+                      iconPath: 'assets/icons/picture.png',
+                      callback: () {}),
                 ],
               ),
             ),
           ],
-        )
-    );
+        ),
+      ],
+    ));
   }
 }

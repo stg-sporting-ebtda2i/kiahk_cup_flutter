@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/screens/maintenance_screen.dart';
+import 'package:piehme_cup_flutter/screens/my_card.dart';
 import 'package:piehme_cup_flutter/screens/players_store.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/screens/rating_store.dart';
@@ -49,6 +50,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MaintenancePage());
       case AppRoutes.requestedAttendances:
         return MaterialPageRoute(builder: (_) => RequestedAttendance());
+      case AppRoutes.userCard:
+        return MaterialPageRoute(builder: (_) => MyCardPage());
       default:
       // Handle unknown routes
         return MaterialPageRoute(

@@ -38,7 +38,7 @@ class SplashScreenState extends State<SplashScreen> {
       body: Stack(
         children: [
           const Image(
-            image: AssetImage('assets/splash_background.png'),
+            image: AssetImage('assets/backgrounds/splash_background.png'),
             fit: BoxFit.cover,
             width: double.maxFinite,
             height: double.maxFinite,
@@ -51,7 +51,7 @@ class SplashScreenState extends State<SplashScreen> {
                 SizedBox(
                   width: 450,
                   height: 250,
-                  child: Lottie.asset('assets/map-search.json'),
+                  child: Lottie.asset('assets/lottie/map-search.json'),
                 ),
                 AnimatedTextKit(
                   animatedTexts: [

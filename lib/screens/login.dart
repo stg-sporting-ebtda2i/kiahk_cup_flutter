@@ -100,75 +100,73 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            const Image(
-              image: AssetImage('assets/form_background2.png'),
-              fit: BoxFit.cover,
-              width: double.maxFinite,
-              height: double.maxFinite,
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Form(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 100),
-                      // Animated form elements
-                      AnimatedBuilder(
-                        animation: _animationController,
-                        builder: (context, child) {
-                          return SlideTransition(
-                            position: _slideAnimation,
-                            child: FadeTransition(
-                              opacity: _fadeAnimation,
-                              child: child,
+      body: Stack(
+        children: [
+          const Image(
+            image: AssetImage('assets/backgrounds/form_background2.png'),
+            fit: BoxFit.cover,
+            width: double.maxFinite,
+            height: double.maxFinite,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Form(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 100),
+                    // Animated form elements
+                    AnimatedBuilder(
+                      animation: _animationController,
+                      builder: (context, child) {
+                        return SlideTransition(
+                          position: _slideAnimation,
+                          child: FadeTransition(
+                            opacity: _fadeAnimation,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          CustomTextField(
+                            hint: 'Username',
+                            icon: Icon(
+                              Icons.account_circle_rounded,
+                              color: AppColors.textFieldHint,
                             ),
-                          );
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            CustomTextField(
-                              hint: 'Username',
-                              icon: Icon(
-                                Icons.account_circle_rounded,
-                                color: AppColors.textFieldHint,
-                              ),
-                              controller: _usernameController,
-                              inputType: TextInputType.text,
+                            controller: _usernameController,
+                            inputType: TextInputType.text,
+                          ),
+                          const SizedBox(height: 10),
+                          CustomTextField(
+                            hint: 'Password',
+                            icon: Icon(
+                              Icons.lock,
+                              color: AppColors.textFieldHint,
                             ),
-                            const SizedBox(height: 10),
-                            CustomTextField(
-                              hint: 'Password',
-                              icon: Icon(
-                                Icons.lock,
-                                color: AppColors.textFieldHint,
-                              ),
-                              controller: _passwordController,
-                              inputType: TextInputType.visiblePassword,
-                              obscure: true,
-                            ),
-                            const SizedBox(height: 20),
-                            CustomButton(
-                              text: 'Login',
-                              isLoading: _isLoading,
-                              onPressed: () => login(context),
-                            ),
-                          ],
-                        ),
+                            controller: _passwordController,
+                            inputType: TextInputType.visiblePassword,
+                            obscure: true,
+                          ),
+                          const SizedBox(height: 20),
+                          CustomButton(
+                            text: 'Login',
+                            isLoading: _isLoading,
+                            onPressed: () => login(context),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

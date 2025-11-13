@@ -11,4 +11,5 @@ class AppRoutes {
   static const String maintenance = '/maintenance';
   static const String register = '/register';
   static const String requestedAttendances = '/home/requested_attendances';
+  static const String userCard = '/home/user_card';
 }

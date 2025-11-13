@@ -25,12 +25,18 @@ class CardsUtils {
   }) {
     if (position == provider.user.position && !provider.userCardUsed) {
       provider.userCardUsed = true;
-      return SizedBox(
-        width: 900 * cardHeight / 1266,
-        height: cardHeight,
-        child: UserCard(
+      return Hero(
+        tag: "user-card",
+        child: SizedBox(
           width: 900 * cardHeight / 1266,
-          user: provider.user,
+          height: cardHeight,
+          child: UserCard(
+            width: 900 * cardHeight / 1266,
+            user: provider.user,
+            onClick: () {
+              Navigator.pushNamed(context, AppRoutes.userCard);
+            },
+          ),
         ),
       );
     } else {

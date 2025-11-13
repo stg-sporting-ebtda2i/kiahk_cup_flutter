@@ -19,7 +19,7 @@ class LineupPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/lineup_background.png'),
+            image: AssetImage('assets/backgrounds/lineup_background1.png'),
             // Background image
             fit: BoxFit.cover,
           ),

@@ -13,8 +13,10 @@ class UserCard extends StatefulWidget {
     required this.width,
     this.image,
     required this.user,
+    this.onClick
   });
 
+  final VoidCallback? onClick;
   final File? image;
   final User user;
 
@@ -47,9 +49,9 @@ class _UserCardState extends State<UserCard> {
     final cardWidth = widget.width;
     final cardHeight = cardWidth * (1266 / 900);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
+    return GestureDetector(
+      onTap: widget.onClick,
+      child: Center(
         child: SizedBox(
           width: cardWidth,
           height: cardHeight,
@@ -61,8 +63,8 @@ class _UserCardState extends State<UserCard> {
                 cacheKey:widget.user.iconKey,
                 width: double.infinity,
                 height: double.infinity,
-                errorWidget: (context, url, error) => errorImage(),
-                placeholder: (context, url) => Image.asset("assets/placeholder.png", fit: BoxFit.fill),
+                errorWidget: (context, url, error) => Image.asset("assets/placeholder/card_placeholder.png", fit: BoxFit.fill),
+                placeholder: (context, url) => Image.asset("assets/placeholder/card_placeholder.png", fit: BoxFit.fill),
                 fit: BoxFit.fill,
               ),
               // Centered Image
