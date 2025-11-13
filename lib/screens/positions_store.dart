@@ -16,7 +16,6 @@ class PositionsStorePage extends StatefulWidget {
 }
 
 class _PositionsStorePageState extends State<PositionsStorePage> {
-
   late PositionsStoreProvider provider;
   late LineupProvider lineupProvider;
 
@@ -24,74 +23,80 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
   Widget build(BuildContext context) {
     provider = Provider.of<PositionsStoreProvider>(context);
     lineupProvider = Provider.of<LineupProvider>(context);
-    return Scaffold(
-      body: Stack(
+
+    return Container(
+      color: Colors.black87,
+      padding: const EdgeInsets.only(top: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const Image(
-            image: AssetImage('assets/other_background.png'),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Column(
-            children: [
-              SafeArea(child: Header()),
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    await Loading.show(() async {
-                      await provider.loadStore();
-                    }, delay: Duration(milliseconds: 0));
-                  },
-                  color: Colors.black,
-                  backgroundColor: Colors.greenAccent,
-                  child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      childAspectRatio: 1,
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    itemCount: provider.items.length,
-                    itemBuilder: (context, index) {
-                      final item = provider.items[index];
-                      return PositionListItem(
-                        item: item,
-                        buy: () => ActionUtils(
-                          delay: 0,
-                            context: context,
-                            action: () => PositionsService.buyPosition(item.id),
-                            callback: () async {
-                              await provider.loadStore();
-                              await lineupProvider.loadLineup(-1);
-                            }
-                        ).confirmAction(),
-                        sell: () => ActionUtils(
-                          delay: 0,
-                            context: context,
-                            action: () => PositionsService.sellPosition(item.id),
-                            callback: () async {
-                              await provider.loadStore();
-                              await lineupProvider.loadLineup(-1);
-                            }
-                        ).confirmAction(),
-                        select: () => ActionUtils(
-                          delay: 0,
-                            context: context,
-                            action: () => PositionsService.selectPosition(item.id),
-                            callback: () async {
-                              await provider.loadStore();
-                              await lineupProvider.loadLineup(-1);
-                            }
-                        ).confirmAction(),
-                      );
-                    },
+          // Header with title and close button
+          Padding(
+            padding: const EdgeInsets.only(left: 32, right: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Position',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-              ),
-            ],
+                IconButton(
+                  icon: Icon(Icons.close, color: Colors.white70),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
           ),
+          // Horizontal scroll view
+          SizedBox(
+            height: 162,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: provider.items.length,
+              itemBuilder: (context, index) {
+                final item = provider.items[index];
+                return Container(
+                  width: 164, // Fixed width for each item
+                  margin: const EdgeInsets.only(right: 16), // Spacing between items
+                  child: PositionListItem(
+                    item: item,
+                    buy: () => ActionUtils(
+                        delay: 0,
+                        context: context,
+                        action: () => PositionsService.buyPosition(item.id),
+                        callback: () async {
+                          await provider.loadStore();
+                          await lineupProvider.loadLineup(-1);
+                        }
+                    ).confirmAction(),
+                    sell: () => ActionUtils(
+                        delay: 0,
+                        context: context,
+                        action: () => PositionsService.sellPosition(item.id),
+                        callback: () async {
+                          await provider.loadStore();
+                          await lineupProvider.loadLineup(-1);
+                        }
+                    ).confirmAction(),
+                    select: () => ActionUtils(
+                        delay: 0,
+                        context: context,
+                        action: () => PositionsService.selectPosition(item.id),
+                        callback: () async {
+                          await provider.loadStore();
+                          await lineupProvider.loadLineup(-1);
+                        }
+                    ).confirmAction(),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 20), // Bottom padding
         ],
       ),
     );

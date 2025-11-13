@@ -21,7 +21,7 @@ class CardPlaceholder extends StatelessWidget {
               SizedBox(
                 width: 50,
                 height: 50,
-                child: Lottie.asset('assets/lottie/reward-light-effect.json'),
+                child: Lottie.asset('assets/lottie/shining-stars-1.json'),
               ),
               SizedBox(height: 4,),
               Text(
@@ -29,7 +29,7 @@ class CardPlaceholder extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFFCF9C4),
+                  color: Color(0xFFD1A000),
                 )),
             ],
           ),

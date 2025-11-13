@@ -14,24 +14,27 @@ class MyCardIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 55,
-          height: 55,
-          child: Image.asset(iconPath),
-        ),
-        SizedBox(height: 7),
-        Text(
-          text.toUpperCase(),
-          style: TextStyle(
-            fontWeight: FontWeight.w800,
-            color: Colors.white,
-            fontSize: 11
+    return InkWell(
+      onTap: callback,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 55,
+            height: 55,
+            child: Image.asset(iconPath),
           ),
-        )
-      ],
+          SizedBox(height: 7),
+          Text(
+            text.toUpperCase(),
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+              fontSize: 11
+            ),
+          )
+        ],
+      ),
     );
   }
 }

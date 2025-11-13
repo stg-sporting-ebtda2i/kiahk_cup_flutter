@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/my_card_icon_button.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
@@ -34,15 +35,20 @@ class _MyCardPageState extends State<MyCardPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
-              height: 115,
+              height: 130,
               child: SafeArea(
                 child: Row(
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 4, 0),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     Expanded(
@@ -80,7 +86,13 @@ class _MyCardPageState extends State<MyCardPage> {
                   MyCardIconButton(
                       text: 'Position',
                       iconPath: 'assets/icons/position.png',
-                      callback: () {}),
+                      callback: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return PositionsStorePage();
+                            });
+                      }),
                   MyCardIconButton(
                       text: 'Card',
                       iconPath: 'assets/icons/card.png',
