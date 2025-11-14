@@ -42,7 +42,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
     lineupProvider = Provider.of<LineupProvider>(context);
     return Container(
       color: Colors.black87,
-      padding: const EdgeInsets.only(top: 20, left: 32, right: 16, bottom: 20),
+      padding: const EdgeInsets.only(top: 20, left: 32, right: 16, bottom: 28),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -134,6 +134,7 @@ class _RatingStorePageState extends State<RatingStorePage> {
                           }
                       ).confirmAction(),
                       isLoading: false,
+                    verticalPadding: 8,
                   ),
                 ),
               ],

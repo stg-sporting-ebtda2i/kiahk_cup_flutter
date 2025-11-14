@@ -19,48 +19,47 @@ class LineupPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/backgrounds/lineup_background1.png'),
+            image: AssetImage('assets/backgrounds/lineup_background.jpg'),
             // Background image
             fit: BoxFit.cover,
           ),
         ),
         child: Column(
           children: [
-            SafeArea(
-              child: Column(
-                children: [
-                  if(!userLineup)
-                  Consumer<OtherLineupProvider>(
-                    builder: (context, provider, child) {
-                      return Container(
-                        height: 40,
-                        color: Colors.white30,
-                        child: Center(
-                          child: Visibility(
-                            visible: provider.user.name.isNotEmpty,
-                            child: Text(
-                              "${provider.user.name}'s Lineup",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+            Column(
+              children: [
+                if(!userLineup)
+                Consumer<OtherLineupProvider>(
+                  builder: (context, provider, child) {
+                    return Container(
+                      height: 40,
+                      color: Colors.white30,
+                      child: Center(
+                        child: Visibility(
+                          visible: provider.user.name.isNotEmpty,
+                          child: Text(
+                            "${provider.user.name}'s Lineup",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      );
-                    }
-                  ),
-                  userLineup ? Consumer<LineupProvider>(
-                    builder: (context, provider, child) {
-                      return ScoresPanel(provider: provider);
-                      },
-                  ) : Consumer<OtherLineupProvider>(builder: (context, provider, child) {
+                      ),
+                    );
+                  }
+                ),
+                userLineup ? Consumer<LineupProvider>(
+                  builder: (context, provider, child) {
                     return ScoresPanel(provider: provider);
-                  },),
-                ],
-              ),
+                    },
+                ) : Consumer<OtherLineupProvider>(builder: (context, provider, child) {
+                  return ScoresPanel(provider: provider);
+                },),
+              ],
             ),
+            SizedBox(height: 40,),
             Expanded(
               child: Center(
                 child: Lineup(

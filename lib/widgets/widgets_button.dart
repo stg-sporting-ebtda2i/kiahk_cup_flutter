@@ -5,12 +5,14 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final bool isLoading;
+  final double verticalPadding;
 
   const CustomButton({
     super.key,
     required this.text,
     required this.onPressed,
     required this.isLoading,
+    this.verticalPadding = 11
   });
 
   @override
@@ -18,7 +20,7 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 11),
+          padding: EdgeInsets.symmetric(vertical: verticalPadding),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

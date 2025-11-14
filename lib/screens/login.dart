@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       body: Stack(
         children: [
           const Image(
-            image: AssetImage('assets/backgrounds/form_background2.png'),
+            image: AssetImage('assets/backgrounds/form_background.png'),
             fit: BoxFit.cover,
             width: double.maxFinite,
             height: double.maxFinite,
