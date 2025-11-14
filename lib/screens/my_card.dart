@@ -4,6 +4,7 @@ import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
 import 'package:piehme_cup_flutter/screens/icons_store.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
+import 'package:piehme_cup_flutter/screens/rating_store.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/my_card_icon_button.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
@@ -107,7 +108,13 @@ class _MyCardPageState extends State<MyCardPage> {
                   MyCardIconButton(
                       text: 'Rating',
                       iconPath: 'assets/icons/rating.png',
-                      callback: () {}),
+                      callback: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return RatingStorePage();
+                            });
+                      }),
                   MyCardIconButton(
                       text: 'Picture',
                       iconPath: 'assets/icons/picture.png',

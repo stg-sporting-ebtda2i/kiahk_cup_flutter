@@ -4,6 +4,7 @@ import 'package:piehme_cup_flutter/providers/rating_store_provider.dart';
 import 'package:piehme_cup_flutter/services/card_rating_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
+import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
 import 'package:provider/provider.dart';
 
 class RatingStorePage extends StatefulWidget {
@@ -39,96 +40,104 @@ class _RatingStorePageState extends State<RatingStorePage> {
   Widget build(BuildContext context) {
     provider = Provider.of<RatingStoreProvider>(context);
     lineupProvider = Provider.of<LineupProvider>(context);
-    return Scaffold(
-      body: Stack(
+    return Container(
+      color: Colors.black87,
+      padding: const EdgeInsets.only(top: 20, left: 32, right: 16, bottom: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const Image(
-            image: AssetImage('assets/other_background.png'),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Column(
+          // Header with title and close button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SafeArea(child: Header()),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 120),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${provider.currentRating+delta}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 65,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        (provider.ratingPrice*delta) >= 0 ? '${provider.ratingPrice*delta*-1} €' : '+${provider.ratingPrice*delta*-1} €',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 22,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () => _decRating(),
-                            child: Icon(
-                              Icons.remove_circle_rounded,
-                              color: Colors.white70,
-                              size: 60,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => _incRating(),
-                            child: Icon(
-                              Icons.add_circle_rounded,
-                              color: Colors.white70,
-                              size: 60,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 17,),
-                      SizedBox(
-                        width: 205,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () => ActionUtils(
-                            delay: 0,
-                              context: context,
-                              action: () => CardRatingService.upgradeRating(delta),
-                              callback: () async {
-                                delta = 0;
-                                provider.loadData();
-                                await lineupProvider.loadLineup(-1);
-                              }
-                          ).confirmAction(),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.greenAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                          ),
-                          child: Text(
-                            'Purchase',
-                            style: TextStyle(
-                              fontSize: 19,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+              Text(
+                'Rating',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
+              IconButton(
+                icon: Icon(Icons.close, color: Colors.white70),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
             ],
+          ),
+          SizedBox(
+            height: 230,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${provider.currentRating+delta}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 60,
+                    color: Colors.white,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      (provider.ratingPrice*delta) >= 0 ? '${provider.ratingPrice*delta*-1}' : '+${provider.ratingPrice*delta*-1}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 22,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 8,),
+                    Image.asset(
+                      'assets/icons/coin.png',
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () => _decRating(),
+                      child: Icon(
+                        Icons.remove_circle_rounded,
+                        color: Colors.white70,
+                        size: 40,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => _incRating(),
+                      child: Icon(
+                        Icons.add_circle_rounded,
+                        color: Colors.white70,
+                        size: 40,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 17,),
+                SizedBox(
+                  width: 205,
+                  child: CustomButton(
+                      text: 'Purchase',
+                      onPressed: () => ActionUtils(
+                          delay: 0,
+                          context: context,
+                          action: () => CardRatingService.upgradeRating(delta),
+                          callback: () async {
+                            delta = 0;
+                            provider.loadData();
+                            await lineupProvider.loadLineup(-1);
+                          }
+                      ).confirmAction(),
+                      isLoading: false,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
