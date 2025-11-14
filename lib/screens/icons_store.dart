@@ -24,75 +24,79 @@ class _IconsStorePageState extends State<IconsStorePage> {
   Widget build(BuildContext context) {
     provider = Provider.of<IconsStoreProvider>(context);
     lineupProvider = Provider.of<LineupProvider>(context);
-    return Scaffold(
-      body: Stack(
+    return Container(
+      color: Colors.black87,
+      padding: const EdgeInsets.only(top: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const Image(
-            image: AssetImage('assets/other_background.png'),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Column(
-            children: [
-              SafeArea(child: Header()),
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    await Loading.show(() async {
-                      await provider.loadStore();
-                    }, delay: Duration(milliseconds: 0));
-                  },
-                  color: Colors.black,
-                  backgroundColor: Colors.greenAccent,
-                  child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      childAspectRatio: 0.54,
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    itemCount: provider.items.length,
-                    itemBuilder: (context, index) {
-                      final item = provider.items[index];
-                      return StoreListItem(
-                        imageUrl: item.imageUrl,
-                        imageKey: item.imageKey,
-                        price: item.price,
-                        owned: item.owned,
-                        selected: item.selected,
-                        buy: () => ActionUtils(
-                          delay: 0,
-                          context: context,
-                          action: () => IconsService.buyIcon(item.id),
-                          callback: () async {
-                            await provider.loadStore();
-                            await lineupProvider.loadLineup(-1);
-                          }).confirmAction(),
-                        sell: () => ActionUtils(
-                          delay: 0,
-                            context: context,
-                            action: () => IconsService.sellIcon(item.id),
-                            callback: () async {
-                              await provider.loadStore();
-                              await lineupProvider.loadLineup(-1);
-                            }).confirmAction(),
-                        select: () => ActionUtils(
-                          delay: 0,
-                            context: context,
-                            action: () => IconsService.selectIcon(item.id),
-                            callback: () async {
-                              await provider.loadStore();
-                              await lineupProvider.loadLineup(-1);
-                            }).confirmAction(),
-                      );
-                    },
+          // Header with title and close button
+          Padding(
+            padding: const EdgeInsets.only(left: 32, right: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Card',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-              ),
-            ],
+                IconButton(
+                  icon: Icon(Icons.close, color: Colors.white70),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
           ),
+          SizedBox(
+            height: 318,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: provider.items.length,
+              itemBuilder: (context, index) {
+                final item = provider.items[index];
+                return Container(
+                  width: 164, // Fixed width for each item
+                  margin: const EdgeInsets.only(right: 16), // Spacing between items
+                  child: StoreListItem(
+                    imageUrl: item.imageUrl,
+                    imageKey: item.imageKey,
+                    price: item.price,
+                    owned: item.owned,
+                    selected: item.selected,
+                    buy: () => ActionUtils(
+                        delay: 0,
+                        context: context,
+                        action: () => IconsService.buyIcon(item.id),
+                        callback: () async {
+                          await provider.loadStore();
+                          await lineupProvider.loadLineup(-1);
+                        }).confirmAction(),
+                    sell: () => ActionUtils(
+                        delay: 0,
+                        context: context,
+                        action: () => IconsService.sellIcon(item.id),
+                        callback: () async {
+                          await provider.loadStore();
+                          await lineupProvider.loadLineup(-1);
+                        }).confirmAction(),
+                    select: () => ActionUtils(
+                        delay: 0,
+                        context: context,
+                        action: () => IconsService.selectIcon(item.id),
+                        callback: () async {
+                          await provider.loadStore();
+                          await lineupProvider.loadLineup(-1);
+                        }).confirmAction(),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 20), // Bottom padding
         ],
       ),
     );

@@ -43,13 +43,25 @@ class StoreListItem extends StatelessWidget {
             placeholder: (context, url) => loadingImage(),
           ),
         ),
-        Text(
-          '$price €',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$price',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(width: 8,),
+            Image.asset(
+              'assets/icons/coin.png',
+              width: 20,
+              height: 20,
+              fit: BoxFit.cover,
+            ),
+          ],
         ),
         SizedBox(height: 10,),
         Row(
@@ -73,13 +85,13 @@ class StoreListItem extends StatelessWidget {
             ),
             if (owned)
               SizedBox(
-                width: 30,
+                width: 27,
                 child: IconButton(
                   onPressed: sell,
                   icon: Icon(
                     Icons.delete_outline_rounded,
                     color: Colors.red,
-                    size: 30,
+                    size: 27,
                   ),
                 ),
               ),

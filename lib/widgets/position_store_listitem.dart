@@ -21,8 +21,9 @@ class PositionListItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(width: 160,
-          height: 80,
+        SizedBox(
+          width: 160,
+          height: 78,
           child: Center(
             child: Text(
               item.name,
@@ -34,13 +35,25 @@ class PositionListItem extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          '${item.price} €',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              item.price,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(width: 8,),
+            Image.asset(
+              'assets/icons/coin.png',
+              width: 20,
+              height: 20,
+              fit: BoxFit.cover,
+            ),
+          ],
         ),
         SizedBox(height: 5,),
         Row(
@@ -48,7 +61,7 @@ class PositionListItem extends StatelessWidget {
           children: [
             if (item.owned) SizedBox(width: 30,),
             SizedBox(
-              height: 37,
+              height: 35,
               child: ElevatedButton(
                 onPressed: item.owned ? !item.selected ? select : () {} : buy,
                 style: ElevatedButton.styleFrom(
@@ -64,13 +77,13 @@ class PositionListItem extends StatelessWidget {
             ),
             if (item.owned)
               SizedBox(
-                width: 30,
+                width: 27,
                 child: IconButton(
                   onPressed: sell,
                   icon: Icon(
                     Icons.delete_outline_rounded,
                     color: Colors.red,
-                    size: 30,
+                    size: 27,
                   ),
                 ),
               ),
