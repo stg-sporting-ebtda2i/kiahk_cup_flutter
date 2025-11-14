@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:piehme_cup_flutter/dialogs/loading.dart';
+import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
-import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/providers/user_provider.dart';
 import 'package:piehme_cup_flutter/screens/icons_store.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/screens/rating_store.dart';
+import 'package:piehme_cup_flutter/services/change_picture_service.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/my_card_icon_button.dart';
-import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
 import 'package:provider/provider.dart';
 import '../widgets/user_card.dart';
 
@@ -19,6 +24,50 @@ class MyCardPage extends StatefulWidget {
 }
 
 class _MyCardPageState extends State<MyCardPage> {
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image == null) {
+      return;
+    }
+    String imagePath = image.path;
+
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imagePath,
+      aspectRatio: const CropAspectRatio(
+        ratioX: 1,
+        ratioY: 1,
+      ),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop character',
+          toolbarWidgetColor: Colors.black,
+        ),
+        IOSUiSettings(
+          title: 'Crop character',
+          rotateButtonsHidden: true,
+        ),
+      ],
+    );
+    if(croppedFile == null) {
+      return;
+    }
+
+    imagePath = croppedFile.path;
+
+    File selectedImage = File(imagePath);
+    await Loading.show(() async {
+      await ChangePictureService.changePicture(selectedImage);
+      await Future.delayed(Duration(seconds: 5));
+      await Future.wait([
+        if (mounted) context.read<UserProvider>().loadUserData(),
+      ]);
+      toast("Image changed successfully");
+    }, delay: Duration(milliseconds: 0), message: "Changing image...");
+  }
+
   @override
   Widget build(BuildContext context) {
     final cardHeight = MediaQuery.of(context).size.height / 2.3;
@@ -118,7 +167,7 @@ class _MyCardPageState extends State<MyCardPage> {
                   MyCardIconButton(
                       text: 'Picture',
                       iconPath: 'assets/icons/picture.png',
-                      callback: () {}),
+                      callback: _pickImage),
                 ],
               ),
             ),
