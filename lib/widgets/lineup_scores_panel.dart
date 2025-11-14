@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/base_lineup_provider.dart';
 
 class ScoresPanel extends StatelessWidget {
@@ -16,12 +15,11 @@ class ScoresPanel extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: [
             Colors.black87,
-            Colors.black.withAlpha(170),
             Colors.transparent,
           ],
         ),
       ),
-      padding: EdgeInsets.only(top: 64, bottom: 32),
+      padding: EdgeInsets.only(top: 19, bottom: 32),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
         _buildChemistryTracker(),
