@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
-import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
+import 'package:piehme_cup_flutter/widgets/placeholders.dart';
 
 class PlayerStoreListItem extends StatelessWidget {
   final int index;
@@ -85,8 +85,8 @@ class PlayerStoreListItem extends StatelessWidget {
             imageUrl: player.imageUrl,
             cacheKey: player.imageKey,
             fit: BoxFit.cover,
-            errorWidget: (context, url, error) => errorImage(),
-            placeholder: (context, url) => loadingImage(),
+            errorWidget: (context, url, error) => errorCardPlaceholder(),
+            placeholder: (context, url) =>loadingCardPlaceholder(),
           ),
         ),
       ],

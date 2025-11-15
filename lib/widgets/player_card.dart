@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
-import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
+import 'package:piehme_cup_flutter/widgets/placeholders.dart';
 
 class PlayerCard extends StatelessWidget {
   final Player player;
@@ -28,8 +28,8 @@ class PlayerCard extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.fill,
-          errorWidget: (context, url, error) => errorImage(),
-          placeholder: (context, url) => loadingImage(),
+          errorWidget: (context, url, error) => errorCardPlaceholder(),
+          placeholder: (context, url) => loadingCardPlaceholder(),
         ),
       ),
     );

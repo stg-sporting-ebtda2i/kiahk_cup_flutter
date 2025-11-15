@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
+import 'package:piehme_cup_flutter/widgets/placeholders.dart';
 
 class IconStoreListItem extends StatelessWidget {
   final String imageUrl;
@@ -36,8 +36,8 @@ class IconStoreListItem extends StatelessWidget {
           width: 160,
           height: 220,
           fit: BoxFit.cover,
-          errorWidget: (context, url, error) => errorImage(),
-          placeholder: (context, url) => loadingImage(),
+          errorWidget: (context, url, error) => errorCardPlaceholder(),
+          placeholder: (context, url) => loadingCardPlaceholder(),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

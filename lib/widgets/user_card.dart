@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:piehme_cup_flutter/models/user.dart';
 import 'package:piehme_cup_flutter/providers/icons_text_color_provider.dart';
-import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
+import 'package:piehme_cup_flutter/widgets/placeholders.dart';
 import 'package:provider/provider.dart';
 
 class UserCard extends StatefulWidget {
@@ -63,8 +63,8 @@ class _UserCardState extends State<UserCard> {
                 cacheKey:widget.user.iconKey,
                 width: double.infinity,
                 height: double.infinity,
-                errorWidget: (context, url, error) => Image.asset("assets/placeholder/card_placeholder.png", fit: BoxFit.fill),
-                placeholder: (context, url) => Image.asset("assets/placeholder/card_placeholder.png", fit: BoxFit.fill),
+                errorWidget: (context, url, error) => emptyCardPlaceholder(),
+                placeholder: (context, url) => loadingCardPlaceholder(),
                 fit: BoxFit.fill,
               ),
               // Centered Image
@@ -82,7 +82,7 @@ class _UserCardState extends State<UserCard> {
                   imageUrl: widget.user.imageUrl ?? "",
                   cacheKey: widget.user.imageKey,
                   fit: BoxFit.scaleDown,
-                  errorWidget: (context, url, error) => errorImage(),
+                  errorWidget: (context, url, error) => SizedBox(),
                   placeholder: (context, url) => loadingImage(),
                 ) : SizedBox(),
               ),
