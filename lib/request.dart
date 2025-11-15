@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/http_client.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
+import 'package:piehme_cup_flutter/services/navigation_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Request {
+  // static const String baseUrl = 'https://piehme.stgsporting.com';
   static const String baseUrl = 'http://192.168.1.3:9000';
 
   Uri uri;
@@ -40,11 +42,36 @@ class Request {
   }
 
   Future<Request> withToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('jwttoken');
+    if (await validateTokenOnce()) {
+      String? token = await AuthService.getToken();
+      return withRawToken(token!);
+    } else {
+      NavigationService.logoutAndRedirect();
+      throw "Token is not valid";
+    }
 
+  }
+
+  static Future<bool> validateTokenOnce() async {
+    String? token = await AuthService.getToken();
+    if (token == null) return false;
+
+    try {
+      final response = await (Request("/userCard")
+          .contentJson()
+          .withRawToken(token)
+      ).get();
+
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Request withRawToken(String token) {
     return addHeader("Authorization", "Bearer $token");
   }
+
 
   Request addFile(String key, File file) {
     _isMultiPart = true;
@@ -110,6 +137,7 @@ class Request {
 
   http.Response _handle(http.Response response) {
     log("$uri ${response.statusCode}");
+    log("${response.body}");
 
     if (![200, 201].contains(response.statusCode)) {
       final Map<String, dynamic> responseBody = json.decode(response.body);

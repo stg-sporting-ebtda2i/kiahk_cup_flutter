@@ -56,7 +56,7 @@ class DataUtils {
       for (User user in leaderboardProvider.leaderboard) {
         if (checkedKeys.contains(user.iconKey)) continue;
         await iconsTextColorProvider.getTextColor(key: user.iconKey, url: user.iconUrl);
-        checkedKeys.add(user.iconKey);
+        if (user.iconKey != null) checkedKeys.add(user.iconKey!);
       }
 
       if (context.mounted) {
@@ -64,6 +64,7 @@ class DataUtils {
       }
 
     } catch (e) {
+      print("ASD -> $e");
       toast(e.toString());
       if (context.mounted) {
         Navigator.pushReplacementNamed(context, AppRoutes.login);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/services/auth_service.dart';
 
 class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey =
@@ -8,6 +9,7 @@ class NavigationService {
   // static BuildContext? get context => navigatorKey.currentContext;
 
   static void logoutAndRedirect() {
+    AuthService.logout();
     if (navigatorKey.currentContext != null) {
       Navigator.of(
         navigatorKey.currentContext!,

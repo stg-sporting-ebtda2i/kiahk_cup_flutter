@@ -25,7 +25,7 @@ class CardIcon {
       name: json['name'],
       price: json['price'],
       available: json['available'],
-      imageUrl: json['imageUrl'],
+      imageUrl: json['imageUrl'] ?? '',
       imageKey: json['imageKey'],
     );
   }

@@ -8,8 +8,8 @@ class User {
   final String? imageUrl;
   final String? imageKey;
   final double lineupRating;
-  final String iconUrl;
-  final String iconKey;
+  final String? iconUrl;
+  final String? iconKey;
   final String position;
 
   User({

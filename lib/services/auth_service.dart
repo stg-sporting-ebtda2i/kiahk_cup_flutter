@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:piehme_cup_flutter/request.dart';
+import 'package:piehme_cup_flutter/services/navigation_service.dart';
 import 'package:piehme_cup_flutter/utils/string_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,23 +62,19 @@ class AuthService {
   }
 
   static Future<bool> checkValidToken(String token) async {
-    final response = await (await Request("/userCard").contentJson().withToken()).get();
-
-    return response.statusCode == 200;
+    try {
+      final response = await (await Request("/userCard")
+          .contentJson()
+          .withToken()).get();
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
   }
 
   static Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString(AuthService.tokenKey);
-    if (token == null) {
-      return null;
-    }
-
-    if (!await checkValidToken(token)) {
-      return null;
-    }
-
-    return token;
+    return prefs.getString(AuthService.tokenKey);
   }
 
   static Future<String?> getName() async {

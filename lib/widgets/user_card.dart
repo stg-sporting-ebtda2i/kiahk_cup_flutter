@@ -59,7 +59,7 @@ class _UserCardState extends State<UserCard> {
             children: [
               // Card Icon (Background Image)
               CachedNetworkImage(
-                imageUrl: widget.user.iconUrl,
+                imageUrl: widget.user.iconUrl!,
                 cacheKey:widget.user.iconKey,
                 width: double.infinity,
                 height: double.infinity,

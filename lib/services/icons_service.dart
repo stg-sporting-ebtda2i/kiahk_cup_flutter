@@ -28,6 +28,7 @@ class IconsService {
     final response = await Request.getFrom('/selectIcon');
 
     final Map<String, dynamic> jsonMap = json.decode(response.body);
+    print("ASD 5 -> $jsonMap");
     return CardIcon.fromJson(jsonMap);
   }
 
