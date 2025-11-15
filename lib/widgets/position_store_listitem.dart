@@ -21,17 +21,13 @@ class PositionListItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 160,
-          height: 78,
-          child: Center(
-            child: Text(
-              item.name,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 39,
-                fontWeight: FontWeight.w400,
-              ),
+        Center(
+          child: Text(
+            item.name,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 39,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),

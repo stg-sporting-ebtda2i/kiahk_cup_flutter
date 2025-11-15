@@ -64,81 +64,78 @@ class _RatingStorePageState extends State<RatingStorePage> {
               ),
             ],
           ),
-          SizedBox(
-            height: 230,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '${provider.currentRating+delta}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 60,
-                    color: Colors.white,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${provider.currentRating+delta}',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 60,
+                  color: Colors.white,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    (provider.ratingPrice*delta) >= 0 ? '${provider.ratingPrice*delta*-1}' : '+${provider.ratingPrice*delta*-1}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      (provider.ratingPrice*delta) >= 0 ? '${provider.ratingPrice*delta*-1}' : '+${provider.ratingPrice*delta*-1}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(width: 8,),
-                    Image.asset(
-                      'assets/icons/coin.png',
-                      width: 20,
-                      height: 20,
-                      fit: BoxFit.cover,
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () => _decRating(),
-                      child: Icon(
-                        Icons.remove_circle_rounded,
-                        color: Colors.white70,
-                        size: 40,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => _incRating(),
-                      child: Icon(
-                        Icons.add_circle_rounded,
-                        color: Colors.white70,
-                        size: 40,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 17,),
-                SizedBox(
-                  width: 205,
-                  child: CustomButton(
-                      text: 'Purchase',
-                      onPressed: () => ActionUtils(
-                          delay: 0,
-                          context: context,
-                          action: () => CardRatingService.upgradeRating(delta),
-                          callback: () async {
-                            delta = 0;
-                            provider.loadData();
-                            await lineupProvider.loadLineup(-1);
-                          }
-                      ).confirmAction(),
-                      isLoading: false,
-                    verticalPadding: 8,
+                  SizedBox(width: 8,),
+                  Image.asset(
+                    'assets/icons/coin.png',
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.cover,
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => _decRating(),
+                    child: Icon(
+                      Icons.remove_circle_rounded,
+                      color: Colors.white70,
+                      size: 40,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => _incRating(),
+                    child: Icon(
+                      Icons.add_circle_rounded,
+                      color: Colors.white70,
+                      size: 40,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 17,),
+              SizedBox(
+                width: 205,
+                child: CustomButton(
+                    text: 'Purchase',
+                    onPressed: () => ActionUtils(
+                        delay: 0,
+                        context: context,
+                        action: () => CardRatingService.upgradeRating(delta),
+                        callback: () async {
+                          delta = 0;
+                          provider.loadData();
+                          await lineupProvider.loadLineup(-1);
+                        }
+                    ).confirmAction(),
+                    isLoading: false,
+                  verticalPadding: 8,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

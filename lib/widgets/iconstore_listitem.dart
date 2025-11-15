@@ -30,18 +30,14 @@ class IconStoreListItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
+        CachedNetworkImage(
+          imageUrl: imageUrl,
+          cacheKey: imageKey,
           width: 160,
-          height: 229,
-          child: CachedNetworkImage(
-            imageUrl: imageUrl,
-            cacheKey: imageKey,
-            width: 160,
-            height: 229,
-            fit: BoxFit.cover,
-            errorWidget: (context, url, error) => errorImage(),
-            placeholder: (context, url) => loadingImage(),
-          ),
+          height: 220,
+          fit: BoxFit.cover,
+          errorWidget: (context, url, error) => errorImage(),
+          placeholder: (context, url) => loadingImage(),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
