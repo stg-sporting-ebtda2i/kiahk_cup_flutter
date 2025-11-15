@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
-import 'package:piehme_cup_flutter/widgets/store_listitem.dart';
+import 'package:piehme_cup_flutter/widgets/player_store_listitem.dart';
 import 'package:provider/provider.dart';
 
 class PlayersStorePage extends StatefulWidget {
@@ -18,98 +17,199 @@ class PlayersStorePage extends StatefulWidget {
 }
 
 class _PlayersStorePageState extends State<PlayersStorePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          const Image(
-            image: AssetImage('assets/other_background.png'),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF054127),
+              Color(0xFF032C28),
+              Color(0xFF021C29),
+              Color(0xFF250D1B),
+              Color(0xFF50121F),
+            ],
           ),
-          Consumer<PlayersStoreProvider>(
-            builder: (context, provider, child) {
-              return Column(
-                children: [
-                  SafeArea(child: Header()),
-                  Visibility(
-                    visible: provider.items.isNotEmpty || !provider.isLoaded,
-                    replacement: Container(
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        "No players available for position ${widget.position}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
+        ),
+        child: Consumer<PlayersStoreProvider>(builder: (context, provider, child) {
+          return Column(
+            children: [
+              SizedBox(
+                height: 130,
+                child: SafeArea(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black87,
+                          Colors.black45,
+                          Colors.transparent,
+                        ],
                       ),
                     ),
-                    child: Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          await Loading.show(() async {
-                            await provider.loadStore(widget.position);
-                          }, delay: Duration(milliseconds: 0));
-                        },
-                        color: Colors.black,
-                        backgroundColor: Colors.greenAccent,
-                        child: GridView.builder(
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            childAspectRatio: 0.45,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 4, 0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
                           ),
-                          padding: const EdgeInsets.all(15),
-                          itemCount: provider.items.length,
-                          itemBuilder: (context, index) {
-                            final item = provider.items[index];
-                            return StoreListItem(
-                              imageUrl: item.imageUrl,
-                              imageKey: item.imageKey,
-                              price: item.price,
-                              owned: item.owned,
-                              selected: false,
-                              buy: () => ActionUtils(
-                                delay: 0,
-                                context: context,
-                                action: () => PlayersService.buyPlayer(item.id),
-                                callback: () async {
-                                  await context.read<LineupProvider>().loadLineup(-1);
-                                  if (!context.mounted) return;
-                                  Navigator.pop(context);
-                                },
-                              ).confirmAction(),
-                              sell: () => ActionUtils(
-                                delay: 0,
-                                  context: context,
-                                  action: () => PlayersService.sellPlayer(item.id),
-                                  callback: () async {
-                                    await context.read<LineupProvider>().loadLineup(-1);
-                                    if (!context.mounted) return;
-                                    Navigator.pop(context);
-                                  },
-                            ).confirmAction(),
-                              select: () {Navigator.pop(context);},
-                            );
-                          },
                         ),
-                      ),
+                        Expanded(
+                          child: Text(
+                            'Store',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Header(),
+                      ],
                     ),
                   ),
-                ],
-              );
-            }
+                ),
+              ),
+              Visibility(
+                visible: provider.items.isNotEmpty || !provider.isLoaded,
+                replacement: _buildEmptyPositionWidget(),
+                child: Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: provider.items.length,
+                    itemBuilder: (context, index) {
+                      final item = provider.items[index];
+                      if (index == 2) item.owned = true;
+                      return PlayerStoreListItem(
+                        index: index,
+                        player: item,
+                        owned: item.owned,
+                        selected: index == 2 ? true : false,
+                        buy: () => ActionUtils(
+                          delay: 0,
+                          context: context,
+                          action: () => PlayersService.buyPlayer(item.id),
+                          callback: () async {
+                            await context
+                                .read<LineupProvider>()
+                                .loadLineup(-1);
+                            if (!context.mounted) return;
+                            Navigator.pop(context);
+                          },
+                        ).confirmAction(),
+                        sell: () => ActionUtils(
+                          delay: 0,
+                          context: context,
+                          action: () => PlayersService.sellPlayer(item.id),
+                          callback: () async {
+                            await context
+                                .read<LineupProvider>()
+                                .loadLineup(-1);
+                            if (!context.mounted) return;
+                            Navigator.pop(context);
+                          },
+                        ).confirmAction(),
+                        select: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildEmptyPositionWidget() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      margin: EdgeInsets.only(left: 8, right: 8),
+      decoration: BoxDecoration(
+        color: Colors.black.withAlpha(100), // More transparent
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.white.withAlpha(25),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(77),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(25),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.sports_soccer_rounded,
+              size: 50,
+              color: Colors.grey.shade300,
+            ),
+          ),
+          SizedBox(height: 16),
+          Text(
+            "No Players Available",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 8),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(25),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              "${widget.position} Position",
+              style: TextStyle(
+                color: Colors.grey.shade300,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            "Check back later for new players\nin this position",
+            style: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 14,
+              height: 1.4,
+            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
+
 }

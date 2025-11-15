@@ -10,6 +10,9 @@ class Player {
   final String imageKey;
   final int price;
   late bool owned = false;
+  final String league;
+  final String club;
+  final String nationality;
 
   Player({
     required this.id,
@@ -20,6 +23,9 @@ class Player {
     required this.imageKey,
     required this.imageUrl,
     required this.price,
+    required this.league,
+    required this.club,
+    required this.nationality,
   });
 
   factory Player.fromJson(Map<String, dynamic> json) {
@@ -32,6 +38,9 @@ class Player {
       imageUrl: json['imageUrl'],
       imageKey: json['imageKey'],
       price: json['price'],
+      league: json['league'],
+      club: json['club'],
+      nationality: json['nationality'],
     );
   }
 }

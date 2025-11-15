@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:piehme_cup_flutter/widgets/image_placeholders.dart';
 
-class StoreListItem extends StatelessWidget {
+class IconStoreListItem extends StatelessWidget {
   final String imageUrl;
   final String imageKey;
   final int price;
@@ -12,7 +12,7 @@ class StoreListItem extends StatelessWidget {
   final VoidCallback sell;
   final VoidCallback select;
 
-  const StoreListItem({
+  const IconStoreListItem({
     super.key,
     required this.imageUrl,
     required this.imageKey,
@@ -101,3 +101,4 @@ class StoreListItem extends StatelessWidget {
     );
   }
 }
+
