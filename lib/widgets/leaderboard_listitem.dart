@@ -121,7 +121,7 @@ class LeaderboardListItem extends StatelessWidget {
             child: Text(
               index.toString().padLeft(2, '0'),
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 12,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 shadows: [
@@ -148,7 +148,6 @@ class LeaderboardListItem extends StatelessWidget {
 
   Widget _buildEnhancedStatsSection() {
     return SizedBox(
-      height: 145,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -183,6 +182,8 @@ class LeaderboardListItem extends StatelessWidget {
             ),
             label: 'RATING',
           ),
+
+          SizedBox(height: 8,),
 
           // Chemistry Section with enhanced styling
           _buildPremiumStatContainer(

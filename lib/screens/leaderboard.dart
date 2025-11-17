@@ -24,7 +24,7 @@ class _LeaderboardState extends State<Leaderboard> {
           decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/backgrounds/leaderboard_background1.jpg'),
+                image: AssetImage('assets/backgrounds/leaderboard_background.png'),
               )
           ),
           // decoration: BoxDecoration(
