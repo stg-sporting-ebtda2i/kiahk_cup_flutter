@@ -38,9 +38,9 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
           return Column(
             children: [
               SizedBox(
-                height: 130,
                 child: SafeArea(
                   child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 26),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,

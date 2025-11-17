@@ -41,9 +41,9 @@ class _LeaderboardState extends State<Leaderboard> {
           child: Column(
             children: [
               SizedBox(
-                height: 130,
                 child: SafeArea(
                   child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 26),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
