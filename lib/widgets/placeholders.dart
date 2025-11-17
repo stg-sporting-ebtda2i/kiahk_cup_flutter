@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 
 Widget emptyCardPlaceholder() {
   return const Image(
+    image: AssetImage('assets/placeholder/empty_with_stars_card_placeholder.png'),
+    fit: BoxFit.cover,
+    width: double.maxFinite,
+    height: double.maxFinite,
+  );
+}
+
+Widget emptyIconPlaceholder() {
+  return const Image(
     image: AssetImage('assets/placeholder/empty_card_placeholder.png'),
     fit: BoxFit.cover,
     width: double.maxFinite,

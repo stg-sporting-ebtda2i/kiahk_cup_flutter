@@ -39,6 +39,7 @@ class IconsTextColorProvider with ChangeNotifier {
   }
 
   Future<Color> getTextColor({required key, required url}) async {
+    if (url == null) return Colors.white;
     final PaletteGenerator paletteGenerator =
     await PaletteGenerator.fromImageProvider(CachedNetworkImageProvider(url, cacheKey: key));
     Color? dominantColor = paletteGenerator.dominantColor?.color;

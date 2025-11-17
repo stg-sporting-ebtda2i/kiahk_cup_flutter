@@ -59,11 +59,11 @@ class _UserCardState extends State<UserCard> {
             children: [
               // Card Icon (Background Image)
               CachedNetworkImage(
-                imageUrl: widget.user.iconUrl!,
+                imageUrl: widget.user.iconUrl ?? '',
                 cacheKey:widget.user.iconKey,
                 width: double.infinity,
                 height: double.infinity,
-                errorWidget: (context, url, error) => emptyCardPlaceholder(),
+                errorWidget: (context, url, error) => emptyIconPlaceholder(),
                 placeholder: (context, url) => loadingCardPlaceholder(),
                 fit: BoxFit.fill,
               ),

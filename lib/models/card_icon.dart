@@ -3,8 +3,8 @@ class CardIcon {
   final String name;
   final int price;
   final bool available;
-  final String imageUrl;
-  final String imageKey;
+  final String? imageUrl;
+  final String? imageKey;
   bool owned;
   bool selected;
 

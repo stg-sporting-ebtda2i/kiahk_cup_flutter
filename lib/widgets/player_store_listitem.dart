@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/widgets/placeholders.dart';
+import 'package:piehme_cup_flutter/widgets/action_icon_button.dart';
 
 class PlayerStoreListItem extends StatelessWidget {
   final int index;
@@ -82,11 +83,11 @@ class PlayerStoreListItem extends StatelessWidget {
           width: 115,
           height: 185,
           child: CachedNetworkImage(
-            imageUrl: player.imageUrl,
+            imageUrl: player.imageUrl ?? '',
             cacheKey: player.imageKey,
             fit: BoxFit.cover,
             errorWidget: (context, url, error) => errorCardPlaceholder(),
-            placeholder: (context, url) =>loadingCardPlaceholder(),
+            placeholder: (context, url) => loadingCardPlaceholder(),
           ),
         ),
       ],
@@ -120,12 +121,8 @@ class PlayerStoreListItem extends StatelessWidget {
 
           // Price section
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(),
-              _buildEnhancedPriceSection()
-            ]
-          ),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [SizedBox(), _buildEnhancedPriceSection()]),
         ],
       ),
     );
@@ -216,23 +213,26 @@ class PlayerStoreListItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (owned)
-          _buildActionButton(
-            icon: Icons.delete_outline_rounded,
+          ActionIconButton(
+            icon:
+                Icon(Icons.delete_outline_rounded, color: Colors.red, size: 20),
             color: Colors.red,
             onPressed: sell,
             tooltip: 'Sell Player',
           )
         else
-          _buildActionButton(
-            icon: Icons.shopping_cart_outlined,
+          ActionIconButton(
+            icon: Icon(Icons.shopping_cart_outlined,
+                color: Colors.green, size: 20),
             color: Colors.green,
             onPressed: buy,
             tooltip: 'Buy Player',
           ),
         SizedBox(height: 8),
         if (owned && !selected)
-          _buildActionButton(
-            icon: Icons.check_circle_outline,
+          ActionIconButton(
+            icon:
+                Icon(Icons.check_circle_outline, color: Colors.blue, size: 20),
             color: Colors.blue,
             onPressed: select,
             tooltip: 'Select Player',
@@ -252,30 +252,6 @@ class PlayerStoreListItem extends StatelessWidget {
             ),
           ),
       ],
-    );
-  }
-
-  Widget _buildActionButton({
-    required IconData icon,
-    required Color color,
-    required VoidCallback onPressed,
-    required String tooltip,
-  }) {
-    return Tooltip(
-      message: tooltip,
-      child: Container(
-        decoration: BoxDecoration(
-          color: color.withAlpha(25),
-          shape: BoxShape.circle,
-          border: Border.all(color: color.withAlpha(77)),
-        ),
-        child: IconButton(
-          onPressed: onPressed,
-          icon: Icon(icon, color: color, size: 20),
-          padding: EdgeInsets.all(6),
-          constraints: BoxConstraints(minWidth: 36, minHeight: 36),
-        ),
-      ),
     );
   }
 

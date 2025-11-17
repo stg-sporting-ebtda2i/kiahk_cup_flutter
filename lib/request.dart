@@ -8,8 +8,8 @@ import 'package:piehme_cup_flutter/services/navigation_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Request {
-  // static const String baseUrl = 'https://piehme.stgsporting.com';
-  static const String baseUrl = 'http://192.168.1.3:9000';
+  static const String baseUrl = 'https://piehme.stgsporting.com';
+  // static const String baseUrl = 'http://192.168.1.3:9000';
 
   Uri uri;
   Map<String, String> headers = {};

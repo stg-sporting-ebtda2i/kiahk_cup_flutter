@@ -6,8 +6,8 @@ class Player {
   final String position;
   final int rating;
   final bool available;
-  final String imageUrl;
-  final String imageKey;
+  final String? imageUrl;
+  final String? imageKey;
   final int price;
   late bool owned = false;
   final String league;

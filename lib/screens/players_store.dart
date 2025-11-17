@@ -91,12 +91,11 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                     itemCount: provider.items.length,
                     itemBuilder: (context, index) {
                       final item = provider.items[index];
-                      if (index == 2) item.owned = true;
                       return PlayerStoreListItem(
                         index: index,
                         player: item,
                         owned: item.owned,
-                        selected: index == 2 ? true : false,
+                        selected: item.owned,
                         buy: () => ActionUtils(
                           delay: 0,
                           context: context,

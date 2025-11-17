@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/providers/icons_store_provider.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/services/icons_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
-import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/iconstore_listitem.dart';
-import 'package:piehme_cup_flutter/widgets/player_store_listitem.dart';
 import 'package:provider/provider.dart';
 
 class IconsStorePage extends StatefulWidget {
@@ -63,8 +60,8 @@ class _IconsStorePageState extends State<IconsStorePage> {
                   width: 164, // Fixed width for each item
                   margin: const EdgeInsets.only(right: 16), // Spacing between items
                   child: IconStoreListItem(
-                    imageUrl: item.imageUrl,
-                    imageKey: item.imageKey,
+                    imageUrl: item.imageUrl ?? '',
+                    imageKey: item.imageKey ?? '',
                     price: item.price,
                     owned: item.owned,
                     selected: item.selected,
