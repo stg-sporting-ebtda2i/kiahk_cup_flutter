@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:piehme_cup_flutter/models/quiz.dart';
 import 'package:piehme_cup_flutter/request.dart';
 

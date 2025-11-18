@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/gestures.dart';
+import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/models/quiz.dart';
-import 'package:piehme_cup_flutter/models/option.dart';
-import 'package:piehme_cup_flutter/models/question.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
@@ -25,8 +22,6 @@ class _QuizPageState extends State<QuizPage> {
   late PageController _pageController;
   late ScrollController _scrollController;
   int _currentPageIndex = 0;
-  bool _isLoading = true;
-  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -44,63 +39,49 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _loadQuiz(String quizSlug) async {
-    setState(() => _isLoading = true);
     try {
       Provider.of<QuizzesProvider>(context, listen: false).loadQuiz(quizSlug);
     } catch (error) {
       // Handle error if needed
       print('Error loading quiz: $error');
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+      toast('Error loading quiz');
     }
   }
 
-  void _submitQuiz() async {
-    setState(() => _isSubmitting = true);
+  void _submitQuiz(QuizzesProvider provider, HeaderProvider header) async {
     try {
-      await Provider.of<QuizzesProvider>(context, listen: false)
-          .submitQuiz(widget.quizSlug, answers);
-
+      await provider.submitQuiz(widget.quizSlug, answers);
       if (mounted) {
-        context.read<HeaderProvider>().refreshCoins();
+        header.refreshCoins();
         Navigator.of(context).pop();
       }
     } catch (error) {
       // Handle submission error
       print('Error submitting quiz: $error');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to submit quiz. Please try again.'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isSubmitting = false);
-      }
+      toast('Failed to submit quiz. Please try again.');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    QuizzesProvider provider = Provider.of<QuizzesProvider>(context);
+    return Consumer2<QuizzesProvider, HeaderProvider>(
+      builder: (context, provider, header, child) {
+        Quiz quiz = provider.currentQuiz;
 
-    // Show loading state
-    if (_isLoading) {
-      return _buildLoadingState();
-    }
+        if (provider.isLoadingQuiz) {
+          return _buildLoadingState();
+        }
 
+        if (!provider.isLoadingQuiz && quiz.questions.isEmpty) {
+          return _buildErrorState();
+        }
+        return _buildQuestionsState(provider, header);
+      },
+    );
+  }
+
+  Widget _buildQuestionsState(QuizzesProvider provider, HeaderProvider header) {
     Quiz quiz = provider.currentQuiz;
-
-    // Show error state if quiz failed to load
-    if (quiz.questions.isEmpty) {
-      return _buildErrorState();
-    }
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -125,8 +106,8 @@ class _QuizPageState extends State<QuizPage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.black.withOpacity(0.4),
+                      Colors.black.withAlpha(204),
+                      Colors.black.withAlpha(102),
                       Colors.transparent,
                     ],
                   ),
@@ -136,7 +117,7 @@ class _QuizPageState extends State<QuizPage> {
                     // Back Button
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withAlpha(26),
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
@@ -161,7 +142,7 @@ class _QuizPageState extends State<QuizPage> {
                           shadows: [
                             Shadow(
                               blurRadius: 4,
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withAlpha(128),
                             ),
                           ],
                         ),
@@ -177,56 +158,66 @@ class _QuizPageState extends State<QuizPage> {
               ),
             ),
 
-            // Enhanced Progress Indicator
-            _buildEnhancedProgressIndicator(quiz),
-
-            // Questions Area
             Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  _scrollToIndex(index);
-                  setState(() => _currentPageIndex = index);
-                },
-                children: quiz.questions.map((question) {
-                  return QuestionListItem(
-                    question: question,
-                    answer: answers[question.id.toString()],
-                    setAnswer: (answer) {
-                      setState(() {
-                        answers[question.id.toString()] = answer;
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
-            ),
+              child: Column(
+                children: [
+                  // Enhanced Progress Indicator
+                  _buildEnhancedProgressIndicator(quiz),
 
-            // Submit Button
-            Visibility(
-              visible: _currentPageIndex == quiz.questions.length - 1,
-              child: Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomButton(
-                      text: _isSubmitting ? 'Submitting...' : 'Submit Quiz',
-                      onPressed: _isSubmitting ? () {} : _submitQuiz,
-                      isLoading: _isSubmitting,
+                  // Questions Area
+                  Expanded(
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        _scrollToIndex(index);
+                        setState(() => _currentPageIndex = index);
+                      },
+                      children: quiz.questions.map((question) {
+                        return QuestionListItem(
+                          question: question,
+                          answer: answers[question.id.toString()],
+                          setAnswer: (answer) {
+                            setState(() {
+                              answers[question.id.toString()] = answer;
+                            });
+                          },
+                        );
+                      }).toList(),
                     ),
-                  ],
-                ),
+                  ),
+
+                  // Submit Button
+                  Visibility(
+                    visible: _currentPageIndex == quiz.questions.length - 1,
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withAlpha(204),
+                            Colors.transparent,
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          CustomButton(
+                            text: provider.isSubmitting
+                                ? 'Submitting...'
+                                : 'Submit Quiz',
+                            onPressed: provider.isSubmitting
+                                ? () {}
+                                : () => _submitQuiz(provider, header),
+                            isLoading: provider.isSubmitting,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -260,8 +251,8 @@ class _QuizPageState extends State<QuizPage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.black.withOpacity(0.4),
+                      Colors.black.withAlpha(204),
+                      Colors.black.withAlpha(102),
                       Colors.transparent,
                     ],
                   ),
@@ -270,7 +261,7 @@ class _QuizPageState extends State<QuizPage> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withAlpha(26),
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
@@ -288,7 +279,7 @@ class _QuizPageState extends State<QuizPage> {
                         height: 24,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withAlpha(26),
                         ),
                       ),
                     ),
@@ -310,25 +301,13 @@ class _QuizPageState extends State<QuizPage> {
                       width: 80,
                       height: 80,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withAlpha(26),
                         shape: BoxShape.circle,
                       ),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue.shade300),
-                              strokeWidth: 3,
-                            ),
-                          ),
-                          Center(
-                            child: Icon(
-                              Icons.quiz_rounded,
-                              color: Colors.white.withOpacity(0.7),
-                              size: 30,
-                            ),
-                          ),
-                        ],
+                      child: Icon(
+                        Icons.quiz_rounded,
+                        color: Colors.white.withAlpha(179),
+                        size: 30,
                       ),
                     ),
                     SizedBox(height: 24),
@@ -348,7 +327,7 @@ class _QuizPageState extends State<QuizPage> {
                       'Getting your questions ready',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withAlpha(179),
                       ),
                     ),
                   ],
@@ -386,8 +365,8 @@ class _QuizPageState extends State<QuizPage> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.black.withOpacity(0.4),
+                      Colors.black.withAlpha(204),
+                      Colors.black.withAlpha(102),
                       Colors.transparent,
                     ],
                   ),
@@ -396,7 +375,7 @@ class _QuizPageState extends State<QuizPage> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withAlpha(26),
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
@@ -439,7 +418,7 @@ class _QuizPageState extends State<QuizPage> {
                         width: 100,
                         height: 100,
                         decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(0.1),
+                          color: Colors.red.withAlpha(26),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -467,7 +446,7 @@ class _QuizPageState extends State<QuizPage> {
                         'We couldn\'t load the quiz. Please check your connection and try again.',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withAlpha(179),
                           height: 1.5,
                         ),
                         textAlign: TextAlign.center,
@@ -475,13 +454,14 @@ class _QuizPageState extends State<QuizPage> {
                       SizedBox(height: 32),
 
                       // Retry button
-                      Container(
+                      SizedBox(
                         width: 200,
                         child: ElevatedButton(
                           onPressed: () => _loadQuiz(widget.quizSlug),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue.shade600,
-                            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 24),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -489,14 +469,18 @@ class _QuizPageState extends State<QuizPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.refresh_rounded, size: 20),
+                              Icon(
+                                Icons.refresh_rounded,
+                                size: 20,
+                                color: Colors.white,
+                              ),
                               SizedBox(width: 8),
                               Text(
                                 'Try Again',
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
                               ),
                             ],
                           ),
@@ -525,7 +509,7 @@ class _QuizPageState extends State<QuizPage> {
               Text(
                 'Question ${_currentPageIndex + 1} of ${quiz.questions.length}',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withAlpha(204),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -572,22 +556,25 @@ class _QuizPageState extends State<QuizPage> {
                       shape: BoxShape.circle,
                       border: isCurrent
                           ? Border.all(color: Colors.blue.shade300, width: 3)
-                          : Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+                          : Border.all(
+                              color: Colors.white.withAlpha(77), width: 1),
                       boxShadow: isCurrent
                           ? [
-                        BoxShadow(
-                          color: Colors.blue.withOpacity(0.5),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                        ),
-                      ]
+                              BoxShadow(
+                                color: Colors.blue.withAlpha(128),
+                                blurRadius: 8,
+                                spreadRadius: 2,
+                              ),
+                            ]
                           : null,
                     ),
                     child: Center(
                       child: Text(
                         (index + 1).toString(),
                         style: TextStyle(
-                          color: isAnswered ? Colors.white : Colors.white.withOpacity(0.8),
+                          color: isAnswered
+                              ? Colors.white
+                              : Colors.white.withAlpha(204),
                           fontWeight: FontWeight.bold,
                           fontSize: isCurrent ? 14 : 12,
                         ),
