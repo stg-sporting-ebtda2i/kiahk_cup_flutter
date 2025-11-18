@@ -40,37 +40,35 @@ class _LeaderboardState extends State<Leaderboard> {
           // ),
           child: Column(
             children: [
-              SizedBox(
-                child: SafeArea(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 26),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.black87,
-                          Colors.black45,
-                          Colors.transparent,
-                        ],
-                      ),
+              SafeArea(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 26),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black87,
+                        Colors.black45,
+                        Colors.transparent,
+                      ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Leaderboard',
-                            style: const TextStyle(
-                              fontSize: 23,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Leaderboard',
+                          style: const TextStyle(
+                            fontSize: 23,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Header(),
-                        ],
-                      ),
+                        ),
+                        Header(),
+                      ],
                     ),
                   ),
                 ),

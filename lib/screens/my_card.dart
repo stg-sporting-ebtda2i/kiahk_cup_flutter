@@ -85,38 +85,36 @@ class _MyCardPageState extends State<MyCardPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              child: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 26),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 4, 0),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                          ),
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 26),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 4, 0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
                         ),
                       ),
-                      Expanded(
-                        child: Text(
-                          'My Card',
-                          style: const TextStyle(
-                            fontSize: 23,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          // textAlign: TextAlign.left,
+                    ),
+                    Expanded(
+                      child: Text(
+                        'My Card',
+                        style: const TextStyle(
+                          fontSize: 23,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
+                        // textAlign: TextAlign.left,
                       ),
-                      Header(),
-                    ],
-                  ),
+                    ),
+                    Header(),
+                  ],
                 ),
               ),
             ),
