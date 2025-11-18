@@ -20,6 +20,7 @@ class QuizzesProvider with ChangeNotifier {
     _isLoadingQuizzes = true;
     notifyListeners();
     _items = await QuizzesService.getQuizzes();
+    _isLoadingQuizzes = false;
     notifyListeners();
   }
 
@@ -40,6 +41,7 @@ class QuizzesProvider with ChangeNotifier {
     _isSubmitting = true;
     notifyListeners();
     bool result = await QuizzesService.submitQuiz(slug, answers);
+    if (result) await loadQuizzes();
     _isSubmitting = false;
     notifyListeners();
     if (result) {
