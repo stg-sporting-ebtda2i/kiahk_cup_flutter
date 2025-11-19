@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
+import 'package:piehme_cup_flutter/states/empty_state.dart';
+import 'package:piehme_cup_flutter/states/loading_state.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/requested_attendance_listitem.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +19,7 @@ class RequestedAttendance extends StatefulWidget {
 class _RequestedAttendanceState extends State<RequestedAttendance> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<AttendanceProvider>(
-        builder: (context, provider, child) {
+    return Consumer<AttendanceProvider>(builder: (context, provider, child) {
       return Scaffold(
         floatingActionButton: Container(
           width: 60,
@@ -99,12 +100,15 @@ class _RequestedAttendanceState extends State<RequestedAttendance> {
                   ),
                 ),
               ),
-              Builder(builder: (context) {
-                if (provider.isLoadingRequests && provider.requestedList.isEmpty) {
-                  return _buildLoadingState();
-                }
-                return _buildRequestedAttendanceList(provider);
-              },),
+              Builder(
+                builder: (context) {
+                  if (provider.isLoadingRequests &&
+                      provider.requestedList.isEmpty) {
+                    return _buildLoadingState();
+                  }
+                  return _buildRequestedAttendanceList(provider);
+                },
+              ),
             ],
           ),
         ),
@@ -118,118 +122,38 @@ class _RequestedAttendanceState extends State<RequestedAttendance> {
         onRefresh: () => provider.loadRequestedAttendances(),
         color: Colors.black,
         backgroundColor: AppColors.brand,
-        child: provider.requestedList.isEmpty ?
-        CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _buildEmptyState()),
-          ],
-        ) :
-        ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          itemCount: provider.requestedList.length,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.zero,
-              child: RequestedAttendanceListItem(
-                  requestedAttendance:
-                  provider.requestedList[index]),
-            );
-          },
-        ),
+        child: provider.requestedList.isEmpty
+            ? CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(child: _buildEmptyState()),
+                ],
+              )
+            : ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                itemCount: provider.requestedList.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.zero,
+                    child: RequestedAttendanceListItem(
+                        requestedAttendance: provider.requestedList[index]),
+                  );
+                },
+              ),
       ),
     );
   }
 
   Widget _buildLoadingState() {
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Loading animation
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(26),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.church,
-                color: Colors.white.withAlpha(179),
-                size: 30,
-              ),
-            ),
-            SizedBox(height: 24),
-
-            // Loading text
-            Text(
-              'Loading Requests...',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(height: 12),
-
-            Text(
-              'Getting your requests ready',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white.withAlpha(179),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return LoadingState(
+        iconData: Icons.church,
+        title: 'Loading Requests...',
+        subtitle: 'Getting your requests ready');
   }
 
   Widget _buildEmptyState() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.8,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Loading animation
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(26),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.church,
-                color: Colors.white.withAlpha(179),
-                size: 30,
-              ),
-            ),
-            SizedBox(height: 24),
-
-            // Loading text
-            Text(
-              'No Attendance Requested',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(height: 12),
-
-            Text(
-              'Start submitting your attendance',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white.withAlpha(179),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return EmptyState(
+        iconData: Icons.church,
+        title: 'No Attendance Requested',
+        subtitle: 'Start submitting your attendance');
   }
 }
