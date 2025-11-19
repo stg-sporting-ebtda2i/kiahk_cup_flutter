@@ -5,6 +5,7 @@ import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/providers/header_provider.dart';
 import 'package:piehme_cup_flutter/providers/user_provider.dart';
 import 'package:piehme_cup_flutter/routes/app_routes.dart';
+import 'package:piehme_cup_flutter/widgets/animated_list_item.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -117,81 +118,95 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                     child: Column(
                       children: [
                         // Profile Header Section
-                        Container(
-                          padding: const EdgeInsets.all(24),
-                          margin: const EdgeInsets.only(bottom: 25),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.white.withAlpha(38),
-                                Colors.white.withAlpha(20),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(
-                              color: Colors.white.withAlpha(51),
-                              width: 1,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withAlpha(77),
-                                blurRadius: 20,
-                                offset: const Offset(0, 8),
+                        AnimatedListItem(
+                          index: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(24),
+                            margin: const EdgeInsets.only(bottom: 25),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withAlpha(38),
+                                  Colors.white.withAlpha(20),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              // User Avatar
-                              Stack(
-                                children: [
-                                  Container(
-                                    width: 110,
-                                    height: 110,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/backgrounds/profile_background.png'),
-                                          fit: BoxFit.cover),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.yellow.shade200
-                                              .withAlpha(102),
-                                          blurRadius: 30,
-                                          offset: const Offset(3, 6),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: ClipOval(
-                                        child: userProvider.user.imageUrl !=
-                                                null
-                                            ? CachedNetworkImage(
-                                                imageUrl:
-                                                    userProvider.user.imageUrl!,
-                                                cacheKey:
-                                                    userProvider.user.imageKey,
-                                                fit: BoxFit.cover,
-                                                placeholder: (context, url) =>
-                                                    Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey[800],
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: const Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: Colors.blue,
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(
+                                color: Colors.white.withAlpha(51),
+                                width: 1,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withAlpha(77),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                // User Avatar
+                                Stack(
+                                  children: [
+                                    Container(
+                                      width: 110,
+                                      height: 110,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/backgrounds/profile_background.png'),
+                                            fit: BoxFit.cover),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.yellow.shade200
+                                                .withAlpha(102),
+                                            blurRadius: 30,
+                                            offset: const Offset(3, 6),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: ClipOval(
+                                          child: userProvider.user.imageUrl !=
+                                                  null
+                                              ? CachedNetworkImage(
+                                                  imageUrl:
+                                                      userProvider.user.imageUrl!,
+                                                  cacheKey:
+                                                      userProvider.user.imageKey,
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[800],
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: const Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Colors.blue,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Container(
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[800],
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: const Icon(
+                                                      Icons.person_rounded,
+                                                      color: Colors.white,
+                                                      size: 40,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(
                                                   decoration: BoxDecoration(
                                                     color: Colors.grey[800],
                                                     shape: BoxShape.circle,
@@ -202,190 +217,188 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                                                     size: 40,
                                                   ),
                                                 ),
-                                              )
-                                            : Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[800],
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: const Icon(
-                                                  Icons.person_rounded,
-                                                  color: Colors.white,
-                                                  size: 40,
-                                                ),
-                                              ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  if (userProvider.isLoading)
-                                    Positioned.fill(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.black.withAlpha(153),
-                                        ),
-                                        child: const Center(
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
+                                    if (userProvider.isLoading)
+                                      Positioned.fill(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.black.withAlpha(153),
+                                          ),
+                                          child: const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-
-                              // User Name
-                              Text(
-                                userProvider.user.name,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
+                                  ],
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                                const SizedBox(height: 20),
+
+                                // User Name
+                                Text(
+                                  userProvider.user.name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
 
                         // About App Section
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          margin: const EdgeInsets.only(bottom: 25),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.white.withAlpha(31),
-                                Colors.white.withAlpha(15),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white.withAlpha(38),
-                              width: 1,
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.games_rounded,
-                                    color: Colors.blue.shade300,
-                                    size: 24,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    'About The App',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                        AnimatedListItem(
+                          index: 1,
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            margin: const EdgeInsets.only(bottom: 25),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withAlpha(31),
+                                  Colors.white.withAlpha(15),
                                 ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                              const SizedBox(height: 16),
-                              _buildAboutRow(
-                                icon: Icons.flag_rounded,
-                                text: 'The Road to Bethlehem',
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.white.withAlpha(38),
+                                width: 1,
                               ),
-                              const SizedBox(height: 12),
-                              _buildAboutRow(
-                                icon: Icons.group_rounded,
-                                text: 'خدمة ابتدائي - St. George Sporting',
-                              ),
-                              const SizedBox(height: 12),
-                              _buildAboutRow(
-                                icon: Icons.location_pin,
-                                text: 'Alexandria, Egypt',
-                              ),
-                              const SizedBox(height: 12),
-                              _buildAboutRow(
-                                icon: Icons.phone_android_rounded,
-                                text: 'Version 3.0.0 • 2025',
-                              ),
-                            ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.games_rounded,
+                                      color: Colors.blue.shade300,
+                                      size: 24,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      'About The App',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                _buildAboutRow(
+                                  icon: Icons.flag_rounded,
+                                  text: 'The Road to Bethlehem',
+                                ),
+                                const SizedBox(height: 12),
+                                _buildAboutRow(
+                                  icon: Icons.group_rounded,
+                                  text: 'خدمة ابتدائي - St. George Sporting',
+                                ),
+                                const SizedBox(height: 12),
+                                _buildAboutRow(
+                                  icon: Icons.location_pin,
+                                  text: 'Alexandria, Egypt',
+                                ),
+                                const SizedBox(height: 12),
+                                _buildAboutRow(
+                                  icon: Icons.phone_android_rounded,
+                                  text: 'Version 3.0.0 • 2025',
+                                ),
+                              ],
+                            ),
                           ),
                         ),
 
                         // Action Buttons Section
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.white.withAlpha(31),
-                                Colors.white.withAlpha(15),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white.withAlpha(38),
-                              width: 1,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withAlpha(51),
-                                blurRadius: 15,
-                                offset: const Offset(0, 5),
+                        AnimatedListItem(
+                          index: 2,
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withAlpha(31),
+                                  Colors.white.withAlpha(15),
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              // Logout Button
-                              _buildEnhancedProfileButton(
-                                icon: Icons.logout_rounded,
-                                title: 'Logout',
-                                subtitle: 'Sign out of your account',
-                                onTap: _logout,
-                                color: Colors.red.shade400,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.white.withAlpha(38),
+                                width: 1,
                               ),
-                              if (!_confirmed) const SizedBox(height: 16),
-
-                              // Delete Account Button
-                              if (!_confirmed)
-                                _buildEnhancedProfileButton(
-                                  icon: Icons.delete_forever_rounded,
-                                  title: 'Delete Account',
-                                  subtitle: 'Permanently delete your account',
-                                  onTap: _delete,
-                                  color: Colors.red.shade700,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withAlpha(51),
+                                  blurRadius: 15,
+                                  offset: const Offset(0, 5),
                                 ),
-                            ],
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                // Logout Button
+                                _buildEnhancedProfileButton(
+                                  icon: Icons.logout_rounded,
+                                  title: 'Logout',
+                                  subtitle: 'Sign out of your account',
+                                  onTap: _logout,
+                                  color: Colors.red.shade400,
+                                ),
+                                if (!_confirmed) const SizedBox(height: 16),
+
+                                // Delete Account Button
+                                if (!_confirmed)
+                                  _buildEnhancedProfileButton(
+                                    icon: Icons.delete_forever_rounded,
+                                    title: 'Delete Account',
+                                    subtitle: 'Permanently delete your account',
+                                    onTap: _delete,
+                                    color: Colors.red.shade700,
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
 
                         // App Footer
-                        Container(
-                          margin: const EdgeInsets.only(top: 25),
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              Text(
-                                'The Road to Bethlehem',
-                                style: TextStyle(
-                                  color: Colors.white.withAlpha(204),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                        AnimatedListItem(
+                          index: 3,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 25),
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'The Road to Bethlehem',
+                                  style: TextStyle(
+                                    color: Colors.white.withAlpha(204),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'St. George Sporting, Alex.',
-                                style: TextStyle(
-                                  color: Colors.white.withAlpha(153),
-                                  fontSize: 12,
+                                const SizedBox(height: 4),
+                                Text(
+                                  'St. George Sporting, Alex.',
+                                  style: TextStyle(
+                                    color: Colors.white.withAlpha(153),
+                                    fontSize: 12,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
