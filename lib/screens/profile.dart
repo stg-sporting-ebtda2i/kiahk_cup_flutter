@@ -19,6 +19,16 @@ class MoreOptionsPage extends StatefulWidget {
 class _MoreOptionsPageState extends State<MoreOptionsPage> {
   bool _confirmed = true;
 
+  @override
+  void initState() {
+    super.initState();
+    AuthService.getConfirmed().then((confirmed) {
+      setState(() {
+        _confirmed = confirmed;
+      });
+    });
+  }
+
   void _logout() {
     showDialog(
       context: context,
@@ -58,33 +68,23 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-        //   gradient: LinearGradient(
-        //     colors: [
-        //       Color(0xFF0A1F3A), // Dark blue
-        //       Color(0xFF1A3A5F), // Medium blue
-        //       Color(0xFF2D4A7A), // Light blue
-        //     ],
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //   ),
           image: DecorationImage(
-              image: AssetImage(
-                  'assets/backgrounds/profile_background3.png'),
-              fit: BoxFit.cover
-          ),
+              image: AssetImage('assets/backgrounds/profile_background.png'),
+              fit: BoxFit.cover),
         ),
         child: Column(
           children: [
             // Enhanced Header
             SafeArea(
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 26),
+                padding: EdgeInsets.symmetric(vertical: 26),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.8),
+                      Colors.black87,
+                      Colors.black45,
                       Colors.transparent,
                     ],
                   ),
@@ -96,17 +96,10 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                     children: [
                       Text(
                         'Profile',
-                        style: TextStyle(
-                          fontSize: 24,
+                        style: const TextStyle(
+                          fontSize: 23,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
                         ),
                       ),
                       Header(),
@@ -130,20 +123,20 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Colors.white.withOpacity(0.15),
-                                Colors.white.withOpacity(0.08),
+                                Colors.white.withAlpha(38),
+                                Colors.white.withAlpha(20),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(25),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withAlpha(51),
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
+                                color: Colors.black.withAlpha(77),
                                 blurRadius: 20,
                                 offset: const Offset(0, 8),
                               ),
@@ -159,18 +152,14 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                                     height: 110,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      image: DecorationImage(image: AssetImage('assets/backgrounds/profile_background3.png'), fit: BoxFit.cover),
-                                      // gradient: LinearGradient(
-                                      //   colors: [
-                                      //     Colors.blue.shade800.withAlpha(200),
-                                      //     Colors.blue.shade900.withAlpha(200),
-                                      //   ],
-                                      //   begin: Alignment.topRight,
-                                      //   end: Alignment.bottomLeft,
-                                      // ),
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/backgrounds/profile_background.png'),
+                                          fit: BoxFit.cover),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.yellow.shade200.withOpacity(0.4),
+                                          color: Colors.yellow.shade200
+                                              .withAlpha(102),
                                           blurRadius: 30,
                                           offset: const Offset(3, 6),
                                         ),
@@ -179,45 +168,52 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(3.0),
                                       child: ClipOval(
-                                        child: userProvider.user.imageUrl != null
+                                        child: userProvider.user.imageUrl !=
+                                                null
                                             ? CachedNetworkImage(
-                                          imageUrl: userProvider.user.imageUrl!,
-                                          cacheKey: userProvider.user.imageKey,
-                                          fit: BoxFit.cover,
-                                          placeholder: (context, url) => Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[800],
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: const Center(
-                                              child: CircularProgressIndicator(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
-                                          errorWidget: (context, url, error) => Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[800],
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: const Icon(
-                                              Icons.person_rounded,
-                                              color: Colors.white,
-                                              size: 40,
-                                            ),
-                                          ),
-                                        )
+                                                imageUrl:
+                                                    userProvider.user.imageUrl!,
+                                                cacheKey:
+                                                    userProvider.user.imageKey,
+                                                fit: BoxFit.cover,
+                                                placeholder: (context, url) =>
+                                                    Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[800],
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[800],
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.person_rounded,
+                                                    color: Colors.white,
+                                                    size: 40,
+                                                  ),
+                                                ),
+                                              )
                                             : Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[800],
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: const Icon(
-                                            Icons.person_rounded,
-                                            color: Colors.white,
-                                            size: 40,
-                                          ),
-                                        ),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[800],
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.person_rounded,
+                                                  color: Colors.white,
+                                                  size: 40,
+                                                ),
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -226,7 +222,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.black.withOpacity(0.6),
+                                          color: Colors.black.withAlpha(153),
                                         ),
                                         child: const Center(
                                           child: CircularProgressIndicator(
@@ -241,7 +237,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
 
                               // User Name
                               Text(
-                                userProvider.user.name ?? 'User',
+                                userProvider.user.name,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,
@@ -260,15 +256,15 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Colors.white.withOpacity(0.12),
-                                Colors.white.withOpacity(0.06),
+                                Colors.white.withAlpha(31),
+                                Colors.white.withAlpha(15),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.15),
+                              color: Colors.white.withAlpha(38),
                               width: 1,
                             ),
                           ),
@@ -294,25 +290,21 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                                 ],
                               ),
                               const SizedBox(height: 16),
-
                               _buildAboutRow(
                                 icon: Icons.flag_rounded,
                                 text: 'The Road to Bethlehem',
                               ),
                               const SizedBox(height: 12),
-
                               _buildAboutRow(
                                 icon: Icons.group_rounded,
                                 text: 'خدمة ابتدائي - St. George Sporting',
                               ),
                               const SizedBox(height: 12),
-
                               _buildAboutRow(
                                 icon: Icons.location_pin,
                                 text: 'Alexandria, Egypt',
                               ),
                               const SizedBox(height: 12),
-
                               _buildAboutRow(
                                 icon: Icons.phone_android_rounded,
                                 text: 'Version 3.0.0 • 2025',
@@ -327,20 +319,20 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Colors.white.withOpacity(0.12),
-                                Colors.white.withOpacity(0.06),
+                                Colors.white.withAlpha(31),
+                                Colors.white.withAlpha(15),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.15),
+                              color: Colors.white.withAlpha(38),
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
+                                color: Colors.black.withAlpha(51),
                                 blurRadius: 15,
                                 offset: const Offset(0, 5),
                               ),
@@ -356,8 +348,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                                 onTap: _logout,
                                 color: Colors.red.shade400,
                               ),
-                              if (!_confirmed)
-                              const SizedBox(height: 16),
+                              if (!_confirmed) const SizedBox(height: 16),
 
                               // Delete Account Button
                               if (!_confirmed)
@@ -381,7 +372,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                               Text(
                                 'The Road to Bethlehem',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withAlpha(204),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -390,7 +381,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                               Text(
                                 'St. George Sporting, Alex.',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.6),
+                                  color: Colors.white.withAlpha(153),
                                   fontSize: 12,
                                 ),
                               ),
@@ -426,7 +417,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
           child: Text(
             text,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withAlpha(230),
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -448,20 +439,20 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
-        splashColor: color.withOpacity(0.2),
-        highlightColor: color.withOpacity(0.1),
+        splashColor: color.withAlpha(51),
+        highlightColor: color.withAlpha(26),
         child: Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withAlpha(26),
               width: 1,
             ),
             gradient: LinearGradient(
               colors: [
-                color.withOpacity(0.1),
-                color.withOpacity(0.05),
+                color.withAlpha(26),
+                color.withAlpha(13),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -472,10 +463,10 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.15),
+                  color: color.withAlpha(38),
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: color.withOpacity(0.3),
+                    color: color.withAlpha(77),
                     width: 1.5,
                   ),
                 ),
@@ -502,7 +493,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                     Text(
                       subtitle,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withAlpha(179),
                         fontSize: 12,
                       ),
                     ),
@@ -511,7 +502,7 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
               ),
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.white.withAlpha(128),
                 size: 16,
               ),
             ],
