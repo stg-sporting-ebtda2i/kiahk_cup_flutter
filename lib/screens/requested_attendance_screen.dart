@@ -1,54 +1,123 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/dialogs/loading.dart';
+import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/requested_attendance_listitem.dart';
 import 'package:provider/provider.dart';
+
+import '../dialogs/attendance_dialog.dart';
 
 class RequestedAttendance extends StatelessWidget {
   const RequestedAttendance({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/other_background.png'),
-            fit: BoxFit.cover,
+    return Consumer<AttendanceProvider>(
+        builder: (context, provider, child) {
+      return Scaffold(
+        floatingActionButton: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: AppColors.brand.withOpacity(0.6),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: AppColors.brand.withOpacity(0.3),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 20,
+                offset: Offset(0, 10),
+              ),
+              BoxShadow(
+                color: Colors.white.withOpacity(0.1),
+                blurRadius: 5,
+                offset: Offset(0, -2),
+              ),
+            ],
+          ),
+          child: FloatingActionButton(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            onPressed: () => showAttendanceDialog(
+              list: provider.liturgyNames!,
+              context: context,
+            ),
+            child: const Icon(
+              Icons.add_rounded,
+              color: Colors.black,
+              size: 30,
+            ),
           ),
         ),
-        child: Column(
-          children: [
-            SafeArea(child: Header()),
-            Consumer<AttendanceProvider>(
-                builder: (context, provider, child) {
-                  return Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        await Loading.show(() async {
-                          await context.read<AttendanceProvider>().loadRequestedAttendances();
-                        }, message: 'Loading...', delay: Duration.zero);
-                      },
-                      color: Colors.black,
-                      backgroundColor: Colors.greenAccent,
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(15),
-                        itemCount: provider.requestedList.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: RequestedAttendanceListItem(requestedAttendance: provider.requestedList[index]),
-                          );
-                        },
-                      ),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Color(0xFF023D4D),
+              Color(0xFF34443C),
+              Color(0xFF230D19)
+            ], begin: Alignment.topRight, end: Alignment.bottomLeft),
+          ),
+          child: Column(
+            children: [
+              SafeArea(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 26),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black87,
+                        Colors.black45,
+                        Colors.transparent,
+                      ],
                     ),
-                  );
-                }
-            ),
-          ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Hodour',
+                          style: const TextStyle(
+                            fontSize: 23,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Header(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => provider.loadRequestedAttendances(),
+                  color: Colors.black,
+                  backgroundColor: AppColors.brand,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    itemCount: provider.requestedList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: EdgeInsets.zero,
+                        child: RequestedAttendanceListItem(
+                            requestedAttendance:
+                            provider.requestedList[index]),
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

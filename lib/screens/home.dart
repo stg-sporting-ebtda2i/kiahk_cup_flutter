@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
+import 'package:piehme_cup_flutter/screens/requested_attendance_screen.dart';
 import 'package:provider/provider.dart';
 import 'show_quizzes_list.dart';
 import 'my_card.dart';
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     ButtonsVisibilityProvider provider = context.read<ButtonsVisibilityProvider>();
     if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
-    if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
+    if (provider.isVisible('Attendance')) _widgetOptions.add(RequestedAttendance());
     if (provider.isVisible('Lineup')) {
       _widgetOptions.add(LineupPage(userLineup: true));
       _selectedIndex = _widgetOptions.length-1;
@@ -40,24 +41,6 @@ class _HomePageState extends State<HomePage> {
     //   _updateWidgetOptions(provider);
     // });
   }
-
-  // void _updateWidgetOptions(ButtonsVisibilityProvider provider) {
-  //   if(mounted) {
-  //     setState(() {
-  //       _widgetOptions.clear();
-  //       if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
-  //       if (provider.isVisible('Card')) _widgetOptions.add(MyCardPage());
-  //       if (provider.isVisible('Lineup')) {
-  //         _widgetOptions.add(LineupPage(userLineup: true));
-  //         _selectedIndex = _widgetOptions.length-1;
-  //       } else {
-  //         _selectedIndex = 0;
-  //       }
-  //       if (provider.isVisible('Leaderboard')) _widgetOptions.add(Leaderboard());
-  //       _widgetOptions.add(MoreOptionsPage());
-  //     });
-  //   }
-  // }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -79,9 +62,9 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.assignment),
             label: 'Mosab2a',
           ),
-          if (provider.isVisible('Card')) BottomNavigationBarItem(
-            icon: Icon(Icons.switch_account),
-            label: 'My Card',
+          if (provider.isVisible('Manage Attendance')) BottomNavigationBarItem(
+            icon: Icon(Icons.church),
+            label: 'Hodour',
           ),
           if (provider.isVisible('Lineup')) BottomNavigationBarItem(
             icon: ImageIcon(AssetImage('assets/tactics.png')),
