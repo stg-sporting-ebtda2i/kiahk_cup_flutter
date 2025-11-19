@@ -60,14 +60,12 @@ class CardsUtils {
       } else {
         return EmptyPlayerCard(
           height: cardHeight,
-          onClick: clickable ? () async {
-            await Loading.show(() async {
-              PlayersStoreProvider provider = context.read<PlayersStoreProvider>();
-              await provider.loadStore(position);
-              if (!context.mounted) return;
-              Navigator.pushNamed(context, AppRoutes.playersStore,
-                  arguments: {'position': position});
-            }, delay: Duration(milliseconds: 0));
+          onClick: clickable ? () {
+            PlayersStoreProvider provider = context.read<PlayersStoreProvider>();
+            provider.loadStore(position);
+            if (!context.mounted) return;
+            Navigator.pushNamed(context, AppRoutes.playersStore,
+                arguments: {'position': position});
           } : () {},
         );
       }

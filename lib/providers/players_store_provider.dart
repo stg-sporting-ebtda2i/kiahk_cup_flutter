@@ -5,17 +5,17 @@ import 'package:piehme_cup_flutter/services/players_service.dart';
 class PlayersStoreProvider with ChangeNotifier {
 
   List<Player> _items = <Player>[];
-  bool _isLoaded = false;
+  bool _isLoading = false;
 
   List<Player> get items => _items;
-  bool get isLoaded => _isLoaded;
+  bool get isLoading => _isLoading;
 
   Future<void> loadStore(String position) async {
-    _isLoaded = false;
+    _isLoading = true;
     _items = <Player>[];
     notifyListeners();
     _items = await PlayersService.getPlayersByPosition(position);
-    _isLoaded = true;
+    _isLoading = false;
     notifyListeners();
   }
 
