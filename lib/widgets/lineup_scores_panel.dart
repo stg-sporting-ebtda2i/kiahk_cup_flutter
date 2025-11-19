@@ -26,86 +26,6 @@ class ScoresPanel extends StatelessWidget {
         _buildRatingTracker(),
       ]),
     );
-    // return Padding(
-    //   padding: EdgeInsets.fromLTRB(40, 30, 40, 15),
-    //   child: Row(
-    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //     children: [
-    //       // Average
-    //       Column(
-    //         children: [
-    //           Text(
-    //             '${provider.avgRating}',
-    //             style: TextStyle(
-    //               fontSize: 37,
-    //               color: Colors.greenAccent,
-    //             ),
-    //           ),
-    //           Transform.translate(
-    //             offset: Offset(0, -12),
-    //             child: const Text(
-    //               'Average',
-    //               style: TextStyle(
-    //                 fontSize: 17,
-    //                 color: Colors.white,
-    //                 fontWeight: FontWeight.w500,
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       Padding(
-    //         padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
-    //         child: Column(
-    //           children: [
-    //             Text(
-    //               '${provider.lineupRating}',
-    //               style: TextStyle(
-    //                 fontSize: 42,
-    //                 color: Colors.greenAccent,
-    //                 fontWeight: FontWeight.bold,
-    //               ),
-    //             ),
-    //             Transform.translate(
-    //               offset: Offset(0, -12),
-    //               child: const Text(
-    //                 'Rating',
-    //                 style: TextStyle(
-    //                   fontSize: 18,
-    //                   color: Colors.white,
-    //                   fontWeight: FontWeight.w500,
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       // Highest
-    //       Column(
-    //         children: [
-    //           Text(
-    //             '${provider.maxRating}',
-    //             style: TextStyle(
-    //               fontSize: 37,
-    //               color: Colors.greenAccent,
-    //             ),
-    //           ),
-    //           Transform.translate(
-    //             offset: Offset(0, -12),
-    //             child: const Text(
-    //               'Highest',
-    //               style: TextStyle(
-    //                 fontSize: 17,
-    //                 color: Colors.white,
-    //                 fontWeight: FontWeight.w500,
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 
   Widget _buildChemistryTracker() {
@@ -125,7 +45,7 @@ class ScoresPanel extends StatelessWidget {
             SizedBox(
               width: 75,
               child: LinearProgressIndicator(
-                value: 7 / 10,
+                value: (7)/33,
                 backgroundColor: Colors.grey,
                 color: Color(0xFFFAD361),
                 minHeight: 8,
@@ -136,7 +56,7 @@ class ScoresPanel extends StatelessWidget {
               width: 8,
             ),
             Text(
-              '7/10',
+              (7).toString().padLeft(2, '0'),
               style: TextStyle(
                 fontSize: 13,
                 color: Colors.white,
@@ -164,12 +84,12 @@ class ScoresPanel extends StatelessWidget {
         ),
         Row(
           children: [
-            StarRatingProgress(rating: 4),
+            StarRatingProgress(rating: (provider.lineupRating / 100 * 5).round()),
             SizedBox(
               width: 8,
             ),
             Text(
-              '90',
+            provider.lineupRating.toString().padLeft(2, '0'),
               style: TextStyle(
                 fontSize: 13,
                 color: Colors.white,
@@ -185,7 +105,7 @@ class ScoresPanel extends StatelessWidget {
 }
 
 class StarRatingProgress extends StatelessWidget {
-  final double rating;
+  final int rating;
   final double maxRating;
   final int starCount;
   final double starSize;

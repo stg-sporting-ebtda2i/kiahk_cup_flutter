@@ -157,7 +157,8 @@ class LeaderboardListItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: StarRatingProgress(rating: 4, starSize: 18),
+                  child: StarRatingProgress(
+                      rating: (user.lineupRating / 100 * 5).round(), starSize: 18),
                 ),
                 SizedBox(width: 8),
                 Container(
@@ -170,7 +171,7 @@ class LeaderboardListItem extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    '90',
+                    user.lineupRating.round().toString().padLeft(2, '0'),
                     style: TextStyle(
                       fontSize: 11,
                       color: Colors.amber,
@@ -183,7 +184,9 @@ class LeaderboardListItem extends StatelessWidget {
             label: 'RATING',
           ),
 
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 8,
+          ),
 
           // Chemistry Section with enhanced styling
           _buildPremiumStatContainer(
@@ -194,7 +197,7 @@ class LeaderboardListItem extends StatelessWidget {
                   child: SizedBox(
                     height: 10,
                     child: LinearProgressIndicator(
-                      value: 7 / 10,
+                      value: (7)/33,
                       backgroundColor: Colors.grey.shade700,
                       color: Color(0xFFFAD361),
                       borderRadius: BorderRadius.circular(5),
@@ -212,7 +215,7 @@ class LeaderboardListItem extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    '7/10',
+                    (7).toString().padLeft(2, '0'),
                     style: TextStyle(
                       fontSize: 11,
                       color: Color(0xFFFAD361),
