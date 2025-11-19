@@ -203,10 +203,10 @@ class _MoreOptionsPageState extends State<MoreOptionsPage> {
                         if (provider.isVisible('Manage Attendance'))
                           iconButton(
                             onClick: () {
-                              showAttendanceDialog(
-                                list: attendanceProvider.liturgyNames!,
-                                context: context,
-                              );
+                              // showAttendanceDialog(
+                              //   list: attendanceProvider.liturgyNames!,
+                              //   context: context,
+                              // );
                             },
                             icon: Icons.add_rounded,
                             text: 'Hodour',

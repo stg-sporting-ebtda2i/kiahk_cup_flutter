@@ -19,20 +19,20 @@ class RequestedAttendance extends StatelessWidget {
           width: 60,
           height: 60,
           decoration: BoxDecoration(
-            color: AppColors.brand.withOpacity(0.6),
+            color: AppColors.brand.withAlpha(153),
             shape: BoxShape.circle,
             border: Border.all(
-              color: AppColors.brand.withOpacity(0.3),
+              color: AppColors.brand.withAlpha(77),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withAlpha(77),
                 blurRadius: 20,
                 offset: Offset(0, 10),
               ),
               BoxShadow(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withAlpha(26),
                 blurRadius: 5,
                 offset: Offset(0, -2),
               ),
@@ -42,7 +42,6 @@ class RequestedAttendance extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             onPressed: () => showAttendanceDialog(
-              list: provider.liturgyNames!,
               context: context,
             ),
             child: const Icon(
