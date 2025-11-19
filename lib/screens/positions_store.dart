@@ -4,6 +4,7 @@ import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/positions_store_provider.dart';
 import 'package:piehme_cup_flutter/services/positions_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
+import 'package:piehme_cup_flutter/widgets/animated_list_item.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/position_store_listitem.dart';
 import 'package:provider/provider.dart';
@@ -62,35 +63,38 @@ class _PositionsStorePageState extends State<PositionsStorePage> {
                 return Container(
                   width: 164, // Fixed width for each item
                   margin: const EdgeInsets.only(right: 16), // Spacing between items
-                  child: PositionListItem(
-                    item: item,
-                    buy: () => ActionUtils(
-                        delay: 0,
-                        context: context,
-                        action: () => PositionsService.buyPosition(item.id),
-                        callback: () async {
-                          await provider.loadStore();
-                          await lineupProvider.loadLineup(-1);
-                        }
-                    ).confirmAction(),
-                    sell: () => ActionUtils(
-                        delay: 0,
-                        context: context,
-                        action: () => PositionsService.sellPosition(item.id),
-                        callback: () async {
-                          await provider.loadStore();
-                          await lineupProvider.loadLineup(-1);
-                        }
-                    ).confirmAction(),
-                    select: () => ActionUtils(
-                        delay: 0,
-                        context: context,
-                        action: () => PositionsService.selectPosition(item.id),
-                        callback: () async {
-                          await provider.loadStore();
-                          await lineupProvider.loadLineup(-1);
-                        }
-                    ).confirmAction(),
+                  child: AnimatedListItem(
+                    index: index,
+                    child: PositionListItem(
+                      item: item,
+                      buy: () => ActionUtils(
+                          delay: 0,
+                          context: context,
+                          action: () => PositionsService.buyPosition(item.id),
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
+                          }
+                      ).confirmAction(),
+                      sell: () => ActionUtils(
+                          delay: 0,
+                          context: context,
+                          action: () => PositionsService.sellPosition(item.id),
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
+                          }
+                      ).confirmAction(),
+                      select: () => ActionUtils(
+                          delay: 0,
+                          context: context,
+                          action: () => PositionsService.selectPosition(item.id),
+                          callback: () async {
+                            await provider.loadStore();
+                            await lineupProvider.loadLineup(-1);
+                          }
+                      ).confirmAction(),
+                    ),
                   ),
                 );
               },

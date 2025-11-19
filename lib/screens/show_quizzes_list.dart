@@ -3,6 +3,7 @@ import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/quizzes_provider.dart';
 import 'package:piehme_cup_flutter/states/empty_state.dart';
 import 'package:piehme_cup_flutter/states/loading_state.dart';
+import 'package:piehme_cup_flutter/widgets/animated_list_item.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/quizzes_listitem.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +88,9 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
                                 itemCount: provider.quizzes.length,
                                 itemBuilder: (context, index) {
                                   final quiz = provider.quizzes[index];
-                                  return QuizListItem(quiz: quiz);
+                                  return AnimatedListItem(
+                                      index: index,
+                                      child: QuizListItem(quiz: quiz));
                                 },
                               ),
                       );

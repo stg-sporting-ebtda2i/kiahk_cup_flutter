@@ -11,6 +11,7 @@ import 'package:piehme_cup_flutter/screens/icons_store.dart';
 import 'package:piehme_cup_flutter/screens/positions_store.dart';
 import 'package:piehme_cup_flutter/screens/rating_store.dart';
 import 'package:piehme_cup_flutter/services/change_picture_service.dart';
+import 'package:piehme_cup_flutter/widgets/animated_list_item.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/my_card_icon_button.dart';
 import 'package:provider/provider.dart';
@@ -129,46 +130,49 @@ class _MyCardPageState extends State<MyCardPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(55, 30, 50, 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MyCardIconButton(
-                      text: 'Position',
-                      iconPath: 'assets/icons/position.png',
-                      callback: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return PositionsStorePage();
-                            });
-                      }),
-                  MyCardIconButton(
-                      text: 'Card',
-                      iconPath: 'assets/icons/card.png',
-                      callback: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return IconsStorePage();
-                            });
-                      }),
-                  MyCardIconButton(
-                      text: 'Rating',
-                      iconPath: 'assets/icons/rating.png',
-                      callback: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return RatingStorePage();
-                            });
-                      }),
-                  MyCardIconButton(
-                      text: 'Picture',
-                      iconPath: 'assets/icons/picture.png',
-                      callback: _pickImage),
-                ],
+            AnimatedListItem(
+              index: 2,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(55, 30, 50, 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyCardIconButton(
+                        text: 'Position',
+                        iconPath: 'assets/icons/position.png',
+                        callback: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return PositionsStorePage();
+                              });
+                        }),
+                    MyCardIconButton(
+                        text: 'Card',
+                        iconPath: 'assets/icons/card.png',
+                        callback: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return IconsStorePage();
+                              });
+                        }),
+                    MyCardIconButton(
+                        text: 'Rating',
+                        iconPath: 'assets/icons/rating.png',
+                        callback: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return RatingStorePage();
+                              });
+                        }),
+                    MyCardIconButton(
+                        text: 'Picture',
+                        iconPath: 'assets/icons/picture.png',
+                        callback: _pickImage),
+                  ],
+                ),
               ),
             ),
           ],

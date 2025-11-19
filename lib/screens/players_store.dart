@@ -3,6 +3,7 @@ import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/players_store_provider.dart';
 import 'package:piehme_cup_flutter/services/players_service.dart';
 import 'package:piehme_cup_flutter/utils/action_utils.dart';
+import 'package:piehme_cup_flutter/widgets/animated_list_item.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/player_store_listitem.dart';
 import 'package:provider/provider.dart';
@@ -89,38 +90,41 @@ class _PlayersStorePageState extends State<PlayersStorePage> {
                     itemCount: provider.items.length,
                     itemBuilder: (context, index) {
                       final item = provider.items[index];
-                      return PlayerStoreListItem(
+                      return AnimatedListItem(
                         index: index,
-                        player: item,
-                        owned: item.owned,
-                        selected: item.owned,
-                        buy: () => ActionUtils(
-                          delay: 0,
-                          context: context,
-                          action: () => PlayersService.buyPlayer(item.id),
-                          callback: () async {
-                            await context
-                                .read<LineupProvider>()
-                                .loadLineup(-1);
-                            if (!context.mounted) return;
+                        child: PlayerStoreListItem(
+                          index: index,
+                          player: item,
+                          owned: item.owned,
+                          selected: item.owned,
+                          buy: () => ActionUtils(
+                            delay: 0,
+                            context: context,
+                            action: () => PlayersService.buyPlayer(item.id),
+                            callback: () async {
+                              await context
+                                  .read<LineupProvider>()
+                                  .loadLineup(-1);
+                              if (!context.mounted) return;
+                              Navigator.pop(context);
+                            },
+                          ).confirmAction(),
+                          sell: () => ActionUtils(
+                            delay: 0,
+                            context: context,
+                            action: () => PlayersService.sellPlayer(item.id),
+                            callback: () async {
+                              await context
+                                  .read<LineupProvider>()
+                                  .loadLineup(-1);
+                              if (!context.mounted) return;
+                              Navigator.pop(context);
+                            },
+                          ).confirmAction(),
+                          select: () {
                             Navigator.pop(context);
                           },
-                        ).confirmAction(),
-                        sell: () => ActionUtils(
-                          delay: 0,
-                          context: context,
-                          action: () => PlayersService.sellPlayer(item.id),
-                          callback: () async {
-                            await context
-                                .read<LineupProvider>()
-                                .loadLineup(-1);
-                            if (!context.mounted) return;
-                            Navigator.pop(context);
-                          },
-                        ).confirmAction(),
-                        select: () {
-                          Navigator.pop(context);
-                        },
+                        ),
                       );
                     },
                   ),

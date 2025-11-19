@@ -3,6 +3,7 @@ import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/states/empty_state.dart';
 import 'package:piehme_cup_flutter/states/loading_state.dart';
+import 'package:piehme_cup_flutter/widgets/animated_list_item.dart';
 import 'package:piehme_cup_flutter/widgets/header.dart';
 import 'package:piehme_cup_flutter/widgets/requested_attendance_listitem.dart';
 import 'package:provider/provider.dart';
@@ -134,8 +135,11 @@ class _RequestedAttendanceState extends State<RequestedAttendance> {
                 itemBuilder: (context, index) {
                   return Container(
                     margin: EdgeInsets.zero,
-                    child: RequestedAttendanceListItem(
-                        requestedAttendance: provider.requestedList[index]),
+                    child: AnimatedListItem(
+                      index: index,
+                      child: RequestedAttendanceListItem(
+                          requestedAttendance: provider.requestedList[index]),
+                    ),
                   );
                 },
               ),
