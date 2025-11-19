@@ -33,7 +33,7 @@ class PlayerCard extends StatelessWidget {
             placeholder: (context, url) => loadingCardPlaceholder(),
           ),
         ),
-        // if (player.chemistry>0 && player.chemistry<4)
+        if (player.chemistry>0 && player.chemistry<4)
           Positioned(
             left: 0,
             bottom: 10 * height / 100,
