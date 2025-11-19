@@ -7,9 +7,14 @@ import 'package:provider/provider.dart';
 
 import '../dialogs/attendance_dialog.dart';
 
-class RequestedAttendance extends StatelessWidget {
+class RequestedAttendance extends StatefulWidget {
   const RequestedAttendance({super.key});
 
+  @override
+  State<RequestedAttendance> createState() => _RequestedAttendanceState();
+}
+
+class _RequestedAttendanceState extends State<RequestedAttendance> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AttendanceProvider>(
@@ -116,7 +121,7 @@ class RequestedAttendance extends StatelessWidget {
         child: provider.requestedList.isEmpty ?
         CustomScrollView(
           slivers: [
-            SliverFillRemaining(child: _buildEmptyState()),
+            SliverToBoxAdapter(child: _buildEmptyState()),
           ],
         ) :
         ListView.builder(
@@ -182,7 +187,8 @@ class RequestedAttendance extends StatelessWidget {
   }
 
   Widget _buildEmptyState() {
-    return Expanded(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -226,5 +232,4 @@ class RequestedAttendance extends StatelessWidget {
       ),
     );
   }
-
 }

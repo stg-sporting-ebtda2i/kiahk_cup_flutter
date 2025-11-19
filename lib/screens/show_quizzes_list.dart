@@ -79,7 +79,7 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
                 child: provider.quizzes.isEmpty
                     ? CustomScrollView(
                   slivers: [
-                    SliverFillRemaining(
+                    SliverToBoxAdapter(
                       child: _buildEmptyState(),
                     )
                   ],
@@ -198,7 +198,8 @@ class _ShowQuizzesPageState extends State<ShowQuizzesPage> {
   }
 
   Widget _buildEmptyState() {
-    return Expanded(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
