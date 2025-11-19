@@ -32,9 +32,9 @@ class CardsUtils {
           child: UserCard(
             width: 900 * cardHeight / 1266,
             user: provider.user,
-            onClick: () {
+            onClick: clickable ? () {
               Navigator.pushNamed(context, AppRoutes.userCard);
-            },
+            } : () {},
           ),
         ),
       );

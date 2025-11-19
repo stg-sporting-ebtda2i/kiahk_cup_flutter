@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: _widgetOptions.length>=2 ? BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           if (provider.isVisible('Mosab2a')) BottomNavigationBarItem(
-            icon: Icon(Icons.assignment),
+            icon: Icon(Icons.quiz_rounded),
             label: 'Mosab2a',
           ),
           if (provider.isVisible('Manage Attendance')) BottomNavigationBarItem(
@@ -71,11 +71,11 @@ class _HomePageState extends State<HomePage> {
             label: 'Lineup',
           ),
           if (provider.isVisible('Leaderboard')) BottomNavigationBarItem(
-            icon: Icon(Icons.leaderboard),
+            icon: Icon(Icons.leaderboard_rounded),
             label: 'Leaderboard',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],
