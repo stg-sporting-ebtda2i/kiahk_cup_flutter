@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     ButtonsVisibilityProvider provider = context.read<ButtonsVisibilityProvider>();
     if (provider.isVisible('Mosab2a')) _widgetOptions.add(ShowQuizzesPage());
-    if (provider.isVisible('Attendance')) _widgetOptions.add(RequestedAttendance());
+    if (provider.isVisible('Manage Attendance')) _widgetOptions.add(RequestedAttendance());
     if (provider.isVisible('Lineup')) {
       _widgetOptions.add(LineupPage(userLineup: true));
       _selectedIndex = _widgetOptions.length-1;

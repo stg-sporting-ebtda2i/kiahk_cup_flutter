@@ -5,6 +5,11 @@ import 'package:piehme_cup_flutter/services/attendance_service.dart';
 
 class AttendanceProvider with ChangeNotifier {
 
+  bool _isLoadingRequests = true;
+  bool _isLoadingLiturgies = true;
+  bool get isLoadingRequests => _isLoadingRequests;
+  bool get isLoadingLiturgies => _isLoadingLiturgies;
+
   List<String> _liturgyNames = <String>[];
   List<Price> _liturgies = <Price>[];
   List<RequestedAttendance> _requestedList = <RequestedAttendance>[];
@@ -14,13 +19,19 @@ class AttendanceProvider with ChangeNotifier {
   List<RequestedAttendance> get requestedList => _requestedList;
 
   Future<void> loadLiturgies() async {
+    _isLoadingLiturgies = true;
+    notifyListeners();
     _liturgies = await AttendanceService.getPrices();
     _liturgyNames = _liturgies.map((price) => price.name).toList();
+    _isLoadingLiturgies = false;
     notifyListeners();
   }
 
   Future<void> loadRequestedAttendances() async {
+    _isLoadingRequests = true;
+    notifyListeners();
     _requestedList = await AttendanceService.getRequestedAttendances();
+    _isLoadingRequests = false;
     notifyListeners();
   }
 
