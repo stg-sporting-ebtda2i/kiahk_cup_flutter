@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:piehme_cup_flutter/providers/base_lineup_provider.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
-import 'package:piehme_cup_flutter/providers/lineup_provider.dart';
-import 'package:piehme_cup_flutter/providers/other_lineup_provider.dart';
 import 'package:piehme_cup_flutter/utils/card_utils.dart';
 import 'package:provider/provider.dart';
 
 class Lineup extends StatefulWidget {
   final bool userLineup;
+  final BaseLineupProvider provider;
 
   const Lineup({
     super.key,
     required this.userLineup,
+    required this.provider,
   });
 
   @override
@@ -21,7 +21,6 @@ class Lineup extends StatefulWidget {
 class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
   late double _cardHeight;
   late bool _storeOpened = false;
-  late BaseLineupProvider _provider;
   late AnimationController _animationController;
   late List<Animation<double>> _cardAnimations;
   late List<Animation<Offset>> _cardPositions;
@@ -30,12 +29,7 @@ class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _storeOpened = context.read<ButtonsVisibilityProvider>().isVisible('Store');
-    if (widget.userLineup) {
-      _provider = context.read<LineupProvider>();
-    } else {
-      _provider = context.read<OtherLineupProvider>();
-    }
-    _provider.resetAddedCards();
+    widget.provider.resetAddedCards();
 
     // Big animation controller
     _animationController = AnimationController(
@@ -168,28 +162,12 @@ class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
   }
 
   Widget getCard(String position) {
-    return widget.userLineup
-        ? Consumer<LineupProvider>(
-      builder: (context, provider, child) {
-        return CardsUtils.getCard(
-          context: context,
-          cardHeight: _cardHeight,
-          clickable: widget.userLineup && _storeOpened,
-          position: position,
-          provider: _provider,
-        );
-      },
-    )
-        : Consumer<OtherLineupProvider>(
-      builder: (context, provider, child) {
-        return CardsUtils.getCard(
-          context: context,
-          cardHeight: _cardHeight,
-          clickable: widget.userLineup && _storeOpened,
-          position: position,
-          provider: _provider,
-        );
-      },
+    return CardsUtils.getCard(
+        position: position,
+        context: context,
+        cardHeight: _cardHeight,
+        clickable: widget.userLineup && _storeOpened,
+        provider: widget.provider
     );
   }
 }

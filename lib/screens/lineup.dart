@@ -63,7 +63,7 @@ class LineupPage extends StatelessWidget {
           SizedBox(height: userLineup ? 40 : 20),
           Expanded(
             child: Center(
-              child: Lineup(userLineup: userLineup),
+              child: Lineup(userLineup: userLineup, provider: provider),
             ),
           ),
         ],

@@ -13,6 +13,7 @@ class Player {
   final String league;
   final String club;
   final String nationality;
+  final int chemistry;
 
   Player({
     required this.id,
@@ -26,6 +27,7 @@ class Player {
     required this.league,
     required this.club,
     required this.nationality,
+    required this.chemistry,
   });
 
   factory Player.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class Player {
       league: json['league'],
       club: json['club'],
       nationality: json['nationality'],
+      chemistry: json['chemistry'] ?? 0,
     );
   }
 }
