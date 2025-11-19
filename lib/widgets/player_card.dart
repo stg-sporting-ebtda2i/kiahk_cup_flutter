@@ -33,12 +33,12 @@ class PlayerCard extends StatelessWidget {
             placeholder: (context, url) => loadingCardPlaceholder(),
           ),
         ),
-        if (player.chemistry>0 && player.chemistry<4)
+        // if (player.chemistry>0 && player.chemistry<4)
           Positioned(
             left: 0,
-            bottom: 10,
-            width: 20,
-            height: 20,
+            bottom: 10 * height / 100,
+            width: 15 * height / 100,
+            height: 15 * height / 100,
             child: Image.asset(
               _getChemistryAsset(player.chemistry),
               fit: BoxFit.contain,
@@ -57,7 +57,7 @@ class PlayerCard extends StatelessWidget {
       case 3:
         return 'assets/icons/chemistry_3.png';
       default:
-        return '';
+        return 'assets/icons/chemistry_0.png';
     }
   }
 

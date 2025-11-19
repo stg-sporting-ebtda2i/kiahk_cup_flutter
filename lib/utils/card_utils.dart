@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:piehme_cup_flutter/dialogs/loading.dart';
 import 'package:piehme_cup_flutter/dialogs/message.dart';
 import 'package:piehme_cup_flutter/models/player.dart';
 import 'package:piehme_cup_flutter/providers/lineup_provider.dart';

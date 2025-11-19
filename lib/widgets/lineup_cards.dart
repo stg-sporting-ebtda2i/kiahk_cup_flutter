@@ -56,12 +56,23 @@ class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
       Offset startOffset;
 
       // Assign different starting positions based on card position
-      if (index == 0) startOffset = Offset(-2.0, 0.0); // LW from left
-      else if (index == 2) startOffset = Offset(2.0, 0.0); // RW from right
-      else if (index == 1) startOffset = Offset(0.0, -2.0); // ST from top
-      else if (index >= 3 && index <= 5) startOffset = Offset(0.0, -1.5); // Midfield from top
-      else if (index >= 6 && index <= 9) startOffset = Offset(0.0, 1.5); // Defense from bottom
-      else startOffset = Offset(0.0, 2.0); // GK from bottom
+      if (index == 0) {
+        startOffset = Offset(-2.0, 0.0); // LW from left
+      } else if (index == 2) {
+        startOffset = Offset(2.0, 0.0);
+      } // RW from right
+      else if (index == 1) {
+        startOffset = Offset(0.0, -2.0);
+      } // ST from top
+      else if (index >= 3 && index <= 5) {
+        startOffset = Offset(0.0, -1.5);
+      } // Midfield from top
+      else if (index >= 6 && index <= 9) {
+        startOffset = Offset(0.0, 1.5);
+      } // Defense from bottom
+      else {
+        startOffset = Offset(0.0, 2.0);
+      } // GK from bottom
 
       return Tween<Offset>(
         begin: startOffset,
@@ -142,12 +153,14 @@ class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
 
   Widget _buildAnimatedCard(String position, int animationIndex) {
     return AnimatedBuilder(
-      animation: Listenable.merge([_cardAnimations[animationIndex], _cardPositions[animationIndex]]),
+      animation: Listenable.merge(
+          [_cardAnimations[animationIndex], _cardPositions[animationIndex]]),
       builder: (context, child) {
         return Transform(
           transform: Matrix4.identity()
             ..translate(
-              _cardPositions[animationIndex].value.dx * 100, // Convert offset to pixels
+              _cardPositions[animationIndex].value.dx *
+                  100, // Convert offset to pixels
               _cardPositions[animationIndex].value.dy * 50,
             )
             ..scale(_cardAnimations[animationIndex].value),
@@ -167,7 +180,6 @@ class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
         context: context,
         cardHeight: _cardHeight,
         clickable: widget.userLineup && _storeOpened,
-        provider: widget.provider
-    );
+        provider: widget.provider);
   }
 }
