@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:piehme_cup_flutter/http_client.dart';
 import 'package:piehme_cup_flutter/services/auth_service.dart';
 import 'package:piehme_cup_flutter/services/navigation_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Request {
   static const String baseUrl = 'https://piehme.stgsporting.com';
@@ -42,9 +41,9 @@ class Request {
   }
 
   Future<Request> withToken() async {
-    if (await validateTokenOnce()) {
-      String? token = await AuthService.getToken();
-      return withRawToken(token!);
+    String? token = await AuthService.getToken();
+    if (token != null) {
+      return addHeader("Authorization", "Bearer $token");
     } else {
       NavigationService.logoutAndRedirect();
       throw "Token is not valid";
@@ -52,25 +51,22 @@ class Request {
 
   }
 
-  static Future<bool> validateTokenOnce() async {
-    String? token = await AuthService.getToken();
-    if (token == null) return false;
-
-    try {
-      final response = await (Request("/userCard")
-          .contentJson()
-          .withRawToken(token)
-      ).get();
-
-      return response.statusCode == 200;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Request withRawToken(String token) {
-    return addHeader("Authorization", "Bearer $token");
-  }
+  // static Future<bool> validateTokenOnce() async {
+  //   String? token = await AuthService.getToken();
+  //   if (token == null) return false;
+  //
+  //   try {
+  //     final response = await (Request("/userCard")
+  //         .contentJson()
+  //         .withRawToken(token)
+  //     ).get();
+  //
+  //     log("${response.statusCode}");
+  //     return response.statusCode != 401 && response.statusCode != 403;
+  //   } catch (e) {
+  //     return true;
+  //   }
+  // }
 
 
   Request addFile(String key, File file) {
@@ -137,11 +133,13 @@ class Request {
 
   http.Response _handle(http.Response response) {
     log("$uri ${response.statusCode}");
-    log("${response.body}");
+    log(response.body);
 
-    if (![200, 201].contains(response.statusCode)) {
+    if ([401, 403].contains(response.statusCode)) {
+      NavigationService.logoutAndRedirect();
+      throw 'Session expired';
+    }else if (![200, 201].contains(response.statusCode)) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
-
       throw responseBody['message'] ?? "Failed to handle request";
     }
 
