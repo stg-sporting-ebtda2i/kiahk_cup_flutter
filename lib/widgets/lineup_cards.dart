@@ -18,7 +18,7 @@ class Lineup extends StatefulWidget {
   State<Lineup> createState() => _LineupState();
 }
 
-class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
+class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late double _cardHeight;
   late bool _storeOpened = false;
   late AnimationController _animationController;
@@ -28,6 +28,7 @@ class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _storeOpened = context.read<ButtonsVisibilityProvider>().isVisible('Store');
     widget.provider.resetAddedCards();
 
@@ -95,7 +96,17 @@ class _LineupState extends State<Lineup> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      widget.provider.resetAddedCards();
+    }
   }
 
   @override
