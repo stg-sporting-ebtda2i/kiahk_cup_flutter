@@ -14,7 +14,6 @@ import '../providers/base_lineup_provider.dart';
 import '../routes/app_routes.dart';
 
 class CardsUtils {
-
   static Widget getCard({
     required String position,
     required BuildContext context,
@@ -24,19 +23,35 @@ class CardsUtils {
   }) {
     if (position == provider.user.position && !provider.userCardUsed) {
       provider.userCardUsed = true;
-      return Hero(
-        tag: "user-card",
-        child: SizedBox(
-          width: 900 * cardHeight / 1266,
-          height: cardHeight,
-          child: UserCard(
-            width: 900 * cardHeight / 1266,
-            user: provider.user,
-            onClick: clickable ? () {
-              Navigator.pushNamed(context, AppRoutes.userCard);
-            } : () {},
+      return Stack(
+        children: [
+          Hero(
+            tag: "user-card",
+            child: SizedBox(
+              width: 900 * cardHeight / 1266,
+              height: cardHeight,
+              child: UserCard(
+                width: 900 * cardHeight / 1266,
+                user: provider.user,
+                onClick: clickable
+                    ? () {
+                        Navigator.pushNamed(context, AppRoutes.userCard);
+                      }
+                    : () {},
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            left: 0,
+            bottom: 10 * cardHeight / 100,
+            width: 15 * cardHeight / 100,
+            height: 15 * cardHeight / 100,
+            child: Image.asset(
+              'assets/icons/chemistry_3.png',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ],
       );
     } else {
       Player? player = provider.getNextPlayer(position);
@@ -44,31 +59,38 @@ class CardsUtils {
         return PlayerCard(
           player: player,
           height: cardHeight,
-          onClick: clickable ? () =>
-              ActionUtils(
-                  context: context,
-                  delay: 0,
-                  action: () async {
-                    await PlayersService.sellPlayer(player.id);
-                    toast("${player.name} has been sold");
-                  },
-                  // callback: DataUtils.playersStoreCallback(context),
-                callback: () async {await context.read<LineupProvider>().loadLineup(-1);},
-              ).confirmAction(text: "Are you sure you want to sell ${player.name}?", confirmBtn: "Sell") : () {},
+          onClick: clickable
+              ? () => ActionUtils(
+                    context: context,
+                    delay: 0,
+                    action: () async {
+                      await PlayersService.sellPlayer(player.id);
+                      toast("${player.name} has been sold");
+                    },
+                    // callback: DataUtils.playersStoreCallback(context),
+                    callback: () async {
+                      await context.read<LineupProvider>().loadLineup(-1);
+                    },
+                  ).confirmAction(
+                      text: "Are you sure you want to sell ${player.name}?",
+                      confirmBtn: "Sell")
+              : () {},
         );
       } else {
         return EmptyPlayerCard(
           height: cardHeight,
-          onClick: clickable ? () {
-            PlayersStoreProvider provider = context.read<PlayersStoreProvider>();
-            provider.loadStore(position);
-            if (!context.mounted) return;
-            Navigator.pushNamed(context, AppRoutes.playersStore,
-                arguments: {'position': position});
-          } : () {},
+          onClick: clickable
+              ? () {
+                  PlayersStoreProvider provider =
+                      context.read<PlayersStoreProvider>();
+                  provider.loadStore(position);
+                  if (!context.mounted) return;
+                  Navigator.pushNamed(context, AppRoutes.playersStore,
+                      arguments: {'position': position});
+                }
+              : () {},
         );
       }
     }
   }
-
 }
