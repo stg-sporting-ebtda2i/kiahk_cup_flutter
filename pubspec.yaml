@@ -48,6 +48,13 @@ dependencies:
   image_cropper: ^9.0.0
   lottie: ^3.3.1
   animated_text_kit: ^4.3.0
+#  flutter_launcher_icons: "^0.14.4"
+#
+#flutter_launcher_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  image_path: "assets/app_icon.png"
+#  min_sdk_android: 16 # android min sdk min:16, default 21
 
 dev_dependencies:
   flutter_test:
