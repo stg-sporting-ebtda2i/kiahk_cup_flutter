@@ -4,6 +4,7 @@ import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/attendance_provider.dart';
 import 'package:piehme_cup_flutter/services/navigation_service.dart';
 import 'package:piehme_cup_flutter/widgets/widgets_button.dart';
+import 'package:piehme_cup_flutter/widgets/widgets_custom_outlined_button.dart';
 import 'package:provider/provider.dart';
 
 void showAttendanceDialog({
@@ -318,35 +319,9 @@ class AttendanceBottomSheet extends StatelessWidget {
                     children: [
                       // Cancel Button
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => Navigator.pop(context),
-                              borderRadius: BorderRadius.circular(12),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                child: Center(
-                                  child: Text(
-                                    'Cancel',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.grey.shade400,
-                                      fontFamily: 'Dubai'
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: CustomOutlinedButton(onPressed: () {
+                          Navigator.pop(context);
+                        }),
                       ),
 
                       SizedBox(width: 12),

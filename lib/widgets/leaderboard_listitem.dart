@@ -80,7 +80,7 @@ class LeaderboardListItem extends StatelessWidget {
                 // Action Button with better styling
                 ActionIconButton(
                     icon: ImageIcon(
-                      AssetImage('assets/tactics.png'),
+                      AssetImage('assets/icons/tactics.png'),
                       color: Colors.blue,
                       size: 20,
                     ),

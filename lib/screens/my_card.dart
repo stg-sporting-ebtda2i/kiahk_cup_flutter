@@ -26,7 +26,10 @@ class MyCardPage extends StatefulWidget {
 }
 
 class _MyCardPageState extends State<MyCardPage> {
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(
+      LineupProvider lineupProvider,
+      UserProvider userProvider
+      ) async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
@@ -63,7 +66,8 @@ class _MyCardPageState extends State<MyCardPage> {
       await ChangePictureService.changePicture(selectedImage);
       await Future.delayed(Duration(seconds: 5));
       await Future.wait([
-        if (mounted) context.read<UserProvider>().loadUserData(),
+        userProvider.loadUserData(),
+        lineupProvider.loadLineup(-1)
       ]);
       toast("Image changed successfully");
     }, delay: Duration(milliseconds: 0), message: "Changing image...");
@@ -72,8 +76,8 @@ class _MyCardPageState extends State<MyCardPage> {
   @override
   Widget build(BuildContext context) {
     final cardHeight = MediaQuery.of(context).size.height / 2.3;
-    return Consumer2<LineupProvider, ButtonsVisibilityProvider>(
-      builder: (context, provider, buttonsVisibility, child) => Scaffold(
+    return Consumer3<LineupProvider, ButtonsVisibilityProvider, UserProvider>(
+      builder: (context, provider, buttonsVisibility, userProvider, child) => Scaffold(
           body: Stack(
         children: [
           const Image(
@@ -171,7 +175,8 @@ class _MyCardPageState extends State<MyCardPage> {
                         MyCardIconButton(
                             text: 'Picture',
                             iconPath: 'assets/icons/picture.png',
-                            callback: _pickImage),
+                            callback: () => _pickImage(provider, userProvider),
+                        ),
                     ],
                   ),
                 ),

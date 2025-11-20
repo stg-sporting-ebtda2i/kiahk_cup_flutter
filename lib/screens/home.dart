@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:piehme_cup_flutter/constants/app_colors.dart';
 import 'package:piehme_cup_flutter/providers/buttons_visibility_provider.dart';
 import 'package:piehme_cup_flutter/screens/requested_attendance_screen.dart';
 import 'package:provider/provider.dart';
 import 'show_quizzes_list.dart';
-import 'my_card.dart';
 import 'lineup.dart';
 import 'leaderboard.dart';
 import 'profile.dart';
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             label: 'Hodour',
           ),
           if (provider.isVisible('Lineup')) BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/tactics.png')),
+            icon: ImageIcon(AssetImage('assets/icons/tactics.png')),
             label: 'Lineup',
           ),
           if (provider.isVisible('Leaderboard')) BottomNavigationBarItem(
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.greenAccent,
+        selectedItemColor: AppColors.brand,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
