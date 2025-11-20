@@ -17,9 +17,9 @@ class MaintenancePage extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.black.withOpacity(0.7),
-                Colors.black.withOpacity(0.5),
-                Colors.black.withOpacity(0.7),
+                Colors.black.withAlpha(179),
+                Colors.black.withAlpha(128),
+                Colors.black.withAlpha(179),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -105,7 +105,7 @@ class MaintenancePage extends StatelessWidget {
                             letterSpacing: 0.5,
                             shadows: [
                               Shadow(
-                                color: Colors.black.withOpacity(0.5),
+                                color: Colors.black.withAlpha(128),
                                 blurRadius: 10,
                                 offset: const Offset(0, 2),
                               ),
@@ -150,7 +150,7 @@ class MaintenancePage extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.red.withOpacity(0.8),
+                                      color: Colors.red.withAlpha(204),
                                       blurRadius: 8,
                                       spreadRadius: 2,
                                     ),

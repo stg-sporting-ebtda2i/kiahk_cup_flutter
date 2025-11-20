@@ -11,6 +11,7 @@ class User {
   final String? iconUrl;
   final String? iconKey;
   final String position;
+  final int chemistry;
 
   User({
     required this.id,
@@ -22,6 +23,7 @@ class User {
     required this.iconUrl,
     required this.iconKey,
     required this.position,
+    required this.chemistry,
   });
 
   factory User.empty() {
@@ -34,7 +36,8 @@ class User {
         lineupRating: 0,
         iconUrl: '',
         iconKey: '',
-        position: ''
+        position: '',
+        chemistry: 0
     );
   }
 
@@ -60,6 +63,7 @@ class User {
       iconUrl: json['iconUrl'],
       iconKey: json['iconKey'],
       position: json['position'],
+      chemistry: json['chemistry'] ?? 0,
     );
   }
 

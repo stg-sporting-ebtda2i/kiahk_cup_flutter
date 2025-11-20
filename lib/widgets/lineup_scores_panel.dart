@@ -45,7 +45,7 @@ class ScoresPanel extends StatelessWidget {
             SizedBox(
               width: 75,
               child: LinearProgressIndicator(
-                value: (7)/33,
+                value: provider.user.chemistry/33,
                 backgroundColor: Colors.grey,
                 color: Color(0xFFFAD361),
                 minHeight: 8,
@@ -56,7 +56,7 @@ class ScoresPanel extends StatelessWidget {
               width: 8,
             ),
             Text(
-              (7).toString().padLeft(2, '0'),
+              provider.user.chemistry.toString().padLeft(2, '0'),
               style: TextStyle(
                 fontSize: 13,
                 color: Colors.white,
