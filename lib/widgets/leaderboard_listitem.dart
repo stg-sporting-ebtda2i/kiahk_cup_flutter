@@ -197,7 +197,7 @@ class LeaderboardListItem extends StatelessWidget {
                   child: SizedBox(
                     height: 10,
                     child: LinearProgressIndicator(
-                      value: (7)/33,
+                      value: user.chemistry/33,
                       backgroundColor: Colors.grey.shade700,
                       color: Color(0xFFFAD361),
                       borderRadius: BorderRadius.circular(5),
@@ -215,7 +215,7 @@ class LeaderboardListItem extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    (7).toString().padLeft(2, '0'),
+                    user.chemistry.toString().padLeft(2, '0'),
                     style: TextStyle(
                       fontSize: 11,
                       color: Color(0xFFFAD361),
