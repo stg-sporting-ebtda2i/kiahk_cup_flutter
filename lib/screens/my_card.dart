@@ -64,11 +64,12 @@ class _MyCardPageState extends State<MyCardPage> {
     File selectedImage = File(imagePath);
     await Loading.show(() async {
       await ChangePictureService.changePicture(selectedImage);
-      await Future.delayed(Duration(seconds: 5));
-      await Future.wait([
-        userProvider.loadUserData(),
-        lineupProvider.loadLineup(-1)
-      ]);
+      await Future.delayed(Duration(seconds: 10)).then((_) {
+        return Future.wait([
+          userProvider.loadUserData(),
+          lineupProvider.loadLineup(-1)
+        ]);
+      });
       toast("Image changed successfully");
     }, delay: Duration(milliseconds: 0), message: "Changing image...");
   }
