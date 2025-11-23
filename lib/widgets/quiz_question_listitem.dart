@@ -383,9 +383,16 @@ class _ReorderInputMethodState extends State<ReorderInputMethod> {
   void initState() {
     options = List.from(widget.options);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.answer == null) {
-        widget.setAnswer(options.map((option) => option.order).toList());
+      if (widget.answer != null && widget.answer!.isNotEmpty) {
+        setState(() {
+          final List<int> answerOrder = widget.answer!;
+          final Map<int, Option> optionMap = {
+            for (var option in options) option.order: option
+          };
+          options = answerOrder.map((order) => optionMap[order]!).toList();
+        });
       }
+      widget.setAnswer(options.map((option) => option.order).toList());
     });
     super.initState();
   }
@@ -426,6 +433,7 @@ class _ReorderInputMethodState extends State<ReorderInputMethod> {
         });
       },
       children: [
+        // List<Option> qOptions = this.options;
         ...options.map((option) {
           final bool isRTL = _isRTL(option.name);
 
